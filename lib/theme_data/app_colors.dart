@@ -10,7 +10,7 @@ class AppColors {
   static const Color lightBg3 = Color(0xFFCCCCCC);
   static const Color lightText1 = Color(0xFF1A1A1A);
   static const Color lightText2 = Color(0xFF292929);
-  static const Color lightText3 = Color(0xFF404040);
+  static const Color lightText3 = Color(0xFF656565);
 
   // Dark Theme Colors
   static const Color darkPrimary = Color(0xFF15B8A8);

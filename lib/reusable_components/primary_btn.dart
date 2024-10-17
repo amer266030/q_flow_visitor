@@ -21,7 +21,7 @@ class PrimaryBtn extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
             textStyle: context.titleSmall,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(20),
             backgroundColor: context.primary.withOpacity(0.4),
             shadowColor: Colors.transparent),
         onPressed: callback,

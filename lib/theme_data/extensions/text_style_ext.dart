@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 extension TextStyleExtension on BuildContext {
-  TextStyle get bodySmallStyle {
+  TextStyle get bodySmall {
     return Theme.of(this).textTheme.bodySmall!;
   }
 
-  TextStyle get bodyMediumStyle {
+  TextStyle get bodyMedium {
     return Theme.of(this).textTheme.bodyMedium!;
   }
 
-  TextStyle get bodyLargeStyle {
+  TextStyle get bodyLarge {
     return Theme.of(this).textTheme.bodyLarge!;
   }
 
