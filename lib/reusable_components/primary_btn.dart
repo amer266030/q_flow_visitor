@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
+import 'package:q_flow/theme_data/extensions/theme_ext.dart';
+
+class PrimaryBtn extends StatelessWidget {
+  const PrimaryBtn({super.key, required this.callback, required this.title});
+  final String title;
+  final VoidCallback callback;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [context.primary, Colors.black],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter),
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            textStyle: context.titleSmall,
+            padding: EdgeInsets.all(16),
+            backgroundColor: context.primary.withOpacity(0.4),
+            shadowColor: Colors.transparent),
+        onPressed: callback,
+        child: Text(title),
+      ),
+    );
+  }
+}
