@@ -6,6 +6,7 @@ import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 import 'package:q_flow/utils/validations.dart';
 
+import '../../reusable_components/page_header_view.dart';
 import 'auth_cubit.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -24,7 +25,7 @@ class AuthScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _TitleView(),
+                  PageHeaderView(title: 'Login'),
                   Expanded(
                     child: ListView(
                       children: [
@@ -39,18 +40,6 @@ class AuthScreen extends StatelessWidget {
           ),
         );
       }),
-    );
-  }
-}
-
-class _TitleView extends StatelessWidget {
-  const _TitleView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 32, bottom: 48),
-      child: Text('Login', style: context.titleLarge),
     );
   }
 }
@@ -78,8 +67,7 @@ class _FormView extends StatelessWidget {
           children: [
             Expanded(
                 child: PrimaryBtn(
-                    callback: () => cubit.navigateToHome(context),
-                    title: 'Start'))
+                    callback: () => cubit.navigate(context), title: 'Start'))
           ],
         ),
       ],

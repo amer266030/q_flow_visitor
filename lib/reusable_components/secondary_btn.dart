@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
-class PrimaryBtn extends StatelessWidget {
-  const PrimaryBtn(
+class SecondaryBtn extends StatelessWidget {
+  const SecondaryBtn(
       {super.key,
       required this.callback,
       required this.title,
@@ -17,17 +17,16 @@ class PrimaryBtn extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: [context.primary, Colors.black],
+            colors: [context.bg1, context.bg2],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter),
         borderRadius: BorderRadius.circular(100),
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
+            foregroundColor: context.textColor1,
             textStyle: isSmall ? context.bodyMedium : context.titleSmall,
             padding: EdgeInsets.all(isSmall ? 4 : 16),
-            backgroundColor: context.primary.withOpacity(0.4),
             shadowColor: Colors.transparent),
         onPressed: callback,
         child: Text(title),

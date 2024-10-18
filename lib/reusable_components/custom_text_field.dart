@@ -27,7 +27,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
         style: context.bodyLarge,
         readOnly: readOnly,
@@ -53,7 +53,7 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
             borderSide: BorderSide(color: Colors.transparent),
           ),
-          contentPadding: const EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(16),
           prefixIcon: prefixIcon,
           prefixIconColor: context.primary,
           suffixIcon: suffixIcon,
@@ -72,7 +72,7 @@ class CustomTextField extends StatelessWidget {
           fillColor: context.bg2,
           hintText: hintText,
           hintStyle: TextStyle(
-              fontSize: context.bodyLarge.fontSize, color: context.textColor3),
+              fontSize: context.bodyLarge.fontSize, color: context.textColor2),
         ),
         validator: (value) => validation(value ?? ''),
       ),

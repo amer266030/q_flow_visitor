@@ -38,7 +38,7 @@ class OnboardingScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         Text(cubit.content[cubit.idx].$2,
                             style: context.bodyMedium),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 24),
                         if (cubit.idx == 2)
                           Row(
                             children: [
