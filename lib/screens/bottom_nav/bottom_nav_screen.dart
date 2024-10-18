@@ -39,18 +39,21 @@ class BottomNavScreen extends StatelessWidget {
                           onTap: () => cubit.updateIndex(index),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Container(
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                  colors: [
-                                    context.primary,
-                                    context.primary.withOpacity(0.5),
-                                    context.primary.withOpacity(0.3),
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                ),
+                                gradient: isSelected
+                                    ? LinearGradient(
+                                        colors: [
+                                          context.primary,
+                                          context.primary.withOpacity(0.5),
+                                          context.primary.withOpacity(0.3),
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      )
+                                    : null, // No gradient when not selected
                                 color: isSelected
                                     ? Colors.black
                                     : Colors.transparent,
