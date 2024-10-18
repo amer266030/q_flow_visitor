@@ -57,7 +57,8 @@ class BootcampScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: PrimaryBtn(
-                                callback: () => cubit.navigateToHome(context),
+                                callback: () =>
+                                    cubit.navigateToBottomNav(context),
                                 title: 'Continue'),
                           ),
                         ],
