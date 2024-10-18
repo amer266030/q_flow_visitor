@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:q_flow/model/enums/bootcamp.dart';
+import 'package:q_flow/screens/home/home_screen.dart';
+
+part 'bootcamp_state.dart';
+
+class BootcampCubit extends Cubit<BootcampState> {
+  BootcampCubit() : super(BootcampInitial());
+
+  List<Bootcamp> bootcamps = [];
+
+  navigateToHome(BuildContext context) => Navigator.of(context)
+      .pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+
+  bootcampTapped(Bootcamp bootcamp) {
+    bootcamps.contains(bootcamp)
+        ? bootcamps.remove(bootcamp)
+        : bootcamps.add(bootcamp);
+    emitUpdate();
+  }
+
+  emitUpdate() => emit(UpdateUIState());
+}

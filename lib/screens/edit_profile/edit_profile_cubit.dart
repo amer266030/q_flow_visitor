@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:q_flow/model/enums/gender.dart';
+import 'package:q_flow/screens/bootcamp_screen/bootcamp_screen.dart';
 
 import '../../model/enums/experience.dart';
+import '../../model/link_details.dart';
 import '../../model/user.dart';
 import '../../model/visitor.dart';
 import '../../reusable_components/animated_snack_bar.dart';
@@ -26,6 +28,15 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   File? resume;
   File? avatar;
 
+  // Fetch Social Links
+  /// match userId
+  /// match linkId
+  List<LinkDetails> links = [
+    LinkDetails(name: 'linkedIn', url: ''),
+    LinkDetails(name: 'website', url: ''),
+    LinkDetails(name: 'twitter', url: ''),
+  ];
+
   final linkedInController = TextEditingController();
   final websiteController = TextEditingController();
   final xController = TextEditingController();
@@ -42,6 +53,10 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     await Future.delayed(Duration(milliseconds: 50));
     emitUpdate();
   }
+
+  navigateToBootcamp(BuildContext context) =>
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => BootcampScreen()));
 
   void getImage() async {
     final img = await ImagePicker().pickImage(source: ImageSource.gallery);

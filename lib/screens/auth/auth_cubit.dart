@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
-import 'package:q_flow/screens/home_screen.dart';
+import 'package:q_flow/screens/home/home_screen.dart';
 
 part 'auth_state.dart';
 

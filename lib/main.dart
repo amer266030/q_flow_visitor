@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/screens/auth/auth_screen.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
-import 'package:q_flow/screens/home_screen.dart';
+import 'package:q_flow/screens/home/home_screen.dart';
 import 'package:q_flow/screens/onboarding/onboarding_screen.dart';
 import 'package:q_flow/theme_data/app_theme_cubit.dart';
 import 'package:q_flow/theme_data/app_themes.dart';

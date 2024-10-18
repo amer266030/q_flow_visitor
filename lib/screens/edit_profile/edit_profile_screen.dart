@@ -1,3 +1,4 @@
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:q_flow/model/enums/experience.dart';
 import 'package:q_flow/model/visitor.dart';
 import 'package:q_flow/reusable_components/custom_text_field.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
+import 'package:q_flow/reusable_components/primary_btn.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_cubit.dart';
 import 'package:q_flow/reusable_components/date_btn_view.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
@@ -182,6 +184,34 @@ class EditProfileScreen extends StatelessWidget {
                       )
                     ],
                   ),
+                  CustomTextField(
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 32),
+                        child: Icon(BootstrapIcons.linkedin),
+                      ),
+                      hintText: 'Linkedin',
+                      controller: cubit.linkedInController,
+                      validation: Validations.name),
+                  CustomTextField(
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 32),
+                        child: Icon(BootstrapIcons.link_45deg),
+                      ),
+                      hintText: 'Website',
+                      controller: cubit.websiteController,
+                      validation: Validations.name),
+                  CustomTextField(
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 32),
+                        child: Icon(BootstrapIcons.twitter_x),
+                      ),
+                      hintText: 'Twitter',
+                      controller: cubit.websiteController,
+                      validation: Validations.name),
+                  SizedBox(height: 16),
+                  PrimaryBtn(
+                      callback: () => cubit.navigateToBootcamp(context),
+                      title: 'Next')
                 ],
               ),
             ),
