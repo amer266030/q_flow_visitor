@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:q_flow/screens/bookmarks_screen.dart';
+import 'package:q_flow/screens/bookmarks/bookmarks_screen.dart';
 
 import 'package:q_flow/screens/home/home_screen.dart';
 import 'package:q_flow/screens/profile_screen.dart';

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/model/company.dart';
+import 'package:q_flow/model/enums/company_size.dart';
 import 'package:q_flow/model/interview.dart';
 
-import '../explore_screen.dart';
+import '../explore/explore_screen.dart';
 
 part 'home_state.dart';
 
@@ -28,7 +29,7 @@ class HomeCubit extends Cubit<HomeState> {
         name: 'ABC Company',
         description:
             'XYZ is a startup company that is specialized in providing tech solutions based on client needs.',
-        numEmployees: 200,
+        companySize: CompanySize.oneHundredTo200,
         establishedYear: 2015,
         logoUrl: null,
       ),
@@ -38,8 +39,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   navigateToExplore(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ExploreScreen()));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ExploreScreen(companies: companies)));
   }
 
   emitUpdate() => emit(UpdateUIState());

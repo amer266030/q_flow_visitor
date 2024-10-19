@@ -1,8 +1,10 @@
+import 'package:q_flow/model/enums/company_size.dart';
+
 class Company {
   String? id; // References user_id
   String? name;
   String? description;
-  int? numEmployees;
+  CompanySize? companySize;
   int? establishedYear;
   String? logoUrl;
 
@@ -10,7 +12,7 @@ class Company {
     this.id,
     this.name,
     this.description,
-    this.numEmployees,
+    this.companySize,
     this.establishedYear,
     this.logoUrl,
   });
@@ -20,7 +22,10 @@ class Company {
       id: json['id'] as String?,
       name: json['name'] as String?,
       description: json['description'] as String?,
-      numEmployees: json['numEmployees'] as int?,
+      // Convert the string representation of company size into enum
+      companySize: json['companySize'] != null
+          ? CompanySizeExtension.fromString(json['companySize'] as String?)
+          : null,
       establishedYear: json['establishedYear'] as int?,
       logoUrl: json['logoUrl'] as String?,
     );
@@ -31,7 +36,7 @@ class Company {
       'id': id,
       'name': name,
       'description': description,
-      'numEmployees': numEmployees,
+      'companySize': companySize?.value,
       'establishedYear': establishedYear,
       'logoUrl': logoUrl,
     };

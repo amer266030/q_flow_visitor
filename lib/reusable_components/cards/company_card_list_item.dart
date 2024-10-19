@@ -11,10 +11,10 @@ class CompanyCardListItem extends StatelessWidget {
     super.key,
     required this.company,
     required this.callback,
-    required this.isSelected,
+    required this.isBookmarked,
   });
   final Company company;
-  final bool isSelected;
+  final bool isBookmarked;
   final VoidCallback callback;
 
   @override
@@ -76,11 +76,11 @@ class CompanyCardListItem extends StatelessWidget {
               IconButton(
                 onPressed: callback,
                 icon: Icon(
-                  isSelected
+                  isBookmarked
                       ? CupertinoIcons.bookmark_fill
                       : CupertinoIcons.bookmark,
                   size: context.titleSmall.fontSize,
-                  color: isSelected ? context.primary : context.textColor2,
+                  color: isBookmarked ? context.primary : context.textColor2,
                 ),
               )
             ],

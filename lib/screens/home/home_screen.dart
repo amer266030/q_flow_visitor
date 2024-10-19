@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                     children: cubit.companies
                         .map((company) => CompanyCardListItem(
                               company: company,
-                              isSelected: Random().nextBool(),
+                              isBookmarked: Random().nextBool(),
                               callback: () => (),
                             ))
                         .toList(),
