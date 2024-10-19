@@ -17,7 +17,17 @@ class BottomNavScreen extends StatelessWidget {
         return BlocBuilder<BottomNavCubit, BottomNavState>(
           builder: (context, state) {
             return Scaffold(
-              body: BarItems(context).bottomBarPages[cubit.currentIndex],
+              body: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+                child: BarItems(context)
+                    .bottomBarPages[cubit.currentIndex], // Switch between pages
+              ),
               bottomNavigationBar: Padding(
                 padding: const EdgeInsets.all(24),
                 child: Padding(

@@ -3,6 +3,7 @@ class Interview {
   String? visitorId;
   String? companyId;
   String? timeOfBooking;
+  int? positionInQueue;
   String? status;
 
   Interview({
@@ -10,6 +11,7 @@ class Interview {
     this.visitorId,
     this.companyId,
     this.timeOfBooking,
+    this.positionInQueue,
     this.status,
   });
 }
