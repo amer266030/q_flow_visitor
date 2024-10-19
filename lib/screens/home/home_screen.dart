@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,7 +10,9 @@ import 'package:q_flow/screens/home/home_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
-import '../../reusable_components/ticket_view.dart';
+import '../../reusable_components/cards/company_card_large.dart';
+import '../../reusable_components/cards/company_card_list_item.dart';
+import '../../reusable_components/cards/ticket_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -27,25 +31,56 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   _HeaderView(positionInQueue: null),
                   Divider(color: context.textColor3),
-                  SectionHeaderView(title: 'Upcoming Interviews'),
-                  AspectRatio(
-                    aspectRatio: 1.8,
+                  _SectionHeaderView(title: 'Upcoming Interviews'),
+                  SizedBox(
+                    height: context.screenWidth * 0.45,
+                    child: BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return CarouselView(
+                          backgroundColor: Colors.transparent,
+                          itemExtent: context.screenWidth * 0.7,
+                          shrinkExtent: context.screenWidth * 0.7,
+                          scrollDirection: Axis.horizontal,
+                          children: cubit.interviews
+                              .map((interview) => TicketView(
+                                    timeOfBooking:
+                                        interview.timeOfBooking ?? '',
+                                    positionInQueue:
+                                        interview.positionInQueue ?? 0,
+                                    company: cubit.companies.first,
+                                  ))
+                              .toList(),
+                        );
+                      },
+                    ),
+                  ),
+                  _SectionHeaderView(title: 'Suggested For You'),
+                  SizedBox(
+                    height: context.screenWidth * 0.6,
                     child: CarouselView(
                       backgroundColor: Colors.transparent,
-                      shrinkExtent: 400,
-                      itemExtent: context.screenWidth * 0.8,
-                      scrollDirection: Axis.horizontal,
-                      children: cubit.interviews
-                          .map((interview) => TicketView(
-                                timeOfBooking: interview.timeOfBooking ?? '',
-                                positionInQueue: interview.positionInQueue ?? 0,
-                                company: cubit.company,
-                              ))
+                      itemExtent: context.screenWidth * 0.6,
+                      shrinkExtent: context.screenWidth * 0.6,
+                      children: cubit.companies
+                          .map(
+                            (company) => CompanyCardLarge(company: company),
+                          )
                           .toList(),
                     ),
                   ),
-                  SectionHeaderView(title: 'Suggested For You'),
-                  SectionHeaderView(title: 'Explore Companies'),
+                  _SectionHeaderView(
+                      title: 'Explore Companies',
+                      ctaStr: 'View all',
+                      callback: () => cubit.navigateToExplore(context)),
+                  Column(
+                    children: cubit.companies
+                        .map((company) => CompanyCardListItem(
+                              company: company,
+                              isSelected: Random().nextBool(),
+                              callback: () => (),
+                            ))
+                        .toList(),
+                  ),
                 ],
               ),
             ),
@@ -113,16 +148,35 @@ class _HeaderView extends StatelessWidget {
   }
 }
 
-class SectionHeaderView extends StatelessWidget {
-  const SectionHeaderView({super.key, required this.title});
+class _SectionHeaderView extends StatelessWidget {
+  const _SectionHeaderView({required this.title, this.ctaStr, this.callback});
 
   final String title;
+  final String? ctaStr;
+  final VoidCallback? callback;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Text(title, style: context.bodyLarge),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title, style: context.bodyLarge),
+          if (ctaStr != null)
+            TextButton(
+              onPressed: callback!,
+              child: Text(
+                ctaStr ?? '',
+                style: TextStyle(
+                  color: context.primary,
+                  fontSize: context.bodySmall.fontSize,
+                  fontWeight: context.titleSmall.fontWeight,
+                ),
+              ),
+            )
+        ],
+      ),
     );
   }
 }

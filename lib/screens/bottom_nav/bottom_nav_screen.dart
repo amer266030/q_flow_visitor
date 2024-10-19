@@ -29,59 +29,56 @@ class BottomNavScreen extends StatelessWidget {
                     .bottomBarPages[cubit.currentIndex], // Switch between pages
               ),
               bottomNavigationBar: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: context.bg2,
-                      borderRadius: BorderRadius.circular(100),
-                      border: Border.all(color: context.bg3, width: 3),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: BarItems(context).bottomBarIcons.map((icon) {
-                        int index =
-                            BarItems(context).bottomBarIcons.indexOf(icon);
-                        bool isSelected = cubit.currentIndex == index;
+                padding: const EdgeInsets.only(bottom: 32, left: 56, right: 56),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: context.bg2,
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(color: context.bg3, width: 3),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: BarItems(context).bottomBarIcons.map((icon) {
+                      int index =
+                          BarItems(context).bottomBarIcons.indexOf(icon);
+                      bool isSelected = cubit.currentIndex == index;
 
-                        return InkWell(
-                          onTap: () => cubit.updateIndex(index),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 300),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: isSelected
-                                    ? LinearGradient(
-                                        colors: [
-                                          context.primary,
-                                          context.primary.withOpacity(0.5),
-                                          context.primary.withOpacity(0.3),
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      )
-                                    : null, // No gradient when not selected
+                      return InkWell(
+                        onTap: () => cubit.updateIndex(index),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: isSelected
+                                  ? LinearGradient(
+                                      colors: [
+                                        context.primary,
+                                        context.primary.withOpacity(0.5),
+                                        context.primary.withOpacity(0.3),
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    )
+                                  : null, // No gradient when not selected
+                              color: isSelected
+                                  ? Colors.black
+                                  : Colors.transparent,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Icon(
+                                icon,
                                 color: isSelected
-                                    ? Colors.black
-                                    : Colors.transparent,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Icon(
-                                  icon,
-                                  color: isSelected
-                                      ? Colors.white
-                                      : context.textColor2,
-                                ),
+                                    ? Colors.white
+                                    : context.textColor2,
                               ),
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ),

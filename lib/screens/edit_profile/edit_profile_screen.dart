@@ -6,15 +6,15 @@ import 'package:q_flow/model/enums/experience.dart';
 import 'package:q_flow/model/visitor.dart';
 import 'package:q_flow/reusable_components/custom_text_field.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
-import 'package:q_flow/reusable_components/primary_btn.dart';
+import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_cubit.dart';
-import 'package:q_flow/reusable_components/date_btn_view.dart';
+import 'package:q_flow/reusable_components/buttons/date_btn_view.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../model/enums/gender.dart';
 import '../../reusable_components/custom_dropdown_view.dart';
-import '../../reusable_components/oval_toggle_btns.dart';
+import '../../reusable_components/buttons/oval_toggle_btns.dart';
 import '../../utils/validations.dart';
 
 class EditProfileScreen extends StatelessWidget {

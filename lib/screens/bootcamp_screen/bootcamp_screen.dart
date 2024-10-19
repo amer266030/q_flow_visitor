@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
-import 'package:q_flow/reusable_components/primary_btn.dart';
+import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/screens/bootcamp_screen/bootcamp_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
