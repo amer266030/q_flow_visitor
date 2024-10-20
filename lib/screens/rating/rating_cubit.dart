@@ -17,8 +17,7 @@ class RatingCubit extends Cubit<RatingState> {
 
   void navigateToRatingDone(BuildContext context) {
     Navigator.of(context)
-        .pushReplacement(
-            MaterialPageRoute(builder: (context) => RatingDoneScreen()))
+        .push(MaterialPageRoute(builder: (context) => RatingDoneScreen()))
         .then((_) {
       if (context.mounted && Navigator.canPop(context)) {
         navigateBack(context);

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:q_flow/screens/profile/subviews/profile_header_view.dart';
+import 'package:q_flow/screens/profile/subviews/profile_list_item_view.dart';
+import 'package:q_flow/screens/profile/subviews/profile_stats_view.dart';
+import 'package:q_flow/screens/profile/subviews/profile_toggle_list_item.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
-
-import '../../extensions/img_ext.dart';
-import '../../model/user/visitor.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -13,36 +14,21 @@ class ProfileScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: Column(
-            children: [Text('Profile')],
+          child: ListView(
+            children: [
+              ProfileHeaderView(visitor: null),
+              ProfileStatsView(),
+              Divider(color: context.textColor2),
+              ProfileListItemView(title: 'Update profile', callback: () => ()),
+              ProfileListItemView(title: 'Privacy policy', callback: () => ()),
+              ProfileToggleListItem(title: 'Notifications', callback: () => ()),
+              ProfileToggleListItem(title: 'Language', callback: () => ()),
+              ProfileToggleListItem(title: 'Theme Mode', callback: () => ()),
+              ProfileListItemView(title: 'Logout', callback: () => ()),
+            ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ImgView extends StatelessWidget {
-  const _ImgView({required this.visitor});
-
-  final Visitor? visitor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ClipOval(
-          child: Container(
-            color: context.bg3,
-            width: 120,
-            height: 120,
-            child: visitor?.avatarUrl == null
-                ? Image(image: Img.avatar, fit: BoxFit.cover)
-                : Image.network(visitor!.avatarUrl!, fit: BoxFit.cover),
-          ),
-        ),
-      ],
     );
   }
 }
