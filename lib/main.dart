@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:q_flow/screens/onboarding/onboarding_screen.dart';
+import 'package:q_flow/screens/profile/profile_screen.dart';
 import 'package:q_flow/screens/tickets/tickets_screen.dart';
 import 'package:q_flow/theme_data/app_theme_cubit.dart';
 import 'package:q_flow/theme_data/app_themes.dart';
@@ -40,7 +41,7 @@ class MainApp extends StatelessWidget {
                   context.supportedLocales, // From EasyLocalization
               localizationsDelegates:
                   context.localizationDelegates, // From EasyLocalization
-              home: TicketsScreen());
+              home: ProfileScreen());
         },
       ),
     );

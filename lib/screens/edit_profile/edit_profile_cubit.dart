@@ -8,9 +8,9 @@ import 'package:q_flow/model/enums/gender.dart';
 import 'package:q_flow/screens/bootcamp_screen/bootcamp_screen.dart';
 
 import '../../model/enums/experience.dart';
-import '../../model/link_details.dart';
-import '../../model/user.dart';
-import '../../model/visitor.dart';
+import '../../model/social_links/social_link.dart';
+import '../../model/user/user.dart';
+import '../../model/user/visitor.dart';
 import '../../reusable_components/animated_snack_bar.dart';
 
 part 'edit_profile_state.dart';
@@ -31,10 +31,10 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   // Fetch Social Links
   /// match userId
   /// match linkId
-  List<LinkDetails> links = [
-    LinkDetails(name: 'linkedIn', url: ''),
-    LinkDetails(name: 'website', url: ''),
-    LinkDetails(name: 'twitter', url: ''),
+  List<SocialLink> links = [
+    SocialLink(name: 'linkedIn', url: ''),
+    SocialLink(name: 'website', url: ''),
+    SocialLink(name: 'twitter', url: ''),
   ];
 
   final linkedInController = TextEditingController();

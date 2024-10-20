@@ -1,5 +1,5 @@
-import 'enums/experience.dart';
-import 'enums/gender.dart';
+import '../enums/experience.dart';
+import '../enums/gender.dart';
 
 class Visitor {
   String? id; // References user_id

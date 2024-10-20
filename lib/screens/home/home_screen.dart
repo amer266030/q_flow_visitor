@@ -10,7 +10,7 @@ import 'package:q_flow/screens/home/home_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
-import '../../model/company.dart';
+import '../../model/user/company.dart';
 import '../../reusable_components/cards/company_card_large.dart';
 import '../../reusable_components/cards/company_card_list_item.dart';
 import '../../reusable_components/cards/ticket_view.dart';

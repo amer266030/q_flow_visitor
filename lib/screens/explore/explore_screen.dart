@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:q_flow/model/company.dart';
+import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/model/enums/company_size.dart';
 import 'package:q_flow/model/enums/queue_length.dart';
 import 'package:q_flow/model/enums/tech_skill.dart';

@@ -1,4 +1,4 @@
-import 'enums/tech_skill.dart';
+import '../enums/tech_skill.dart';
 
 class Skill {
   String? id;

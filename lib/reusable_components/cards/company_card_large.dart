@@ -3,7 +3,7 @@ import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../extensions/img_ext.dart';
-import '../../model/company.dart';
+import '../../model/user/company.dart';
 
 class CompanyCardLarge extends StatelessWidget {
   const CompanyCardLarge({super.key, required this.company});

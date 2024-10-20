@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/model/enums/experience.dart';
-import 'package:q_flow/model/visitor.dart';
+import 'package:q_flow/model/user/visitor.dart';
 import 'package:q_flow/reusable_components/custom_text_field.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
@@ -12,6 +12,7 @@ import 'package:q_flow/reusable_components/buttons/date_btn_view.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
+import '../../extensions/img_ext.dart';
 import '../../model/enums/gender.dart';
 import '../../reusable_components/custom_dropdown_view.dart';
 import '../../reusable_components/buttons/oval_toggle_btns.dart';
@@ -34,7 +35,7 @@ class EditProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(24),
               child: ListView(
                 children: [
-                  PageHeaderView(title: 'Profile'),
+                  PageHeaderView(title: 'Update Profile'),
                   Column(
                     children: [
                       BlocBuilder<EditProfileCubit, EditProfileState>(
@@ -241,11 +242,7 @@ class _ImgView extends StatelessWidget {
             child: cubit.avatar != null
                 ? Image.file(cubit.avatar!, fit: BoxFit.cover)
                 : visitor?.avatarUrl == null
-                    ? Icon(
-                        CupertinoIcons.person_fill,
-                        size: 40,
-                        color: context.primary,
-                      )
+                    ? Image(image: Img.avatar, fit: BoxFit.cover)
                     : Image.network(visitor!.avatarUrl!, fit: BoxFit.cover),
           ),
         ),

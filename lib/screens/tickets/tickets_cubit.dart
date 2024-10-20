@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/extensions/date_ext.dart';
-import 'package:q_flow/screens/rating_screen.dart';
+import 'package:q_flow/screens/rating/rating_screen.dart';
 
-import '../../model/company.dart';
+import '../../model/user/company.dart';
 import '../../model/enums/company_size.dart';
 import '../../model/enums/interview_status.dart';
 import '../../model/interview.dart';
@@ -30,6 +30,7 @@ class TicketsCubit extends Cubit<TicketsState> {
         companySize: CompanySize.oneHundredTo200,
         establishedYear: 2015,
         logoUrl: null,
+        avgRating: 4,
       )
     ];
     interviews = [
@@ -73,7 +74,7 @@ class TicketsCubit extends Cubit<TicketsState> {
 
   navigateToRating(BuildContext context, Interview interview) {
     var selectedCompany = getSelectedCompany(interview.companyId ?? '');
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => RatingScreen(company: selectedCompany)));
   }
 

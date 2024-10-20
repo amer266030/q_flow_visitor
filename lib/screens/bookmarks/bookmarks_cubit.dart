@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../model/company.dart';
+import '../../model/user/company.dart';
 import '../../model/enums/company_size.dart';
 
 part 'bookmarks_state.dart';

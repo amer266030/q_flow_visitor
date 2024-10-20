@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/extensions/date_ext.dart';
-import 'package:q_flow/model/company.dart';
+import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/model/interview.dart';
 import 'package:q_flow/screens/bottom_nav/bottom_nav_screen.dart';
 

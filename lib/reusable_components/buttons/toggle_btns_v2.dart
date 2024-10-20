@@ -58,8 +58,8 @@ class _ItemView extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             context.primary,
-            context.primary.withOpacity(0.5),
-            context.primary.withOpacity(0.3),
+            context.primary.withOpacity(0.4),
+            context.primary.withOpacity(0.2),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -69,7 +69,7 @@ class _ItemView extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: ConstrainedBox(
           constraints: BoxConstraints(minWidth: 55),
           child: Center(
