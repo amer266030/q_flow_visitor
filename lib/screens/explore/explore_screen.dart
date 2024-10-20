@@ -96,7 +96,7 @@ class ExploreScreen extends StatelessWidget {
                       children: cubit.filteredCompanies
                           .map((company) => CompanyCardListItem(
                               company: company,
-                              callback: () => (),
+                              toggleBookmark: () => (),
                               isBookmarked: Random().nextBool()))
                           .toList(),
                     ),

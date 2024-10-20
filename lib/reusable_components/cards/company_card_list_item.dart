@@ -10,12 +10,12 @@ class CompanyCardListItem extends StatelessWidget {
   const CompanyCardListItem({
     super.key,
     required this.company,
-    required this.callback,
+    required this.toggleBookmark,
     required this.isBookmarked,
   });
   final Company company;
   final bool isBookmarked;
-  final VoidCallback callback;
+  final VoidCallback toggleBookmark;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class CompanyCardListItem extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: callback,
+                onPressed: toggleBookmark,
                 icon: Icon(
                   isBookmarked
                       ? CupertinoIcons.bookmark_fill

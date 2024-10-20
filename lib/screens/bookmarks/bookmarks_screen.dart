@@ -39,7 +39,7 @@ class BookmarksScreen extends StatelessWidget {
                       children: cubit.companies
                           .map((company) => CompanyCardListItem(
                               company: company,
-                              callback: () => (),
+                              toggleBookmark: () => (),
                               isBookmarked: Random().nextBool()))
                           .toList(),
                     ),

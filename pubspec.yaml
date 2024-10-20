@@ -32,7 +32,6 @@ flutter:
   assets:
     - assets/logo/
     - assets/onboarding/
-    - assets/onboarding/onboarding_1.png
     - assets/translations/
 
   fonts:

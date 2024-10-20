@@ -6,8 +6,11 @@ extension DateTimeFormatting on DateTime {
   }
 
   String toFormattedStringWithTime() {
-    return DateFormat('MM/dd/yyyy HH:mm')
-        .format(this); // Adds time in 24-hour format
+    return DateFormat('MM/dd/yyyy HH:mm').format(this);
+  }
+
+  String toFormattedStringTimeOnly() {
+    return DateFormat('hh:mm a').format(this);
   }
 }
 

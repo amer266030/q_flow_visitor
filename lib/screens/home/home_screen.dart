@@ -10,6 +10,7 @@ import 'package:q_flow/screens/home/home_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
+import '../../model/company.dart';
 import '../../reusable_components/cards/company_card_large.dart';
 import '../../reusable_components/cards/company_card_list_item.dart';
 import '../../reusable_components/cards/ticket_view.dart';
@@ -61,6 +62,10 @@ class HomeScreen extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       itemExtent: context.screenWidth * 0.6,
                       shrinkExtent: context.screenWidth * 0.6,
+                      onTap: (index) {
+                        final company = cubit.companies[index];
+                        cubit.navigateToCompanyDetails(context, company);
+                      },
                       children: cubit.companies
                           .map(
                             (company) => CompanyCardLarge(company: company),
@@ -74,11 +79,17 @@ class HomeScreen extends StatelessWidget {
                       callback: () => cubit.navigateToExplore(context)),
                   Column(
                     children: cubit.companies
-                        .map((company) => CompanyCardListItem(
+                        .map(
+                          (company) => InkWell(
+                            onTap: () => cubit.navigateToCompanyDetails(
+                                context, company),
+                            child: CompanyCardListItem(
                               company: company,
                               isBookmarked: Random().nextBool(),
-                              callback: () => (),
-                            ))
+                              toggleBookmark: () => (),
+                            ),
+                          ),
+                        )
                         .toList(),
                   ),
                 ],

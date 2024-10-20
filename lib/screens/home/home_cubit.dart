@@ -4,6 +4,7 @@ import 'package:q_flow/model/company.dart';
 import 'package:q_flow/model/enums/company_size.dart';
 import 'package:q_flow/model/interview.dart';
 
+import '../company_details/company_details_screen.dart';
 import '../explore/explore_screen.dart';
 
 part 'home_state.dart';
@@ -36,6 +37,11 @@ class HomeCubit extends Cubit<HomeState> {
     );
 
     emitUpdate();
+  }
+
+  navigateToCompanyDetails(BuildContext context, Company company) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CompanyDetailsScreen(company: company)));
   }
 
   navigateToExplore(BuildContext context) {
