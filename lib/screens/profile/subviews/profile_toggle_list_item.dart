@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 class ProfileToggleListItem extends StatelessWidget {
-  const ProfileToggleListItem(
-      {super.key, required this.title, required this.callback});
+  const ProfileToggleListItem({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.callback,
+  });
   final String title;
+  final bool value;
   final VoidCallback callback;
 
   @override
@@ -26,7 +31,7 @@ class ProfileToggleListItem extends StatelessWidget {
               ],
             ),
           ),
-          Switch(value: false, onChanged: (_) => callback)
+          Switch(value: value, onChanged: (_) => callback())
         ],
       ),
     );

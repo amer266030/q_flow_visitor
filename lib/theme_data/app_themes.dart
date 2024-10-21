@@ -15,12 +15,12 @@ class AppThemes {
       bodyLarge: TextStyle(fontSize: 16, color: AppColors.lightText1),
       titleSmall: TextStyle(
           fontSize: 20,
-          color: AppColors.darkText1,
+          color: AppColors.lightText1,
           height: 1,
           fontWeight: FontWeight.bold),
       titleMedium: TextStyle(
           fontSize: 28,
-          color: AppColors.darkText1,
+          color: AppColors.lightText1,
           height: 1,
           fontWeight: FontWeight.bold),
       titleLarge: TextStyle(

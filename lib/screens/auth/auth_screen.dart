@@ -6,6 +6,7 @@ import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 import 'package:q_flow/utils/validations.dart';
 
+import '../../extensions/img_ext.dart';
 import '../../reusable_components/page_header_view.dart';
 import 'auth_cubit.dart';
 
@@ -25,6 +26,7 @@ class AuthScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  _ImgView(),
                   PageHeaderView(title: 'Login'),
                   Expanded(
                     child: ListView(
@@ -33,13 +35,48 @@ class AuthScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  _ResetBtnView(),
                 ],
               ),
             ),
           ),
         );
       }),
+    );
+  }
+}
+
+class _ImgView extends StatelessWidget {
+  const _ImgView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                // border: Border.all(color: context.primary, width: 2),
+              ),
+              width: 140,
+              height: 140,
+              child: Padding(
+                padding: EdgeInsets.all(4),
+                child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    elevation: 5,
+                    child: ClipOval(
+                        child: Image(
+                            image: Img.logoTurquoise, fit: BoxFit.cover))),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -57,42 +94,12 @@ class _FormView extends StatelessWidget {
             hintText: 'Email',
             controller: TextEditingController(),
             validation: Validations.email),
-        CustomTextField(
-            hintText: 'Password',
-            controller: TextEditingController(),
-            isObscure: true,
-            validation: Validations.password),
         const SizedBox(height: 32),
         Row(
           children: [
             Expanded(
                 child: PrimaryBtn(
                     callback: () => cubit.navigate(context), title: 'Start'))
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _ResetBtnView extends StatelessWidget {
-  const _ResetBtnView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Forgot password?', style: context.bodyMedium),
-            TextButton(
-              onPressed: () => (),
-              child: Text('Reset',
-                  style: TextStyle(
-                      color: context.primary,
-                      fontWeight: context.titleSmall.fontWeight)),
-            )
           ],
         ),
       ],

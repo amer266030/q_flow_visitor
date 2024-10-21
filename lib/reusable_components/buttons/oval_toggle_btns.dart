@@ -70,36 +70,53 @@ class _ItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            context.primary,
-            context.primary.withOpacity(0.5),
-            context.primary.withOpacity(0.3),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.black : Colors.transparent,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minWidth: 55, minHeight: 25),
+            ),
+          ),
         ),
-        color: isSelected ? Colors.black : Colors.transparent,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(100),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minWidth: 55),
-          child: Center(
-            child: Text(
-              str,
-              style: TextStyle(
-                fontSize: context.bodyMedium.fontSize,
-                color: isSelected ? context.textColor1 : context.textColor3,
+        Container(
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.black : Colors.transparent,
+            gradient: LinearGradient(
+              colors: [
+                context.primary,
+                context.primary.withOpacity(0.9),
+                context.primary.withOpacity(0.7),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minWidth: 55, minHeight: 25),
+              child: Center(
+                child: Text(
+                  str,
+                  style: TextStyle(
+                    fontSize: context.bodyMedium.fontSize,
+                    color: isSelected ? Colors.white : context.textColor3,
+                  ),
+                ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

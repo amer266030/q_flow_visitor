@@ -48,13 +48,6 @@ class OnboardingScreen extends StatelessWidget {
                                         cubit.navigateToAuth(context),
                                     title: 'Login'),
                               ),
-                              SizedBox(width: 24),
-                              Expanded(
-                                child: PrimaryBtn(
-                                    callback: () =>
-                                        cubit.navigateToAuth(context),
-                                    title: 'Sign up'),
-                              ),
                             ],
                           )
                         else

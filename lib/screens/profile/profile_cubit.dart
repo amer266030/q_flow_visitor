@@ -13,6 +13,7 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
 
+  bool isNotificationsEnabled = false;
   bool isDarkMode = true;
   bool isEnglish = true;
 
@@ -37,6 +38,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       .push(MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
 
   void toggleDarkMode(BuildContext context) {
+    print('this was called!');
     isDarkMode = !isDarkMode;
     final themeCubit = context.read<AppThemeCubit>();
     themeCubit.changeTheme(isDarkMode ? ThemeMode.light : ThemeMode.dark);

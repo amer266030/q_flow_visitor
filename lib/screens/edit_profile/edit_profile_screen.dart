@@ -236,14 +236,22 @@ class _ImgView extends StatelessWidget {
       children: [
         ClipOval(
           child: Container(
-            color: context.bg3,
-            width: 120,
-            height: 120,
-            child: cubit.avatar != null
-                ? Image.file(cubit.avatar!, fit: BoxFit.cover)
-                : visitor?.avatarUrl == null
-                    ? Image(image: Img.avatar, fit: BoxFit.cover)
-                    : Image.network(visitor!.avatarUrl!, fit: BoxFit.cover),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              // border: Border.all(color: context.primary, width: 2),
+            ),
+            width: 140,
+            height: 140,
+            child: Padding(
+              padding: EdgeInsets.all(4),
+              child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  elevation: 5,
+                  child: ClipOval(
+                      child: Image(image: Img.avatar, fit: BoxFit.cover))),
+            ),
           ),
         ),
       ],
