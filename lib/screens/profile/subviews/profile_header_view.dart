@@ -18,28 +18,28 @@ class ProfileHeaderView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: context.primary, width: 2),
-                  ),
-                  width: 140,
-                  height: 140,
-                  child: Padding(
-                    padding: EdgeInsets.all(4),
-                    child: visitor?.avatarUrl == null
-                        ? ClipOval(
-                            child: Image(image: Img.avatar, fit: BoxFit.cover))
-                        : Image.network(visitor!.avatarUrl!, fit: BoxFit.cover),
-                  ),
+            ClipOval(
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text('John Doe', style: context.titleSmall),
+                width: 140,
+                height: 140,
+                child: Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      elevation: 5,
+                      child: visitor?.avatarUrl == null
+                          ? ClipOval(
+                              child:
+                                  Image(image: Img.avatar, fit: BoxFit.cover))
+                          : Image.network(visitor!.avatarUrl!,
+                              fit: BoxFit.cover)),
                 ),
-              ],
+              ),
             ),
           ],
         ),

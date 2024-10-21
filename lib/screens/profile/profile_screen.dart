@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/screens/profile/profile_cubit.dart';
@@ -38,15 +39,24 @@ class ProfileScreen extends StatelessWidget {
                           ProfileToggleListItem(
                               title: 'Notifications',
                               value: cubit.isNotificationsEnabled,
+                              iconItems: [
+                                CupertinoIcons.bell_slash,
+                                CupertinoIcons.bell
+                              ],
                               callback: () =>
                                   cubit.toggleNotifications(context)),
                           ProfileToggleListItem(
                               title: 'Language',
                               value: cubit.isEnglish,
+                              strItems: ['AR', 'EN'],
                               callback: () => cubit.toggleLanguage(context)),
                           ProfileToggleListItem(
                               title: 'Theme Mode',
                               value: cubit.isDarkMode,
+                              iconItems: [
+                                CupertinoIcons.sun_max,
+                                CupertinoIcons.moon
+                              ],
                               callback: () => cubit.toggleDarkMode(context)),
                         ],
                       );

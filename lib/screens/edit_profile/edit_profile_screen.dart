@@ -253,8 +253,10 @@ class _ImgView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(100),
                   ),
                   elevation: 5,
-                  child: ClipOval(
-                      child: Image(image: Img.avatar, fit: BoxFit.cover))),
+                  child: visitor?.avatarUrl == null
+                      ? ClipOval(
+                          child: Image(image: Img.avatar, fit: BoxFit.cover))
+                      : Image.network(visitor!.avatarUrl!, fit: BoxFit.cover)),
             ),
           ),
         ),

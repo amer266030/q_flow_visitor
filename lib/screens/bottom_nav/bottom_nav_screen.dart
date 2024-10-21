@@ -58,7 +58,7 @@ class BottomNavScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 500),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: isSelected
@@ -66,7 +66,7 @@ class BottomNavScreen extends StatelessWidget {
                                       : Colors.transparent,
                                 ),
                                 child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 500),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     gradient: isSelected
