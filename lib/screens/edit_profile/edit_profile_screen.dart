@@ -19,9 +19,11 @@ import '../../reusable_components/buttons/oval_toggle_btns.dart';
 import '../../utils/validations.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({super.key, this.visitor});
+  const EditProfileScreen(
+      {super.key, this.visitor, this.isInitialSetup = false});
 
   final Visitor? visitor;
+  final bool isInitialSetup;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class EditProfileScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final cubit = context.read<EditProfileCubit>();
         return Scaffold(
+          appBar: AppBar(),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(24),
@@ -211,8 +214,10 @@ class EditProfileScreen extends StatelessWidget {
                       validation: Validations.name),
                   SizedBox(height: 16),
                   PrimaryBtn(
-                      callback: () => cubit.navigateToBootcamp(context),
-                      title: 'Next')
+                      callback: isInitialSetup
+                          ? () => cubit.navigateToBootcamp(context)
+                          : () => cubit.navigateBack(context),
+                      title: isInitialSetup ? 'Next' : 'Save')
                 ],
               ),
             ),

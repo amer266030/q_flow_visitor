@@ -11,7 +11,9 @@ import '../../theme_data/app_theme_cubit.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit() : super(ProfileInitial());
+  ProfileCubit(BuildContext context) : super(ProfileInitial()) {
+    initialLoad(context);
+  }
 
   bool isNotificationsEnabled = false;
   bool isDarkMode = true;
@@ -19,6 +21,8 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   initialLoad(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
+    isNotificationsEnabled =
+        (prefs.getString('notifications').toString() == 'true');
     final savedTheme = prefs.getString('theme');
     isDarkMode = (savedTheme == ThemeMode.dark.toString());
     final savedLocale = prefs.getString('locale');
@@ -28,7 +32,8 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   navigateToEditProfile(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => EditProfileScreen()))
+        .push(MaterialPageRoute(
+            builder: (context) => EditProfileScreen(isInitialSetup: false)))
         .then((_) {
       // Update Info on page?
     });
@@ -37,11 +42,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   navigateToPrivacyPolicy(BuildContext context) => Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
 
-  void toggleDarkMode(BuildContext context) {
-    print('this was called!');
-    isDarkMode = !isDarkMode;
-    final themeCubit = context.read<AppThemeCubit>();
-    themeCubit.changeTheme(isDarkMode ? ThemeMode.light : ThemeMode.dark);
+  void toggleNotifications(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    isNotificationsEnabled = !isNotificationsEnabled;
+    await prefs.setString(
+        'notifications', isNotificationsEnabled ? 'true' : 'false');
     emitUpdate();
   }
 
@@ -50,6 +55,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     context.setLocale(
         isEnglish ? const Locale('en', 'US') : const Locale('ar', 'SA'));
     _saveLocale(isEnglish);
+  }
+
+  void toggleDarkMode(BuildContext context) {
+    isDarkMode = !isDarkMode;
+    final themeCubit = context.read<AppThemeCubit>();
+    themeCubit.changeTheme(isDarkMode ? ThemeMode.light : ThemeMode.dark);
+    emitUpdate();
   }
 
   Future<void> _saveLocale(bool isEnglish) async {

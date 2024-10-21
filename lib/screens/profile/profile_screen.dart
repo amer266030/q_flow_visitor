@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(),
+      create: (context) => ProfileCubit(context),
       child: Builder(builder: (context) {
         final cubit = context.read<ProfileCubit>();
         return Scaffold(
@@ -26,9 +26,11 @@ class ProfileScreen extends StatelessWidget {
                   ProfileStatsView(),
                   Divider(color: context.textColor2),
                   ProfileListItemView(
-                      title: 'Update profile', callback: () => ()),
+                      title: 'Update profile',
+                      callback: () => cubit.navigateToEditProfile(context)),
                   ProfileListItemView(
-                      title: 'Privacy policy', callback: () => ()),
+                      title: 'Privacy policy',
+                      callback: () => cubit.navigateToPrivacyPolicy(context)),
                   BlocBuilder<ProfileCubit, ProfileState>(
                     builder: (context, state) {
                       return Column(
@@ -36,7 +38,8 @@ class ProfileScreen extends StatelessWidget {
                           ProfileToggleListItem(
                               title: 'Notifications',
                               value: cubit.isNotificationsEnabled,
-                              callback: () => ()),
+                              callback: () =>
+                                  cubit.toggleNotifications(context)),
                           ProfileToggleListItem(
                               title: 'Language',
                               value: cubit.isEnglish,
@@ -49,7 +52,8 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  ProfileListItemView(title: 'Logout', callback: () => ()),
+                  ProfileListItemView(
+                      title: 'Logout', callback: () => cubit.logout(context)),
                 ],
               ),
             ),
