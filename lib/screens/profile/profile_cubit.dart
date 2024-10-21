@@ -26,7 +26,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     final savedTheme = prefs.getString('theme');
     isDarkMode = (savedTheme == ThemeMode.dark.toString());
     final savedLocale = prefs.getString('locale');
-    isEnglish = (savedLocale == 'true');
+    isEnglish = (savedLocale == 'en_US' || savedLocale == 'true');
     emitUpdate();
   }
 
@@ -50,11 +50,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     emitUpdate();
   }
 
-  void toggleLanguage(BuildContext context) {
+  void toggleLanguage(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
     isEnglish = !isEnglish;
+    await prefs.setString('locale', isEnglish ? 'true' : 'false');
     context.setLocale(
         isEnglish ? const Locale('en', 'US') : const Locale('ar', 'SA'));
-    _saveLocale(isEnglish);
+    emitUpdate();
   }
 
   void toggleDarkMode(BuildContext context) {
@@ -62,11 +64,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     final themeCubit = context.read<AppThemeCubit>();
     themeCubit.changeTheme(isDarkMode ? ThemeMode.light : ThemeMode.dark);
     emitUpdate();
-  }
-
-  Future<void> _saveLocale(bool isEnglish) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('locale', isEnglish ? 'true' : 'false');
   }
 
   logout(BuildContext context) => Navigator.of(context).pushReplacement(

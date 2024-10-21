@@ -7,7 +7,7 @@ import 'package:q_flow/screens/tickets/tickets_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
-import '../../reusable_components/buttons/toggle_btns_v2.dart';
+import '../../reusable_components/buttons/expanded_toggle_buttons.dart';
 
 class TicketsScreen extends StatelessWidget {
   const TicketsScreen({super.key});
@@ -40,7 +40,7 @@ class TicketsScreen extends StatelessWidget {
                     child: BlocBuilder<TicketsCubit, TicketsState>(
                       builder: (context, state) {
                         return ListView(children: [
-                          ToggleBtnsV2(
+                          ExpandedToggleButtons(
                             currentIndex: InterviewStatus.values
                                 .indexOf(cubit.selectedStatus),
                             tabs: InterviewStatus.values

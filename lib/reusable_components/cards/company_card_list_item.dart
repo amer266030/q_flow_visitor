@@ -20,13 +20,19 @@ class CompanyCardListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       child: Container(
         decoration: BoxDecoration(
-          color: context.bg2,
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(16),
-        ),
+            color: context.bg2,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                  color: context.textColor1.withOpacity(0.3),
+                  blurRadius: 4,
+                  spreadRadius: 0.5,
+                  offset: Offset(3, 3))
+            ]),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(

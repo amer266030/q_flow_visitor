@@ -35,6 +35,14 @@ class BottomNavScreen extends StatelessWidget {
                     color: context.bg2,
                     borderRadius: BorderRadius.circular(100),
                     border: Border.all(color: context.bg3, width: 3),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 2,
+                        spreadRadius: 0.5,
+                        offset: Offset(2, 3),
+                      )
+                    ],
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,34 +55,47 @@ class BottomNavScreen extends StatelessWidget {
                         onTap: () => cubit.updateIndex(index),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: isSelected
-                                  ? LinearGradient(
-                                      colors: [
-                                        context.primary,
-                                        context.primary.withOpacity(0.5),
-                                        context.primary.withOpacity(0.3),
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                    )
-                                  : null, // No gradient when not selected
-                              color: isSelected
-                                  ? Colors.black
-                                  : Colors.transparent,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Icon(
-                                icon,
-                                color: isSelected
-                                    ? Colors.white
-                                    : context.textColor2,
+                          child: Row(
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: isSelected
+                                      ? Colors.black
+                                      : Colors.transparent,
+                                ),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: isSelected
+                                        ? LinearGradient(
+                                            colors: [
+                                              context.primary,
+                                              context.primary.withOpacity(0.8),
+                                              context.primary.withOpacity(0.4),
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          )
+                                        : null, // No gradient when not selected
+                                    color: isSelected
+                                        ? Colors.black
+                                        : Colors.transparent,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Icon(
+                                      icon,
+                                      color: isSelected
+                                          ? Colors.white
+                                          : context.textColor2,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       );

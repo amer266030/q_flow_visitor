@@ -54,7 +54,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     emitUpdate();
   }
 
-  navigateBack(BuildContext context) => Navigator.of(context).pop;
+  navigateBack(BuildContext context) => Navigator.of(context).pop();
 
   navigateToBootcamp(BuildContext context) =>
       Navigator.of(context).pushReplacement(

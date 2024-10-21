@@ -6,9 +6,10 @@ class AppColors {
   static const Color lightPrimary = Color(0xFF199C90);
   static const Color lightSecondary = Color(0xFF15B8A8);
   static const Color lightAccent = Color(0xFF4F29B7);
-  static const Color lightBg1 = Color(0xFFF9FAFB);
-  static const Color lightBg2 = Color(0xFFDDDDDD);
-  static const Color lightBg3 = Color(0xFFCCCCCC);
+
+  static const Color lightBg1 = Color(0XFFDADEE0);
+  static const Color lightBg2 = Color(0xFFEAEDED);
+  static const Color lightBg3 = Color(0xFFFAFDFD);
   static const Color lightText1 = Color(0xFF1A1A1A);
   static const Color lightText2 = Color(0xFF292929);
   static const Color lightText3 = Color(0xFF656565);

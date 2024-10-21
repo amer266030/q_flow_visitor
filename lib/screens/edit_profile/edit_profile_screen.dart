@@ -20,7 +20,7 @@ import '../../utils/validations.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen(
-      {super.key, this.visitor, this.isInitialSetup = false});
+      {super.key, this.visitor, this.isInitialSetup = true});
 
   final Visitor? visitor;
   final bool isInitialSetup;
@@ -32,7 +32,6 @@ class EditProfileScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final cubit = context.read<EditProfileCubit>();
         return Scaffold(
-          appBar: AppBar(),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(24),
