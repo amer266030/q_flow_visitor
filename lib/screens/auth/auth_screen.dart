@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:q_flow/reusable_components/custom_text_field.dart';
-import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
-import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
-import 'package:q_flow/theme_data/extensions/theme_ext.dart';
-import 'package:q_flow/utils/validations.dart';
+import 'package:q_flow/reusable_components/dialogs/error_dialog.dart';
+import 'package:q_flow/screens/auth/network_functions.dart';
+import 'package:q_flow/screens/auth/subviews/login_form_view.dart';
+import 'package:q_flow/screens/auth/subviews/otp_form_view.dart';
 
 import '../../extensions/img_ext.dart';
-import '../../reusable_components/page_header_view.dart';
+import '../../reusable_components/dialogs/loading_dialog.dart';
 import 'auth_cubit.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -19,90 +18,59 @@ class AuthScreen extends StatelessWidget {
       create: (context) => AuthCubit(),
       child: Builder(builder: (context) {
         final cubit = context.read<AuthCubit>();
-        return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _ImgView(),
-                  PageHeaderView(title: 'Login'),
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        _FormView(cubit: cubit),
-                      ],
-                    ),
+        return BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) async {
+            if (cubit.previousState is LoadingState) {
+              await Navigator.of(context).maybePop();
+            }
+
+            if (state is LoadingState && cubit.previousState is! LoadingState) {
+              showLoadingDialog(context);
+            }
+
+            if (state is ErrorState) {
+              showErrorDialog(context, state.msg);
+            }
+          },
+          child: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: Scaffold(
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: ListView(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(4),
+                        child: ClipOval(
+                            child: AspectRatio(
+                          aspectRatio: 2.3,
+                          child: Image(
+                            image: Img.logo,
+                          ),
+                        )),
+                      ),
+                      BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, state) {
+                          return cubit.isOtp
+                              ? OtpFormView(
+                                  email: cubit.emailController.text,
+                                  goBack: cubit.toggleIsOtp,
+                                  verifyOTP: (otp) =>
+                                      cubit.verifyOTP(context, otp))
+                              : LoginFormView(
+                                  controller: cubit.emailController,
+                                  callback: () => cubit.sendOTP(context));
+                        },
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
         );
       }),
-    );
-  }
-}
-
-class _ImgView extends StatelessWidget {
-  const _ImgView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                // border: Border.all(color: context.primary, width: 2),
-              ),
-              width: 140,
-              height: 140,
-              child: Padding(
-                padding: EdgeInsets.all(4),
-                child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    elevation: 5,
-                    child: ClipOval(
-                        child: Image(
-                            image: Img.logoTurquoise, fit: BoxFit.cover))),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _FormView extends StatelessWidget {
-  const _FormView({required this.cubit});
-  final AuthCubit cubit;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomTextField(
-            hintText: 'Email',
-            controller: TextEditingController(),
-            validation: Validations.email),
-        const SizedBox(height: 32),
-        Row(
-          children: [
-            Expanded(
-                child: PrimaryBtn(
-                    callback: () => cubit.navigate(context), title: 'Start'))
-          ],
-        ),
-      ],
     );
   }
 }

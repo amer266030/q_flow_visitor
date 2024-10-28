@@ -41,7 +41,6 @@ class Visitor {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'gender': gender?.value,
       'fName': fName,
       'lName': lName,

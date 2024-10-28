@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,15 +9,13 @@ import 'package:q_flow/screens/bootcamp_screen/bootcamp_screen.dart';
 
 import '../../model/enums/experience.dart';
 import '../../model/social_links/social_link.dart';
-import '../../model/user/user.dart';
 import '../../model/user/visitor.dart';
-import '../../reusable_components/animated_snack_bar.dart';
 
 part 'edit_profile_state.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
-  EditProfileCubit(User? user, Visitor? visitor) : super(EditProfileInitial()) {
-    loadInitialValues(user, visitor);
+  EditProfileCubit(Visitor? visitor) : super(EditProfileInitial()) {
+    loadInitialValues(visitor);
   }
 
   final fNameController = TextEditingController();
@@ -25,8 +23,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   var gender = Gender.male;
   var exp = Experience.none;
   DateTime dob = DateTime.now();
-  File? resume;
-  File? avatar;
+  File? resumeFile;
+  File? avatarFile;
 
   // Fetch Social Links
   /// match userId
@@ -41,7 +39,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   final websiteController = TextEditingController();
   final xController = TextEditingController();
 
-  loadInitialValues(User? user, Visitor? visitor) async {
+  loadInitialValues(Visitor? visitor) async {
     fNameController.text = visitor?.fName ?? '';
     lNameController.text = visitor?.lName ?? '';
     gender = visitor?.gender ?? Gender.male;
@@ -62,8 +60,16 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   void getImage() async {
     final img = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (img != null) avatar = File(img.path);
+    if (img != null) avatarFile = File(img.path);
     emitUpdate();
+  }
+
+  void uploadResume() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      resumeFile = File(result.files.single.path!);
+    }
   }
 
   setGender(int idx) {
@@ -81,13 +87,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     emitUpdate();
   }
 
-  void showSnackBar(
-      BuildContext context, String msg, AnimatedSnackBarType type) {
-    if (context.mounted) {
-      animatedSnakbar(msg: msg, type: type).show(context);
-    }
-  }
-
   void emitLoading() => emit(LoadingState());
   void emitUpdate() => emit(UpdateUIState());
+  void emitError(String msg) => emit(ErrorState(msg));
 }

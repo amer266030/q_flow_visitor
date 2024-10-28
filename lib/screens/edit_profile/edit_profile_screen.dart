@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/model/enums/experience.dart';
 import 'package:q_flow/model/user/visitor.dart';
+import 'package:q_flow/reusable_components/buttons/date_btn_view.dart';
+import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/reusable_components/custom_text_field.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
-import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_cubit.dart';
-import 'package:q_flow/reusable_components/buttons/date_btn_view.dart';
+import 'package:q_flow/screens/edit_profile/network_functions.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../extensions/img_ext.dart';
 import '../../model/enums/gender.dart';
-import '../../reusable_components/custom_dropdown_view.dart';
 import '../../reusable_components/buttons/oval_toggle_btns.dart';
+import '../../reusable_components/custom_dropdown_view.dart';
 import '../../utils/validations.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -28,7 +29,7 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EditProfileCubit(null, null),
+      create: (context) => EditProfileCubit(null),
       child: Builder(builder: (context) {
         final cubit = context.read<EditProfileCubit>();
         return Scaffold(
@@ -179,7 +180,7 @@ class EditProfileScreen extends StatelessWidget {
                               },
                             ),
                             IconButton(
-                                onPressed: () => (),
+                                onPressed: cubit.uploadResume,
                                 icon: Icon(CupertinoIcons.square_arrow_up_fill,
                                     color: context.primary))
                           ],
@@ -214,8 +215,9 @@ class EditProfileScreen extends StatelessWidget {
                   SizedBox(height: 16),
                   PrimaryBtn(
                       callback: isInitialSetup
-                          ? () => cubit.navigateToBootcamp(context)
-                          : () => cubit.navigateBack(context),
+                          ? () => cubit.createProfile(context)
+                          : () =>
+                              cubit.updateProfile(context, visitor?.id ?? ''),
                       title: isInitialSetup ? 'Next' : 'Save')
                 ],
               ),
@@ -249,14 +251,19 @@ class _ImgView extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(4),
               child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  elevation: 5,
-                  child: visitor?.avatarUrl == null
-                      ? ClipOval(
-                          child: Image(image: Img.avatar, fit: BoxFit.cover))
-                      : Image.network(visitor!.avatarUrl!, fit: BoxFit.cover)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                elevation: 5,
+                child: ClipOval(
+                  child: cubit.avatarFile != null
+                      ? Image.file(cubit.avatarFile!, fit: BoxFit.cover)
+                      : visitor?.avatarUrl == null
+                          ? Image(image: Img.avatar, fit: BoxFit.cover)
+                          : Image.network(visitor!.avatarUrl!,
+                              fit: BoxFit.cover),
+                ),
+              ),
             ),
           ),
         ),

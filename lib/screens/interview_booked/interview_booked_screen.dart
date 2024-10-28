@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:q_flow/reusable_components/animated_snack_bar.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/reusable_components/cards/ticket_view.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';

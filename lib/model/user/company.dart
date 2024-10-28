@@ -1,7 +1,7 @@
-import 'package:q_flow/model/enums/company_size.dart';
+import '../enums/company_size.dart';
 
 class Company {
-  String? id; // References user_id
+  String? id; // References profile_id
   String? name;
   String? description;
   CompanySize? companySize;
