@@ -12,9 +12,12 @@ class SupabaseAuth {
           .from(invitationTableKey)
           .select('is_company')
           .eq('email', email)
-          .single();
+          .maybeSingle();
 
-      if (invitationCheck['is_company'] == true) {
+      if (invitationCheck == null) {
+        throw Exception(
+            "The provided email haven't been invited to an event. Please contact the organizer for support");
+      } else if (invitationCheck['is_company'] == true) {
         throw Exception(
             "Access Denied!\nProvided email is intended for our Company App");
       }

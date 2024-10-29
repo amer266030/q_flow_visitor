@@ -23,7 +23,11 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(24),
               child: ListView(
                 children: [
-                  ProfileHeaderView(visitor: null),
+                  BlocBuilder<ProfileCubit, ProfileState>(
+                    builder: (context, state) {
+                      return ProfileHeaderView(visitor: cubit.visitor);
+                    },
+                  ),
                   ProfileStatsView(),
                   Divider(color: context.textColor2),
                   ProfileListItemView(

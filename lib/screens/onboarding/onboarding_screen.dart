@@ -10,7 +10,7 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OnboardingCubit(),
+      create: (context) => OnboardingCubit(context),
       child: Builder(builder: (context) {
         final cubit = context.read<OnboardingCubit>();
         return Scaffold(

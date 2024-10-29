@@ -14,6 +14,7 @@ import '../../model/user/visitor.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
+  EditProfileState? previousState;
   EditProfileCubit(Visitor? visitor) : super(EditProfileInitial()) {
     loadInitialValues(visitor);
   }
@@ -70,6 +71,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     if (result != null) {
       resumeFile = File(result.files.single.path!);
     }
+    emitUpdate();
   }
 
   setGender(int idx) {
@@ -85,6 +87,12 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   updateDOB(DateTime date) {
     dob = date;
     emitUpdate();
+  }
+
+  @override
+  void emit(EditProfileState state) {
+    previousState = this.state;
+    super.emit(state);
   }
 
   void emitLoading() => emit(LoadingState());

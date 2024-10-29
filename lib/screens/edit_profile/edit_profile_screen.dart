@@ -17,6 +17,8 @@ import '../../extensions/img_ext.dart';
 import '../../model/enums/gender.dart';
 import '../../reusable_components/buttons/oval_toggle_btns.dart';
 import '../../reusable_components/custom_dropdown_view.dart';
+import '../../reusable_components/dialogs/error_dialog.dart';
+import '../../reusable_components/dialogs/loading_dialog.dart';
 import '../../utils/validations.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -29,197 +31,215 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EditProfileCubit(null),
+      create: (context) => EditProfileCubit(visitor),
       child: Builder(builder: (context) {
         final cubit = context.read<EditProfileCubit>();
-        return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: ListView(
-                children: [
-                  PageHeaderView(title: 'Update Profile'),
-                  Column(
-                    children: [
-                      BlocBuilder<EditProfileCubit, EditProfileState>(
-                        builder: (context, state) {
-                          return _ImgView(cubit: cubit, visitor: visitor);
-                        },
-                      ),
-                      TextButton(
-                          onPressed: cubit.getImage,
-                          child: Text('Add Photo',
-                              style: TextStyle(
-                                  fontSize: context.bodySmall.fontSize,
-                                  color: context.primary,
-                                  fontWeight: context.titleSmall.fontWeight)))
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextField(
-                            hintText: 'John',
-                            controller: cubit.fNameController,
-                            validation: Validations.name),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: CustomTextField(
-                            hintText: 'Doe',
-                            controller: cubit.lNameController,
-                            validation: Validations.name),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      CustomTextField(
-                          hintText: 'Gender',
-                          readOnly: true,
-                          controller: TextEditingController(),
-                          validation: Validations.none),
-                      BlocBuilder<EditProfileCubit, EditProfileState>(
-                        builder: (context, state) {
-                          return Row(
+        return BlocListener<EditProfileCubit, EditProfileState>(
+          listener: (context, state) async {
+            if (cubit.previousState is LoadingState) {
+              await Navigator.of(context).maybePop();
+            }
+
+            if (state is LoadingState && cubit.previousState is! LoadingState) {
+              showLoadingDialog(context);
+            }
+
+            if (state is ErrorState) {
+              showErrorDialog(context, state.msg);
+            }
+          },
+          child: Scaffold(
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: ListView(
+                  children: [
+                    PageHeaderView(title: 'Update Profile'),
+                    Column(
+                      children: [
+                        BlocBuilder<EditProfileCubit, EditProfileState>(
+                          builder: (context, state) {
+                            return _ImgView(cubit: cubit, visitor: visitor);
+                          },
+                        ),
+                        TextButton(
+                            onPressed: cubit.getImage,
+                            child: Text('Add Photo',
+                                style: TextStyle(
+                                    fontSize: context.bodySmall.fontSize,
+                                    color: context.primary,
+                                    fontWeight: context.titleSmall.fontWeight)))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                              hintText: 'John',
+                              controller: cubit.fNameController,
+                              validation: Validations.name),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: CustomTextField(
+                              hintText: 'Doe',
+                              controller: cubit.lNameController,
+                              validation: Validations.name),
+                        ),
+                      ],
+                    ),
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        CustomTextField(
+                            hintText: 'Gender',
+                            readOnly: true,
+                            controller: TextEditingController(),
+                            validation: Validations.none),
+                        BlocBuilder<EditProfileCubit, EditProfileState>(
+                          builder: (context, state) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                OvalToggleButtons(
+                                  currentIndex:
+                                      Gender.values.indexOf(cubit.gender),
+                                  tabs: Gender.values
+                                      .map((g) => g.value)
+                                      .toList(),
+                                  callback: (idx) => cubit.setGender(idx),
+                                ),
+                              ],
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        CustomTextField(
+                            hintText: 'Experience Yrs.',
+                            readOnly: true,
+                            controller: TextEditingController(),
+                            validation: Validations.none),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              OvalToggleButtons(
-                                currentIndex:
-                                    Gender.values.indexOf(cubit.gender),
-                                tabs:
-                                    Gender.values.map((g) => g.value).toList(),
-                                callback: (idx) => cubit.setGender(idx),
+                              BlocBuilder<EditProfileCubit, EditProfileState>(
+                                builder: (context, state) {
+                                  return CustomDropdown(
+                                    selectedValue: cubit.exp.value,
+                                    onChanged: (String? newValue) {
+                                      if (newValue != null) {
+                                        cubit.setExperience(
+                                            ExperienceExtension.fromString(
+                                                newValue));
+                                      }
+                                    },
+                                    dropdownItems: Experience.values
+                                        .map((e) => e.value)
+                                        .toList(),
+                                  );
+                                },
                               ),
                             ],
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                  Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      CustomTextField(
-                          hintText: 'Experience Yrs.',
-                          readOnly: true,
-                          controller: TextEditingController(),
-                          validation: Validations.none),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            BlocBuilder<EditProfileCubit, EditProfileState>(
-                              builder: (context, state) {
-                                return CustomDropdown(
-                                  selectedValue: cubit.exp.value,
-                                  onChanged: (String? newValue) {
-                                    if (newValue != null) {
-                                      cubit.setExperience(
-                                          ExperienceExtension.fromString(
-                                              newValue));
-                                    }
-                                  },
-                                  dropdownItems: Experience.values
-                                      .map((e) => e.value)
-                                      .toList(),
-                                );
-                              },
-                            ),
-                          ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        CustomTextField(
+                            hintText: 'DOB',
+                            readOnly: true,
+                            controller: TextEditingController(),
+                            validation: Validations.none),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              BlocBuilder<EditProfileCubit, EditProfileState>(
+                                builder: (context, state) {
+                                  return DateBtnView(
+                                      date: cubit.dob,
+                                      callback: (date) =>
+                                          cubit.updateDOB(date));
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        CustomTextField(
+                            hintText: 'CV',
+                            readOnly: true,
+                            controller: TextEditingController(),
+                            validation: Validations.none),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              BlocBuilder<EditProfileCubit, EditProfileState>(
+                                builder: (context, state) {
+                                  return (visitor?.resumeUrl != null ||
+                                          cubit.resumeFile != null)
+                                      ? Icon(CupertinoIcons.doc_checkmark,
+                                          color: context.textColor1)
+                                      : Text('none', style: context.bodyMedium);
+                                },
+                              ),
+                              IconButton(
+                                  onPressed: cubit.uploadResume,
+                                  icon: Icon(
+                                      CupertinoIcons.square_arrow_up_fill,
+                                      color: context.primary))
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    CustomTextField(
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 32),
+                          child: Icon(BootstrapIcons.linkedin),
                         ),
-                      )
-                    ],
-                  ),
-                  Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      CustomTextField(
-                          hintText: 'DOB',
-                          readOnly: true,
-                          controller: TextEditingController(),
-                          validation: Validations.none),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            BlocBuilder<EditProfileCubit, EditProfileState>(
-                              builder: (context, state) {
-                                return DateBtnView(
-                                    date: cubit.dob,
-                                    callback: (date) => cubit.updateDOB(date));
-                              },
-                            ),
-                          ],
+                        hintText: 'Linkedin',
+                        controller: cubit.linkedInController,
+                        validation: Validations.name),
+                    CustomTextField(
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 32),
+                          child: Icon(BootstrapIcons.link_45deg),
                         ),
-                      )
-                    ],
-                  ),
-                  Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      CustomTextField(
-                          hintText: 'CV',
-                          readOnly: true,
-                          controller: TextEditingController(),
-                          validation: Validations.none),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            BlocBuilder<EditProfileCubit, EditProfileState>(
-                              builder: (context, state) {
-                                return visitor?.resumeUrl == null
-                                    ? Text('none', style: context.bodyMedium)
-                                    : Icon(CupertinoIcons.doc_checkmark,
-                                        color: context.textColor1);
-                              },
-                            ),
-                            IconButton(
-                                onPressed: cubit.uploadResume,
-                                icon: Icon(CupertinoIcons.square_arrow_up_fill,
-                                    color: context.primary))
-                          ],
+                        hintText: 'Website',
+                        controller: cubit.websiteController,
+                        validation: Validations.name),
+                    CustomTextField(
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 32),
+                          child: Icon(BootstrapIcons.twitter_x),
                         ),
-                      )
-                    ],
-                  ),
-                  CustomTextField(
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 32),
-                        child: Icon(BootstrapIcons.linkedin),
-                      ),
-                      hintText: 'Linkedin',
-                      controller: cubit.linkedInController,
-                      validation: Validations.name),
-                  CustomTextField(
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 32),
-                        child: Icon(BootstrapIcons.link_45deg),
-                      ),
-                      hintText: 'Website',
-                      controller: cubit.websiteController,
-                      validation: Validations.name),
-                  CustomTextField(
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 32),
-                        child: Icon(BootstrapIcons.twitter_x),
-                      ),
-                      hintText: 'Twitter',
-                      controller: cubit.websiteController,
-                      validation: Validations.name),
-                  SizedBox(height: 16),
-                  PrimaryBtn(
-                      callback: isInitialSetup
-                          ? () => cubit.createProfile(context)
-                          : () =>
-                              cubit.updateProfile(context, visitor?.id ?? ''),
-                      title: isInitialSetup ? 'Next' : 'Save')
-                ],
+                        hintText: 'Twitter',
+                        controller: cubit.websiteController,
+                        validation: Validations.name),
+                    SizedBox(height: 16),
+                    PrimaryBtn(
+                        callback: (isInitialSetup || visitor == null)
+                            ? () => cubit.createProfile(context)
+                            : () => cubit.updateProfile(context),
+                        title: isInitialSetup ? 'Next' : 'Save')
+                  ],
+                ),
               ),
             ),
           ),

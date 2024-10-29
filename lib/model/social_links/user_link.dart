@@ -1,5 +1,3 @@
-// Junction Table
-
 class UserLink {
   String? socialLinkId;
   String? userId;

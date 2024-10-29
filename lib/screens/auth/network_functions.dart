@@ -10,7 +10,7 @@ extension NetworkFunctions on AuthCubit {
       await SupabaseAuth.sendOTP(emailController.text);
       toggleIsOtp();
     } catch (e) {
-      emitError('The provided email could not be found!');
+      emitError(e.toString());
     }
   }
 

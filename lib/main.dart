@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
 
 import 'package:q_flow/screens/onboarding/onboarding_screen.dart';
+import 'package:q_flow/services/di_container.dart';
 import 'package:q_flow/supabase/client/supabase_mgr.dart';
 import 'package:q_flow/theme_data/app_theme_cubit.dart';
 import 'package:q_flow/theme_data/app_themes.dart';
@@ -11,6 +12,7 @@ import 'package:q_flow/theme_data/app_themes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SupabaseMgr.shared.initialize();
+  await DIContainer.setup();
   await EasyLocalization.ensureInitialized();
 
   runApp(
@@ -32,16 +34,16 @@ class MainApp extends StatelessWidget {
       child: BlocBuilder<AppThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: AppThemes.lightTheme,
-              darkTheme: AppThemes.darkTheme,
-              themeMode: themeMode,
-              locale: context.locale, // From EasyLocalization
-              supportedLocales:
-                  context.supportedLocales, // From EasyLocalization
-              localizationsDelegates:
-                  context.localizationDelegates, // From EasyLocalization
-              home: EditProfileScreen());
+            debugShowCheckedModeBanner: false,
+            theme: AppThemes.lightTheme,
+            darkTheme: AppThemes.darkTheme,
+            themeMode: themeMode,
+            locale: context.locale, // From EasyLocalization
+            supportedLocales: context.supportedLocales, // From EasyLocalization
+            localizationsDelegates:
+                context.localizationDelegates, // From EasyLocalization
+            home: OnboardingScreen(),
+          );
         },
       ),
     );

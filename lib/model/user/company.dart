@@ -18,7 +18,7 @@ class Company {
     this.establishedYear,
     this.avgRating,
     this.logoUrl,
-    this.isQueueOpen,
+    this.isQueueOpen = false,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {

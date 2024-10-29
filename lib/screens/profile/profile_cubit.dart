@@ -1,9 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
 import 'package:q_flow/screens/onboarding/onboarding_screen.dart';
 import 'package:q_flow/screens/privacy_policy_screen.dart';
+import 'package:q_flow/supabase/supabase_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../theme_data/app_theme_cubit.dart';
@@ -14,6 +17,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(BuildContext context) : super(ProfileInitial()) {
     initialLoad(context);
   }
+
+  var visitor = GetIt.I.get<DataMgr>().visitor;
 
   bool isNotificationsEnabled = false;
   bool isDarkMode = true;
@@ -33,9 +38,14 @@ class ProfileCubit extends Cubit<ProfileState> {
   navigateToEditProfile(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(
-            builder: (context) => EditProfileScreen(isInitialSetup: false)))
-        .then((_) {
+            builder: (context) =>
+                EditProfileScreen(isInitialSetup: false, visitor: visitor)))
+        .then((_) async {
       // Update Info on page?
+      try {
+        await SupabaseVisitor.fetchProfile();
+        emitUpdate();
+      } catch (_) {}
     });
   }
 

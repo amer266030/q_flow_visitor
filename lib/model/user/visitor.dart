@@ -1,3 +1,4 @@
+import '../enums/bootcamp.dart';
 import '../enums/experience.dart';
 import '../enums/gender.dart';
 
@@ -8,6 +9,7 @@ class Visitor {
   String? lName;
   Experience? experience;
   String? dob;
+  Bootcamp? bootcamp;
   String? resumeUrl;
   String? avatarUrl;
 
@@ -18,6 +20,7 @@ class Visitor {
     this.lName,
     this.experience,
     this.dob,
+    this.bootcamp,
     this.resumeUrl,
     this.avatarUrl,
   });
@@ -28,26 +31,30 @@ class Visitor {
       gender: json['gender'] != null
           ? GenderExtension.fromString(json['gender'] as String?)
           : null,
-      fName: json['fName'] as String?,
-      lName: json['lName'] as String?,
+      fName: json['f_name'] as String?,
+      lName: json['l_name'] as String?,
       experience: json['experience'] != null
           ? ExperienceExtension.fromString(json['experience'] as String?)
           : null,
       dob: json['dob'] as String?,
-      resumeUrl: json['resumeUrl'] as String?,
-      avatarUrl: json['avatarUrl'] as String?,
+      bootcamp: json['bootcamp'] != null
+          ? BootcampExtension.fromString(json['bootcamp'] as String?)
+          : null,
+      resumeUrl: json['resume_url'] as String?,
+      avatarUrl: json['avatar_url'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'gender': gender?.value,
-      'fName': fName,
-      'lName': lName,
+      'f_name': fName,
+      'l_name': lName,
       'experience': experience?.value,
       'dob': dob,
-      'resumeUrl': resumeUrl,
-      'avatarUrl': avatarUrl,
+      'bootcamp': bootcamp?.value,
+      'resume_url': resumeUrl,
+      'avatar_url': avatarUrl,
     };
   }
 }

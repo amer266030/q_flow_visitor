@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(24),
               child: ListView(
                 children: [
-                  _HeaderView(positionInQueue: null),
+                  _HeaderView(positionInQueue: null, cubit: cubit),
                   Divider(color: context.textColor3),
                   _SectionHeaderView(title: 'Upcoming Interviews'),
                   SizedBox(
@@ -101,27 +101,33 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _HeaderView extends StatelessWidget {
-  const _HeaderView({this.positionInQueue});
+  const _HeaderView({this.positionInQueue, required this.cubit});
 
   final int? positionInQueue;
+  final HomeCubit cubit;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ClipOval(
-              child: Image(image: Img.logoTurquoise, fit: BoxFit.contain)),
-        )),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipOval(
+              child: cubit.visitor?.avatarUrl == null
+                  ? Image(image: Img.avatar, fit: BoxFit.contain)
+                  : Image.network(cubit.visitor!.avatarUrl!,
+                      fit: BoxFit.contain),
+            ),
+          ),
+        ),
         const SizedBox(width: 8),
         Expanded(
           flex: 3,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Hi, John Doe',
+              Text('Hi, ${cubit.visitor?.fName ?? ''}',
                   style: context.bodyLarge, maxLines: 1, softWrap: true),
               Text('No upcoming Interviews',
                   style: context.bodyMedium, maxLines: 1, softWrap: true),

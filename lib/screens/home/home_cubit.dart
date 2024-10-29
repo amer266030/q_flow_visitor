@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/model/enums/company_size.dart';
 import 'package:q_flow/model/interview.dart';
 
+import '../../managers/data_mgr.dart';
 import '../company_details/company_details_screen.dart';
 import '../explore/explore_screen.dart';
 
@@ -14,6 +16,7 @@ class HomeCubit extends Cubit<HomeState> {
     initialLoad();
   }
 
+  var visitor = GetIt.I.get<DataMgr>().visitor;
   List<Interview> interviews = [];
   List<Company> companies = [];
 

@@ -1,22 +1,29 @@
 import 'dart:io';
 
+import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../managers/data_mgr.dart';
 import '../model/user/visitor.dart';
 import '../utils/img_converter.dart';
 import 'client/supabase_mgr.dart';
 
-class SupabaseProfile {
+class SupabaseVisitor {
   static final SupabaseClient supabase = SupabaseMgr.shared.supabase;
   static final String tableKey = 'visitor';
   static final String avatarBucketKey = 'visitor_avatar';
   static final String resumeBucketKey = 'visitor_resume';
 
-  static Future<Visitor?> fetchProfile(String visitorId) async {
+  static Future<Visitor?> fetchProfile() async {
+    var visitorId = supabase.auth.currentUser?.id ?? '';
     try {
       var response =
           await supabase.from(tableKey).select().eq('id', visitorId).single();
-      return Visitor.fromJson(response);
+
+      var visitor = Visitor.fromJson(response);
+      var dataMgr = GetIt.I.get<DataMgr>();
+      dataMgr.saveVisitorData(visitor: visitor);
+      return visitor;
     } on AuthException catch (_) {
       rethrow;
     } on PostgrestException catch (_) {
@@ -82,9 +89,12 @@ class SupabaseProfile {
       final fileName =
           '${SupabaseMgr.shared.supabase.auth.currentUser?.id ?? '123'}.pdf';
 
-      await supabase.storage
-          .from(resumeBucketKey)
-          .uploadBinary(fileName, fileBytes);
+      await supabase.storage.from(resumeBucketKey).uploadBinary(
+            fileName,
+            fileBytes,
+            fileOptions: FileOptions(upsert: true),
+          );
+
       final publicUrl =
           supabase.storage.from(resumeBucketKey).getPublicUrl(fileName);
       return publicUrl;
@@ -103,9 +113,12 @@ class SupabaseProfile {
       final fileName =
           '${SupabaseMgr.shared.supabase.auth.currentUser?.id ?? '123'}.png';
 
-      await supabase.storage
-          .from(avatarBucketKey)
-          .uploadBinary(fileName, fileBytes);
+      await supabase.storage.from(avatarBucketKey).uploadBinary(
+            fileName,
+            fileBytes,
+            fileOptions: FileOptions(upsert: true),
+          );
+
       final publicUrl =
           supabase.storage.from(avatarBucketKey).getPublicUrl(fileName);
       return publicUrl;

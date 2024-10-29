@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
-import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../../extensions/img_ext.dart';
 import '../../../model/user/visitor.dart';
@@ -28,16 +26,17 @@ class ProfileHeaderView extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(4),
                   child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    elevation: 5,
+                    child: ClipOval(
                       child: visitor?.avatarUrl == null
-                          ? ClipOval(
-                              child:
-                                  Image(image: Img.avatar, fit: BoxFit.cover))
+                          ? Image(image: Img.avatar, fit: BoxFit.cover)
                           : Image.network(visitor!.avatarUrl!,
-                              fit: BoxFit.cover)),
+                              fit: BoxFit.cover),
+                    ),
+                  ),
                 ),
               ),
             ),
