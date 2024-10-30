@@ -16,7 +16,7 @@ class SupabaseCompany {
           .map((item) => Company.fromJson(item as Map<String, dynamic>))
           .toList();
       var dataMgr = GetIt.I.get<DataMgr>();
-      dataMgr.saveCompanyData(companies: companies);
+      dataMgr.saveCompanies(companies: companies);
       return companies;
     } on AuthException catch (_) {
       rethrow;

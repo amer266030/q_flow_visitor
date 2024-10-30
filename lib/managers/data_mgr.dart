@@ -14,7 +14,7 @@ class DataMgr {
 
   fetchData() async {
     await fetchVisitorData();
-    await fetchCompanyData();
+    await fetchCompanies();
   }
 
   // Visitor Functions
@@ -31,13 +31,13 @@ class DataMgr {
 
   // Company Functions
 
-  Future<void> fetchCompanyData() async {
+  Future<void> fetchCompanies() async {
     try {
       await SupabaseCompany.fetchCompanies();
     } catch (_) {}
   }
 
-  Future<void> saveCompanyData({required List<Company> companies}) async {
+  Future<void> saveCompanies({required List<Company> companies}) async {
     this.companies = companies;
   }
 }

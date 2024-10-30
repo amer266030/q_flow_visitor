@@ -1,3 +1,5 @@
+import 'package:get_it/get_it.dart';
+import 'package:q_flow/managers/data_mgr.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'client/supabase_mgr.dart';
@@ -5,6 +7,7 @@ import 'client/supabase_mgr.dart';
 class SupabaseAuth {
   static final SupabaseClient supabase = SupabaseMgr.shared.supabase;
   static final invitationTableKey = 'event_invited_user';
+  static final dataMgr = GetIt.I.get<DataMgr>();
 
   static Future sendOTP(String email) async {
     try {
@@ -44,7 +47,6 @@ class SupabaseAuth {
       );
       return response;
     } catch (e) {
-      print('Error verifying OTP: $e');
       rethrow;
     }
   }
@@ -52,6 +54,7 @@ class SupabaseAuth {
   static Future signOut() async {
     try {
       var response = await supabase.auth.signOut();
+      dataMgr.visitor = null;
       return response;
     } catch (e) {
       rethrow;
