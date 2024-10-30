@@ -49,10 +49,11 @@ class CompanyCardListItem extends StatelessWidget {
                           aspectRatio: 1,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image(
-                              image: Img.logoPurple,
-                              fit: BoxFit.contain,
-                            ),
+                            child: company.logoUrl == null
+                                ? Image(
+                                    image: Img.logoPurple, fit: BoxFit.contain)
+                                : Image.network(company.logoUrl!,
+                                    fit: BoxFit.cover),
                           ),
                         ),
                       ),

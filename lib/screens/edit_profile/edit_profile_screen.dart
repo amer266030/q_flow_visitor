@@ -49,6 +49,7 @@ class EditProfileScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
+            appBar: AppBar(),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(24),

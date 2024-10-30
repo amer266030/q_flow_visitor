@@ -1,3 +1,5 @@
+import 'package:q_flow/model/social_links/social_link.dart';
+
 import '../enums/company_size.dart';
 
 class Company {
@@ -9,6 +11,7 @@ class Company {
   int? avgRating;
   String? logoUrl;
   bool? isQueueOpen;
+  List<SocialLink>? socialLinks;
 
   Company({
     this.id,
@@ -19,6 +22,7 @@ class Company {
     this.avgRating,
     this.logoUrl,
     this.isQueueOpen = false,
+    this.socialLinks,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {
@@ -34,6 +38,12 @@ class Company {
       avgRating: json['avg_rating'] as int?,
       logoUrl: json['logo_url'] as String?,
       isQueueOpen: json['is_queue_open'] as bool?,
+      socialLinks: json['social_links'] != null
+          ? (json['social_links'] as List)
+              .map((link) => SocialLink.fromJson(link))
+              .toList()
+          : null,
+    
     );
   }
 
