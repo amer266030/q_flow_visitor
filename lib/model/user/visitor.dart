@@ -1,3 +1,5 @@
+import 'package:q_flow/model/social_links/social_link.dart';
+
 import '../enums/bootcamp.dart';
 import '../enums/experience.dart';
 import '../enums/gender.dart';
@@ -12,6 +14,7 @@ class Visitor {
   Bootcamp? bootcamp;
   String? resumeUrl;
   String? avatarUrl;
+  List<SocialLink>? socialLinks;
 
   Visitor({
     this.id,
@@ -23,6 +26,7 @@ class Visitor {
     this.bootcamp,
     this.resumeUrl,
     this.avatarUrl,
+    this.socialLinks,
   });
 
   factory Visitor.fromJson(Map<String, dynamic> json) {
@@ -42,11 +46,17 @@ class Visitor {
           : null,
       resumeUrl: json['resume_url'] as String?,
       avatarUrl: json['avatar_url'] as String?,
+      socialLinks: json['social_links'] != null
+          ? (json['social_links'] as List)
+              .map((link) => SocialLink.fromJson(link))
+              .toList()
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'gender': gender?.value,
       'f_name': fName,
       'l_name': lName,
@@ -55,6 +65,7 @@ class Visitor {
       'bootcamp': bootcamp?.value,
       'resume_url': resumeUrl,
       'avatar_url': avatarUrl,
+      'social_links': socialLinks?.map((link) => link.toJson()).toList(),
     };
   }
 }

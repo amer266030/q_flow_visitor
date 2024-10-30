@@ -6,7 +6,7 @@ import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
 import 'package:q_flow/screens/onboarding/onboarding_screen.dart';
 import 'package:q_flow/screens/privacy_policy_screen.dart';
-import 'package:q_flow/supabase/supabase_profile.dart';
+import 'package:q_flow/supabase/supabase_visitor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../theme_data/app_theme_cubit.dart';

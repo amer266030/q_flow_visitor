@@ -13,7 +13,7 @@ class CompanyCardLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: SizedBox(
@@ -31,6 +31,7 @@ class CompanyCardLarge extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Container(
+                  width: double.infinity,
                   decoration: BoxDecoration(
                       color: context.bg2,
                       borderRadius: BorderRadius.circular(8)),

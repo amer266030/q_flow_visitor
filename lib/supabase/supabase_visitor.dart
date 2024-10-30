@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../managers/data_mgr.dart';
+import '../model/social_links/social_link.dart';
 import '../model/user/visitor.dart';
 import '../utils/img_converter.dart';
 import 'client/supabase_mgr.dart';
@@ -17,12 +16,22 @@ class SupabaseVisitor {
   static Future<Visitor?> fetchProfile() async {
     var visitorId = supabase.auth.currentUser?.id ?? '';
     try {
-      var response =
-          await supabase.from(tableKey).select().eq('id', visitorId).single();
+      // Fetch the visitor profile and associated social links based on user_id
+      final response = await supabase
+          .from('visitor')
+          .select('*, social_link!inner(user_id, link_type, url)')
+          .eq('id', visitorId)
+          .eq('social_link.user_id', visitorId)
+          .single();
 
-      var visitor = Visitor.fromJson(response);
-      var dataMgr = GetIt.I.get<DataMgr>();
-      dataMgr.saveVisitorData(visitor: visitor);
+      final visitor = Visitor.fromJson(response);
+
+      if (response['social_link'] != null) {
+        visitor.socialLinks = (response['social_link'] as List)
+            .map((link) => SocialLink.fromJson(link))
+            .toList();
+      }
+
       return visitor;
     } on AuthException catch (_) {
       rethrow;

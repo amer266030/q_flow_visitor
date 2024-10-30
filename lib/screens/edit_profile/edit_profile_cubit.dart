@@ -27,15 +27,6 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   File? resumeFile;
   File? avatarFile;
 
-  // Fetch Social Links
-  /// match userId
-  /// match linkId
-  List<SocialLink> links = [
-    SocialLink(name: 'linkedIn', url: ''),
-    SocialLink(name: 'website', url: ''),
-    SocialLink(name: 'twitter', url: ''),
-  ];
-
   final linkedInController = TextEditingController();
   final websiteController = TextEditingController();
   final xController = TextEditingController();

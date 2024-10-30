@@ -3,9 +3,10 @@ import 'package:get_it/get_it.dart';
 import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_cubit.dart';
+import 'package:q_flow/supabase/social_link.dart';
 
 import '../../model/user/visitor.dart';
-import '../../supabase/supabase_profile.dart';
+import '../../supabase/supabase_visitor.dart';
 
 extension NetworkFunctions on EditProfileCubit {
   fetchProfile(BuildContext context) async {
@@ -31,6 +32,7 @@ extension NetworkFunctions on EditProfileCubit {
       emitLoading();
       await SupabaseVisitor.createProfile(
           visitor: visitor, resumeFile: resumeFile, avatarFile: avatarFile);
+      await SupabaseSocialLink.upsertLinks([]);
       emitUpdate();
       if (context.mounted) {
         navigateToBootcamp(context);

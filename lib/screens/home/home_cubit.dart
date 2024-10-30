@@ -17,27 +17,14 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   var visitor = GetIt.I.get<DataMgr>().visitor;
+  var companies = GetIt.I.get<DataMgr>().companies;
   List<Interview> interviews = [];
-  List<Company> companies = [];
 
   initialLoad() {
     interviews = [
       Interview(timeOfBooking: '10:30 AM', positionInQueue: 5, companyId: '1'),
       Interview(timeOfBooking: '10:42 AM', positionInQueue: 12, companyId: '1')
     ];
-
-    companies = List.generate(
-      5,
-      (index) => Company(
-        id: '${index + 1}',
-        name: 'ABC Company',
-        description:
-            'XYZ is a startup company that is specialized in providing tech solutions based on client needs.',
-        companySize: CompanySize.oneHundredTo200,
-        establishedYear: 2015,
-        logoUrl: null,
-      ),
-    );
 
     emitUpdate();
   }
