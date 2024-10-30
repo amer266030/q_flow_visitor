@@ -230,7 +230,7 @@ class EditProfileScreen extends StatelessWidget {
                           child: Icon(BootstrapIcons.twitter_x),
                         ),
                         hintText: 'Twitter',
-                        controller: cubit.websiteController,
+                        controller: cubit.xController,
                         validation: Validations.name),
                     SizedBox(height: 16),
                     PrimaryBtn(

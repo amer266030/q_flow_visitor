@@ -4,7 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/model/enums/gender.dart';
+import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/screens/bootcamp_screen/bootcamp_screen.dart';
 
 import '../../model/enums/experience.dart';
@@ -32,12 +34,28 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   final xController = TextEditingController();
 
   loadInitialValues(Visitor? visitor) async {
-    fNameController.text = visitor?.fName ?? '';
-    lNameController.text = visitor?.lName ?? '';
-    gender = visitor?.gender ?? Gender.male;
-    exp = visitor?.experience ?? Experience.none;
-    if (visitor?.dob != null) {
-      dob = DateTime.parse(visitor!.dob!);
+    if (visitor != null) {
+      fNameController.text = visitor.fName ?? '';
+      lNameController.text = visitor.lName ?? '';
+      gender = visitor.gender ?? Gender.male;
+      exp = visitor.experience ?? Experience.none;
+      if (visitor.dob != null) {
+        dob = visitor.dob!.toDate();
+      }
+
+      if (visitor.socialLinks != null && visitor.socialLinks!.isNotEmpty) {
+        for (var link in visitor.socialLinks!) {
+          switch (link.linkType) {
+            case LinkType.linkedIn:
+              linkedInController.text = link.url ?? '';
+            case LinkType.website:
+              websiteController.text = link.url ?? '';
+            case LinkType.twitter:
+              xController.text = link.url ?? '';
+            default:
+          }
+        }
+      }
     }
 
     await Future.delayed(Duration(milliseconds: 50));

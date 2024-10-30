@@ -20,6 +20,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     var dataMgr = GetIt.I.get<DataMgr>();
     await dataMgr.fetchData();
 
+    print(dataMgr.visitor);
+    print(SupabaseMgr.shared.supabase.auth.currentUser?.id);
     if (dataMgr.visitor != null) {
       navigateToHome(context);
     } else if (SupabaseMgr.shared.supabase.auth.currentUser != null) {

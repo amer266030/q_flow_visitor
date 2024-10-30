@@ -56,7 +56,6 @@ class Visitor {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'gender': gender?.value,
       'f_name': fName,
       'l_name': lName,
@@ -65,7 +64,7 @@ class Visitor {
       'bootcamp': bootcamp?.value,
       'resume_url': resumeUrl,
       'avatar_url': avatarUrl,
-      'social_links': socialLinks?.map((link) => link.toJson()).toList(),
+      // 'social_links': socialLinks?.map((link) => link.toJson()).toList(),
     };
   }
 }

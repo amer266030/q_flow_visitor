@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:get_it/get_it.dart';
+import 'package:q_flow/managers/data_mgr.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../model/social_links/social_link.dart';
@@ -12,6 +14,7 @@ class SupabaseVisitor {
   static final String tableKey = 'visitor';
   static final String avatarBucketKey = 'visitor_avatar';
   static final String resumeBucketKey = 'visitor_resume';
+  static final dataMgr = GetIt.I.get<DataMgr>();
 
   static Future<Visitor?> fetchProfile() async {
     var visitorId = supabase.auth.currentUser?.id ?? '';
@@ -19,12 +22,13 @@ class SupabaseVisitor {
       // Fetch the visitor profile and associated social links based on user_id
       final response = await supabase
           .from('visitor')
-          .select('*, social_link!inner(user_id, link_type, url)')
+          .select('*, social_link(*)')
           .eq('id', visitorId)
-          .eq('social_link.user_id', visitorId)
           .single();
 
       final visitor = Visitor.fromJson(response);
+
+      dataMgr.saveVisitorData(visitor: visitor);
 
       if (response['social_link'] != null) {
         visitor.socialLinks = (response['social_link'] as List)
@@ -54,7 +58,8 @@ class SupabaseVisitor {
       visitor.avatarUrl = await uploadAvatar(avatarFile);
     }
     try {
-      var response = await supabase.from(tableKey).insert(visitor.toJson());
+      var response =
+          await supabase.from(tableKey).insert(visitor.toJson()).select();
       return response;
     } on AuthException catch (_) {
       rethrow;
@@ -82,7 +87,8 @@ class SupabaseVisitor {
       await supabase
           .from(tableKey)
           .update(visitor.toJson())
-          .eq('id', visitorId);
+          .eq('id', visitorId)
+          .select();
     } on AuthException catch (_) {
       rethrow;
     } on PostgrestException catch (_) {

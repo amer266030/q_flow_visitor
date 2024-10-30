@@ -22,7 +22,7 @@ class DataMgr {
   Future<void> fetchVisitorData() async {
     try {
       await SupabaseVisitor.fetchProfile();
-    } catch (_) {}
+    } catch (e) {}
   }
 
   Future<void> saveVisitorData({required Visitor visitor}) async {

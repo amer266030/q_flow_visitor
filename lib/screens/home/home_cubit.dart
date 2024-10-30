@@ -22,8 +22,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   initialLoad() {
     interviews = [
-      Interview(timeOfBooking: '10:30 AM', positionInQueue: 5, companyId: '1'),
-      Interview(timeOfBooking: '10:42 AM', positionInQueue: 12, companyId: '1')
+      // Interview(timeOfBooking: '10:30 AM', positionInQueue: 5, companyId: '1'),
+      // Interview(timeOfBooking: '10:42 AM', positionInQueue: 12, companyId: '1')
     ];
 
     emitUpdate();

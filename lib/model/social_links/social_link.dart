@@ -2,17 +2,20 @@ import '../enums/user_social_link.dart';
 
 class SocialLink {
   String? id;
-  String? userId;
+  String? visitorId;
+  String? companyId;
   LinkType? linkType;
   String? url;
 
-  SocialLink({this.id, this.userId, this.linkType, this.url});
+  SocialLink(
+      {this.id, this.visitorId, this.companyId, this.linkType, this.url});
 
   // Convert JSON to SocialLink object
   factory SocialLink.fromJson(Map<String, dynamic> json) {
     return SocialLink(
       id: json['id'] as String?,
-      userId: json['user_id'] as String?,
+      visitorId: json['visitor_id'] as String?,
+      companyId: json['company_id'] as String?,
       linkType: json['link_type'] != null
           ? LinkTypeExtension.fromString(json['link_type'] as String)
           : null,
@@ -22,8 +25,8 @@ class SocialLink {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'user_id': userId,
+      'visitor_id': visitorId,
+      'company_id': companyId,
       'link_type': linkType?.value,
       'url': url,
     };

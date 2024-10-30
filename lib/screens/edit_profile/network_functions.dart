@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/managers/data_mgr.dart';
+import 'package:q_flow/model/enums/user_social_link.dart';
+import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_cubit.dart';
+import 'package:q_flow/supabase/client/supabase_mgr.dart';
 import 'package:q_flow/supabase/social_link.dart';
 
 import '../../model/user/visitor.dart';
@@ -30,10 +33,24 @@ extension NetworkFunctions on EditProfileCubit {
 
     try {
       emitLoading();
-      await SupabaseVisitor.createProfile(
+      var newVisitor = await SupabaseVisitor.createProfile(
           visitor: visitor, resumeFile: resumeFile, avatarFile: avatarFile);
-      await SupabaseSocialLink.upsertLinks([]);
+
+      // Create Social Links
+
+      Future.delayed(Duration(seconds: 1));
+      var visitorId = newVisitor.id;
+      if (visitorId == null)
+        throw Exception(
+            'Could not create social links because no user was found!');
+      var links = createLinks(visitorId);
+      var socialLinks = await SupabaseSocialLink.insertLinks(links);
+      newVisitor.socialLinks = socialLinks;
+
       emitUpdate();
+
+      await Future.delayed(Duration(seconds: 2));
+
       if (context.mounted) {
         navigateToBootcamp(context);
       }
@@ -59,6 +76,10 @@ extension NetworkFunctions on EditProfileCubit {
           resumeFile: resumeFile,
           avatarFile: avatarFile);
 
+      // Update Social lLinks
+      var links = createLinks(visitor.id ?? '');
+      await SupabaseSocialLink.updateLinks(links);
+
       emitUpdate();
       Future.delayed(Duration(milliseconds: 50));
       if (context.mounted) {
@@ -67,5 +88,25 @@ extension NetworkFunctions on EditProfileCubit {
     } catch (e) {
       emitError(e.toString());
     }
+  }
+
+  List<SocialLink> createLinks(String visitor_id) {
+    return [
+      SocialLink(
+        visitorId: visitor_id,
+        linkType: LinkType.linkedIn,
+        url: linkedInController.text,
+      ),
+      SocialLink(
+        visitorId: visitor_id,
+        linkType: LinkType.website,
+        url: websiteController.text,
+      ),
+      SocialLink(
+        visitorId: visitor_id,
+        linkType: LinkType.twitter,
+        url: xController.text,
+      ),
+    ];
   }
 }

@@ -9,6 +9,7 @@ import 'package:q_flow/screens/privacy_policy_screen.dart';
 import 'package:q_flow/supabase/supabase_visitor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../model/user/visitor.dart';
 import '../../theme_data/app_theme_cubit.dart';
 
 part 'profile_state.dart';
@@ -18,13 +19,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     initialLoad(context);
   }
 
-  var visitor = GetIt.I.get<DataMgr>().visitor;
+  var dataMgr = GetIt.I.get<DataMgr>();
+  Visitor? visitor;
 
   bool isNotificationsEnabled = false;
   bool isDarkMode = true;
   bool isEnglish = true;
 
   initialLoad(BuildContext context) async {
+    visitor = dataMgr.visitor;
     final prefs = await SharedPreferences.getInstance();
     isNotificationsEnabled =
         (prefs.getString('notifications').toString() == 'true');
@@ -41,9 +44,11 @@ class ProfileCubit extends Cubit<ProfileState> {
             builder: (context) =>
                 EditProfileScreen(isInitialSetup: false, visitor: visitor)))
         .then((_) async {
-      // Update Info on page?
       try {
-        await SupabaseVisitor.fetchProfile();
+        var visitor = await SupabaseVisitor.fetchProfile();
+        if (visitor != null) {
+          initialLoad(context);
+        }
         emitUpdate();
       } catch (_) {}
     });
