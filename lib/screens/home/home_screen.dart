@@ -203,3 +203,4 @@ class _SectionHeaderView extends StatelessWidget {
     );
   }
 }
+

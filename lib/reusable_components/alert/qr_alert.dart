@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:q_flow/extensions/screen_size.dart';
+import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import 'package:barcode_widget/barcode_widget.dart';
-
-
 
 class QRAlert extends StatelessWidget {
   final ImageProvider qr;
@@ -19,6 +19,7 @@ class QRAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var visitorId = GetIt.I.get<DataMgr>().visitor?.id;
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Padding(
@@ -34,7 +35,7 @@ class QRAlert extends StatelessWidget {
                   child: BarcodeWidget(
                     height: context.screenHeight * 0.3,
                     barcode: Barcode.qrCode(),
-                    data: "https://pub.dev/packages/barcode_widget",
+                    data: visitorId.toString(),
                   )),
               Container(
                 padding: EdgeInsets.all(24),
