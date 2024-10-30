@@ -1,3 +1,4 @@
+import 'package:q_flow/model/skills/skill.dart';
 import 'package:q_flow/model/social_links/social_link.dart';
 
 import '../enums/company_size.dart';
@@ -7,11 +8,12 @@ class Company {
   String? name;
   String? description;
   CompanySize? companySize;
-  int? establishedYear;
+  String? establishedYear;
   int? avgRating;
   String? logoUrl;
   bool? isQueueOpen;
   List<SocialLink>? socialLinks;
+  List<Skill>? skills;
 
   Company({
     this.id,
@@ -23,6 +25,7 @@ class Company {
     this.logoUrl,
     this.isQueueOpen = false,
     this.socialLinks,
+    this.skills,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {
@@ -34,7 +37,7 @@ class Company {
       companySize: json['company_size'] != null
           ? CompanySizeExtension.fromString(json['company_size'] as String?)
           : null,
-      establishedYear: json['established_year'] as int?,
+      establishedYear: json['established_year'] as String?,
       avgRating: json['avg_rating'] as int?,
       logoUrl: json['logo_url'] as String?,
       isQueueOpen: json['is_queue_open'] as bool?,
@@ -43,7 +46,11 @@ class Company {
               .map((link) => SocialLink.fromJson(link))
               .toList()
           : null,
-    
+      skills: json['skills'] != null
+          ? (json['skills'] as List)
+              .map((link) => Skill.fromJson(link))
+              .toList()
+          : null,
     );
   }
 

@@ -76,13 +76,15 @@ class CompanyDetailsScreen extends StatelessWidget {
                               final socialLink =
                                   company.socialLinks?.firstWhere(
                                 (link) => link.linkType == LinkType.linkedIn,
-                                orElse: () => SocialLink(
-                                    url: '', linkType: LinkType.linkedIn),
                               );
+
                               if (socialLink != null) {
                                 cubit.launchLink(
                                     socialLink.url, LinkType.linkedIn);
                               } else {
+                                print(
+                                    "Company social links: ${company.socialLinks}");
+
                                 print("No LinkedIn link found");
                               }
                             },
@@ -97,8 +99,6 @@ class CompanyDetailsScreen extends StatelessWidget {
                               final socialLink =
                                   company.socialLinks?.firstWhere(
                                 (link) => link.linkType == LinkType.website,
-                                orElse: () => SocialLink(
-                                    url: '', linkType: LinkType.website),
                               );
                               if (socialLink != null) {
                                 cubit.launchLink(
@@ -118,8 +118,6 @@ class CompanyDetailsScreen extends StatelessWidget {
                               final socialLink =
                                   company.socialLinks?.firstWhere(
                                 (link) => link.linkType == LinkType.twitter,
-                                orElse: () => SocialLink(
-                                    url: '', linkType: LinkType.twitter),
                               );
 
                               // Debugging: Check what URL is found

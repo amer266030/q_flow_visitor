@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:q_flow/managers/alert_manger.dart';
 
 import '../../../extensions/img_ext.dart';
 import '../../../model/user/visitor.dart';
@@ -45,7 +46,13 @@ class ProfileHeaderView extends StatelessWidget {
         Align(
             alignment: Alignment.topRight,
             child: IconButton(
-                onPressed: () => (),
+                onPressed: () => {
+                      AlertManager().showQRAlert(
+                        context: context,
+                        title:
+                            "${visitor?.fName ?? ''} ${visitor?.lName ?? ''}",
+                      )
+                    },
                 icon: Icon(CupertinoIcons.qrcode, size: 45)))
       ],
     );

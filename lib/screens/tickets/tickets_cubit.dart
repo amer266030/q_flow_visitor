@@ -28,7 +28,7 @@ class TicketsCubit extends Cubit<TicketsState> {
         description:
             'XYZ is a startup company that is specialized in providing tech solutions based on client needs.',
         companySize: CompanySize.oneHundredTo200,
-        establishedYear: 2015,
+        establishedYear: "2015",
         logoUrl: null,
         avgRating: 4,
       )

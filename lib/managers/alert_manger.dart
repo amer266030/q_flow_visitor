@@ -72,14 +72,12 @@ class AlertManager {
     required BuildContext context,
     required String title,
     String? subTitle,
-    required ImageProvider qr,
   }) {
     dismissPreviousAlert(context);
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return QRAlert(
-          qr: qr,
           title: title,
         );
       },

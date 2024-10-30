@@ -8,12 +8,10 @@ import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 
 class QRAlert extends StatelessWidget {
-  final ImageProvider qr;
   final String title;
 
   const QRAlert({
     Key? key,
-    required this.qr,
     required this.title,
   }) : super(key: key);
 

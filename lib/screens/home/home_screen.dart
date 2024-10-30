@@ -159,10 +159,10 @@ class _HeaderView extends StatelessWidget {
           child: IconButton(
               onPressed: () => {
                     AlertManager().showQRAlert(
-                        context: context,
-                        title:
-                            "${cubit.visitor?.fName ?? ''} ${cubit.visitor?.lName ?? ''}",
-                        qr: Img.logo)
+                      context: context,
+                      title:
+                          "${cubit.visitor?.fName ?? ''} ${cubit.visitor?.lName ?? ''}",
+                    )
                   },
               icon: Icon(CupertinoIcons.qrcode, size: 40)),
         )
@@ -203,4 +203,3 @@ class _SectionHeaderView extends StatelessWidget {
     );
   }
 }
-

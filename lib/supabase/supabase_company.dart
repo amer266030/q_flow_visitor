@@ -16,7 +16,7 @@ class SupabaseCompany {
       var res = await supabase.from(tableKey).select();
       List<Company> companies = (res as List).map((item) {
         // Create Company object from fetched data
-        Company company = Company.fromJson(item as Map<String, dynamic>);
+        final company = Company.fromJson(item);
 
         // Map the social links if they exist
         if (item['social_link'] != null) {

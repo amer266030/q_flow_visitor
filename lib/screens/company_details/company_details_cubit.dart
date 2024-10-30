@@ -16,19 +16,18 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
     if (url == null || url.isEmpty) {
       throw Exception('URL cannot be null or empty for ${linkType.value}');
     }
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://$url'; // Prepend https:// if missing
+    }
 
     final Uri uri = Uri.parse(url);
-    
-    
+
     switch (linkType) {
       case LinkType.linkedIn:
-     
         break;
       case LinkType.website:
-       
         break;
       case LinkType.twitter:
-       
         break;
     }
 
