@@ -23,6 +23,7 @@ class TicketsCubit extends Cubit<TicketsState> {
 
   initialLoad() {
     companies = dataMgr.companies;
+
     interviews = [
       Interview(
           timeOfBooking: DateTime.now().toFormattedStringTimeOnly(),

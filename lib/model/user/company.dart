@@ -1,3 +1,6 @@
+import 'package:q_flow/model/skills/skill.dart';
+import 'package:q_flow/model/social_links/social_link.dart';
+
 import '../enums/company_size.dart';
 import '../skills/skill.dart';
 import '../social_links/social_link.dart';

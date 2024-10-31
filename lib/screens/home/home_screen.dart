@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/extensions/screen_size.dart';
+import 'package:q_flow/managers/alert_manger.dart';
 import 'package:q_flow/screens/home/home_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
@@ -158,7 +159,14 @@ class _HeaderView extends StatelessWidget {
         ),
         Expanded(
           child: IconButton(
-              onPressed: () => (), icon: Icon(CupertinoIcons.qrcode, size: 40)),
+              onPressed: () => {
+                    AlertManager().showQRAlert(
+                      context: context,
+                      title:
+                          "${cubit.visitor?.fName ?? ''} ${cubit.visitor?.lName ?? ''}",
+                    )
+                  },
+              icon: Icon(CupertinoIcons.qrcode, size: 40)),
         )
       ],
     );

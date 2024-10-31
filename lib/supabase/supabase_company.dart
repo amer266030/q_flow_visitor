@@ -1,14 +1,15 @@
 import 'package:get_it/get_it.dart';
+import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../managers/data_mgr.dart';
-import '../model/social_links/social_link.dart';
 import '../model/user/company.dart';
 import 'client/supabase_mgr.dart';
 
 class SupabaseCompany {
   static var supabase = SupabaseMgr.shared.supabase;
   static const String tableKey = 'company';
+
   static final dataMgr = GetIt.I.get<DataMgr>();
 
   static Future<List<Company>>? fetchCompanies() async {

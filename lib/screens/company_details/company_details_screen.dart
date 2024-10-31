@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/model/enums/company_size.dart';
 import 'package:q_flow/model/enums/tech_skill.dart';
+import 'package:q_flow/model/enums/user_social_link.dart';
+import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
@@ -69,7 +71,22 @@ class CompanyDetailsScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           IconButton(
-                            onPressed: () => (),
+                            onPressed: () {
+                              final socialLink =
+                                  company.socialLinks?.firstWhere(
+                                (link) => link.linkType == LinkType.linkedIn,
+                              );
+
+                              if (socialLink != null) {
+                                cubit.launchLink(
+                                    socialLink.url, LinkType.linkedIn);
+                              } else {
+                                print(
+                                    "Company social links: ${company.socialLinks}");
+
+                                print("No LinkedIn link found");
+                              }
+                            },
                             icon: Icon(
                               BootstrapIcons.linkedin,
                               color: context.primary,
@@ -77,7 +94,18 @@ class CompanyDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () => (),
+                            onPressed: () {
+                              final socialLink =
+                                  company.socialLinks?.firstWhere(
+                                (link) => link.linkType == LinkType.website,
+                              );
+                              if (socialLink != null) {
+                                cubit.launchLink(
+                                    socialLink.url, LinkType.website);
+                              } else {
+                                print("No Website link found");
+                              }
+                            },
                             icon: Icon(
                               BootstrapIcons.link_45deg,
                               color: context.primary,
@@ -85,7 +113,23 @@ class CompanyDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () => (),
+                            onPressed: () {
+                              final socialLink =
+                                  company.socialLinks?.firstWhere(
+                                (link) => link.linkType == LinkType.twitter,
+                              );
+
+                              // Debugging: Check what URL is found
+                              if (socialLink != null &&
+                                  socialLink.url!.isNotEmpty) {
+                                print(
+                                    "Launching Twitter link: ${socialLink.url}"); // Log the URL
+                                cubit.launchLink(
+                                    socialLink.url, LinkType.twitter);
+                              } else {
+                                print("No Twitter link found or URL is empty");
+                              }
+                            },
                             icon: Icon(
                               BootstrapIcons.twitter_x,
                               color: context.primary,

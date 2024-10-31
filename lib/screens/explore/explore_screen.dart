@@ -65,7 +65,7 @@ class ExploreScreen extends StatelessWidget {
                                   .toList(),
                               setValueFunc: (str) => cubit.filterBySize(str),
                               currentSelection: cubit.selectedSize?.value,
-                              clearValuesFunc: () => (),
+                              clearValuesFunc: () => cubit.filterBySize(''),
                             ),
                             FilterItemView(
                               title: 'Position Openings',
@@ -94,13 +94,21 @@ class ExploreScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       children: cubit.filteredCompanies
+                          .where((company) {
+                            // Make sure we are comparing enums correctly
+                            final isMatch =
+                                company.companySize == cubit.selectedSize;
+                            print(
+                                'Company: ${company.name}, Size: ${company.companySize?.value}, Selected Size: ${cubit.selectedSize?.value}, Match: $isMatch');
+                            return isMatch; // Keep only companies with matching sizes
+                          })
                           .map((company) => CompanyCardListItem(
                               company: company,
                               toggleBookmark: () => (),
                               isBookmarked: Random().nextBool()))
                           .toList(),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
