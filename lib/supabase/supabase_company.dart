@@ -13,7 +13,9 @@ class SupabaseCompany {
 
   static Future<List<Company>>? fetchCompanies() async {
     try {
-      var res = await supabase.from(tableKey).select();
+      var res = await supabase
+          .from(tableKey)
+          .select('*social_link_company_id_fkey(*),');
       List<Company> companies = (res as List).map((item) {
         // Create Company object from fetched data
         final company = Company.fromJson(item);
