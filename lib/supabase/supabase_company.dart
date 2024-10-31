@@ -3,6 +3,7 @@ import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../managers/data_mgr.dart';
+import '../model/skills/skill.dart';
 import '../model/user/company.dart';
 import 'client/supabase_mgr.dart';
 
@@ -15,7 +16,7 @@ class SupabaseCompany {
   static Future<List<Company>>? fetchCompanies() async {
     try {
       final response =
-          await supabase.from(tableKey).select('*, social_link(*)');
+          await supabase.from(tableKey).select('*, social_link(*), skill(*)');
 
       final companies = (response as List).map((companyData) {
         final company = Company.fromJson(companyData);
@@ -25,6 +26,13 @@ class SupabaseCompany {
               .map((link) => SocialLink.fromJson(link))
               .toList();
         }
+
+        if (companyData['skill'] != null) {
+          company.skills = (companyData['skill'] as List)
+              .map((skill) => Skill.fromJson(skill))
+              .toList();
+        }
+
         return company;
       }).toList();
 

@@ -33,8 +33,11 @@ class DataMgr {
 
   Future<void> fetchCompanies() async {
     try {
-      await SupabaseCompany.fetchCompanies();
-    } catch (_) {}
+      final res = await SupabaseCompany.fetchCompanies();
+      print(res?.length ?? 'No result');
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<void> saveCompanies({required List<Company> companies}) async {

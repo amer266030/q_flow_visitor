@@ -26,8 +26,8 @@ extension LinkTypeExtension on LinkType {
     }
   }
 
-  static LinkType fromString(String? gender) {
-    switch (gender) {
+  static LinkType fromString(String? type) {
+    switch (type) {
       case 'LinkedIn':
         return LinkType.linkedIn;
       case 'Website':

@@ -264,12 +264,21 @@ class _ImgView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-            child: IconButton(
-                onPressed: () => callback(context),
-                icon: Icon(CupertinoIcons.chevron_left_square,
-                    size: context.titleLarge.fontSize,
-                    color: context.textColor1)),
-          )
+            child: InkWell(
+              onTap: () => callback(context),
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: context.bg1,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(CupertinoIcons.chevron_left,
+                        size: context.titleSmall.fontSize,
+                        color: context.textColor1),
+                  )),
+            ),
+          ),
         ],
       ),
     );
