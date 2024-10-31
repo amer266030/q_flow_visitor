@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/screens/rating/rating_screen.dart';
 
+import '../../managers/data_mgr.dart';
 import '../../model/user/company.dart';
-import '../../model/enums/company_size.dart';
 import '../../model/enums/interview_status.dart';
 import '../../model/interview.dart';
 
@@ -14,25 +15,14 @@ class TicketsCubit extends Cubit<TicketsState> {
   TicketsCubit() : super(TicketsInitial()) {
     initialLoad();
   }
-
+  var dataMgr = GetIt.I.get<DataMgr>();
   List<Interview> interviews = [];
   List<Interview> filteredInterviews = [];
   List<Company> companies = [];
   var selectedStatus = InterviewStatus.upcoming;
 
   initialLoad() {
-    companies = [
-      Company(
-        id: '2',
-        name: 'XYZ Company',
-        description:
-            'XYZ is a startup company that is specialized in providing tech solutions based on client needs.',
-        companySize: CompanySize.oneHundredTo200,
-        establishedYear: 2015,
-        logoUrl: null,
-        avgRating: 4,
-      )
-    ];
+    companies = dataMgr.companies;
     interviews = [
       Interview(
           timeOfBooking: DateTime.now().toFormattedStringTimeOnly(),

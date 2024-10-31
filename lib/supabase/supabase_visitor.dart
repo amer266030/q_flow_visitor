@@ -21,7 +21,7 @@ class SupabaseVisitor {
     try {
       // Fetch the visitor profile and associated social links based on user_id
       final response = await supabase
-          .from('visitor')
+          .from(tableKey)
           .select('*, social_link(*)')
           .eq('id', visitorId)
           .single();

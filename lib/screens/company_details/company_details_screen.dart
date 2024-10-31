@@ -28,7 +28,9 @@ class CompanyDetailsScreen extends StatelessWidget {
           body: ListView(
             padding: EdgeInsets.zero,
             children: [
-              _ImgView(callback: (context) => cubit.navigateBack(context)),
+              _ImgView(
+                  company: company,
+                  callback: (context) => cubit.navigateBack(context)),
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(
@@ -96,32 +98,33 @@ class CompanyDetailsScreen extends StatelessWidget {
                     Text('Position Openings',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Wrap(
-                        spacing:
-                            8.0, // Adds horizontal spacing between children
-                        runSpacing: 4.0, // Adds vertical spacing between lines
-                        children: cubit.skills
-                            .map((skill) => Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(100),
-                                      border:
-                                          Border.all(color: context.primary)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 8.0),
-                                    child: Text(skill.value,
-                                        style: TextStyle(
-                                            fontSize:
-                                                context.bodySmall.fontSize,
-                                            color: context.textColor1)),
-                                  ),
-                                ))
-                            .toList(),
+                    if (company.skills != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Wrap(
+                          spacing: 8.0,
+                          runSpacing: 4.0,
+                          children: company.skills!
+                              .map((skill) => Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        border:
+                                            Border.all(color: context.primary)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4, horizontal: 8.0),
+                                      child: Text(skill.techSkill?.value ?? '',
+                                          style: TextStyle(
+                                              fontSize:
+                                                  context.bodySmall.fontSize,
+                                              color: context.textColor1)),
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
                       ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Divider(color: context.textColor3),
@@ -196,8 +199,10 @@ class CompanyDetailsScreen extends StatelessWidget {
 class _ImgView extends StatelessWidget {
   const _ImgView({
     required this.callback,
+    required this.company,
   });
 
+  final Company company;
   final Function(BuildContext) callback;
 
   @override
@@ -205,21 +210,23 @@ class _ImgView extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(32), bottomRight: Radius.circular(32)),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Stack(
-          children: [
-            Image(image: Img.logoPurple, fit: BoxFit.cover),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-              child: IconButton(
-                  onPressed: () => callback(context),
-                  icon: Icon(CupertinoIcons.chevron_left_square,
-                      size: context.titleLarge.fontSize,
-                      color: context.textColor1)),
-            )
-          ],
-        ),
+      child: Stack(
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: company.logoUrl == null
+                ? Image(image: Img.logoTurquoise, fit: BoxFit.cover)
+                : Image.network(company.logoUrl!, fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+            child: IconButton(
+                onPressed: () => callback(context),
+                icon: Icon(CupertinoIcons.chevron_left_square,
+                    size: context.titleLarge.fontSize,
+                    color: context.textColor1)),
+          )
+        ],
       ),
     );
   }

@@ -23,11 +23,9 @@ class CompanyCardLarge extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: [
               Positioned.fill(
-                child: Image(
-                  image: Img.logoTurquoise,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  child: company.logoUrl == null
+                      ? Image(image: Img.logoTurquoise, fit: BoxFit.cover)
+                      : Image.network(company.logoUrl!, fit: BoxFit.cover)),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Container(

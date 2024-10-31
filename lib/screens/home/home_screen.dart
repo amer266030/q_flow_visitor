@@ -31,27 +31,29 @@ class HomeScreen extends StatelessWidget {
                   _HeaderView(positionInQueue: null, cubit: cubit),
                   Divider(color: context.textColor3),
                   _SectionHeaderView(title: 'Upcoming Interviews'),
-                  SizedBox(
-                    height: context.screenWidth * 0.45,
-                    child: BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        return CarouselView(
-                          backgroundColor: Colors.transparent,
-                          itemExtent: context.screenWidth * 0.7,
-                          shrinkExtent: context.screenWidth * 0.7,
-                          scrollDirection: Axis.horizontal,
-                          children: cubit.interviews
-                              .map((interview) => TicketView(
-                                    timeOfBooking:
-                                        interview.timeOfBooking ?? '',
-                                    positionInQueue:
-                                        interview.positionInQueue ?? 0,
-                                    company: cubit.companies.first,
-                                  ))
-                              .toList(),
-                        );
-                      },
-                    ),
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      return cubit.interviews.isNotEmpty
+                          ? SizedBox(
+                              height: context.screenWidth * 0.45,
+                              child: CarouselView(
+                                backgroundColor: Colors.transparent,
+                                itemExtent: context.screenWidth * 0.7,
+                                shrinkExtent: context.screenWidth * 0.7,
+                                scrollDirection: Axis.horizontal,
+                                children: cubit.interviews
+                                    .map((interview) => TicketView(
+                                          timeOfBooking:
+                                              interview.timeOfBooking ?? '',
+                                          positionInQueue:
+                                              interview.positionInQueue ?? 0,
+                                          company: cubit.companies.first,
+                                        ))
+                                    .toList(),
+                              ),
+                            )
+                          : Text('No Upcoming Interviews...');
+                    },
                   ),
                   _SectionHeaderView(title: 'Suggested For You'),
                   SizedBox(

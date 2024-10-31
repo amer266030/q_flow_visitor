@@ -2,21 +2,33 @@ import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../managers/data_mgr.dart';
+import '../model/social_links/social_link.dart';
 import '../model/user/company.dart';
 import 'client/supabase_mgr.dart';
 
 class SupabaseCompany {
   static var supabase = SupabaseMgr.shared.supabase;
   static const String tableKey = 'company';
+  static final dataMgr = GetIt.I.get<DataMgr>();
 
   static Future<List<Company>>? fetchCompanies() async {
     try {
-      var res = await supabase.from(tableKey).select();
-      List<Company> companies = (res as List)
-          .map((item) => Company.fromJson(item as Map<String, dynamic>))
-          .toList();
-      var dataMgr = GetIt.I.get<DataMgr>();
-      dataMgr.saveCompanies(companies: companies);
+      final response =
+          await supabase.from(tableKey).select('*, social_link(*)');
+
+      final companies = (response as List).map((companyData) {
+        final company = Company.fromJson(companyData);
+
+        if (companyData['social_link'] != null) {
+          company.socialLinks = (companyData['social_link'] as List)
+              .map((link) => SocialLink.fromJson(link))
+              .toList();
+        }
+        return company;
+      }).toList();
+
+      dataMgr.companies = companies;
+
       return companies;
     } on AuthException catch (_) {
       rethrow;
