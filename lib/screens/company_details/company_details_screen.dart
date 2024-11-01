@@ -260,7 +260,17 @@ class _ImgView extends StatelessWidget {
             aspectRatio: 1,
             child: company.logoUrl == null
                 ? Image(image: Img.logoTurquoise, fit: BoxFit.cover)
-                : Image.network(company.logoUrl!, fit: BoxFit.cover),
+                :FadeInImage(
+                                    placeholder: Img.logoTurquoise,
+                                    image: NetworkImage(company.logoUrl ?? ''),
+                                    fit: BoxFit.cover,
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image(
+                                          image: Img.logoTurquoise,
+                                          fit: BoxFit.cover);
+                                    },
+                                  ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),

@@ -48,13 +48,22 @@ class CompanyCardListItem extends StatelessWidget {
                         child: AspectRatio(
                           aspectRatio: 1,
                           child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: company.logoUrl == null
-                                  ? Image(
-                                      image: Img.logoTurquoise,
-                                      fit: BoxFit.cover)
-                                  : Image.network(company.logoUrl!,
-                                      fit: BoxFit.cover)),
+                            borderRadius: BorderRadius.circular(8),
+                            child: company.logoUrl == null
+                                ? Image(
+                                    image: Img.logoTurquoise, fit: BoxFit.cover)
+                                : FadeInImage(
+                                    placeholder: Img.logoTurquoise,
+                                    image: NetworkImage(company.logoUrl ?? ''),
+                                    fit: BoxFit.cover,
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image(
+                                          image: Img.logoTurquoise,
+                                          fit: BoxFit.cover);
+                                    },
+                                  ),
+                          ),
                         ),
                       ),
                     ),

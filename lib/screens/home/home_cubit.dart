@@ -28,6 +28,8 @@ class HomeCubit extends Cubit<HomeState> {
     emitUpdate();
   }
 
+
+
   navigateToCompanyDetails(BuildContext context, Company company) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => CompanyDetailsScreen(company: company)));
@@ -39,4 +41,5 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   emitUpdate() => emit(UpdateUIState());
+  emitLoading() => emit(LoadingState());
 }

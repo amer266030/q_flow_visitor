@@ -53,10 +53,19 @@ class TicketView extends StatelessWidget {
                       aspectRatio: 1,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image(
-                          image: Img.logoTurquoise,
-                          fit: BoxFit.contain,
-                        ),
+                        child: company.logoUrl == null
+                            ? Image(image: Img.logoTurquoise, fit: BoxFit.cover)
+                            : FadeInImage(
+                                placeholder: Img.logoTurquoise,
+                                image: NetworkImage(company.logoUrl ?? ''),
+                                fit: BoxFit.cover,
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) {
+                                  return Image(
+                                      image: Img.logoTurquoise,
+                                      fit: BoxFit.cover);
+                                },
+                              ),
                       ),
                     ),
                   ),

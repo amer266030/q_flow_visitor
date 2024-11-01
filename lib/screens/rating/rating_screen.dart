@@ -24,7 +24,10 @@ class RatingScreen extends StatelessWidget {
         final cubit = context.read<RatingCubit>();
         return Scaffold(
           body: ListView(padding: EdgeInsets.zero, children: [
-            _ImgView(callback: (context) => cubit.navigateBack(context)),
+            _ImgView(
+              callback: (context) => cubit.navigateBack(context),
+              company: company,
+            ),
             Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -89,8 +92,10 @@ class RatingScreen extends StatelessWidget {
 class _ImgView extends StatelessWidget {
   const _ImgView({
     required this.callback,
+    required this.company,
   });
 
+  final Company company;
   final Function(BuildContext) callback;
 
   @override
@@ -98,21 +103,39 @@ class _ImgView extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(32), bottomRight: Radius.circular(32)),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Stack(
-          children: [
-            Image(image: Img.logoPurple, fit: BoxFit.cover),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-              child: IconButton(
-                  onPressed: () => callback(context),
-                  icon: Icon(CupertinoIcons.chevron_left_square,
-                      size: context.titleLarge.fontSize,
-                      color: context.textColor1)),
-            )
-          ],
-        ),
+      child: Stack(
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: company.logoUrl == null
+                ? Image(image: Img.logoTurquoise, fit: BoxFit.cover)
+                : FadeInImage(
+                    placeholder: Img.logoTurquoise,
+                    image: NetworkImage(company.logoUrl ?? ''),
+                    fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Image(image: Img.logoTurquoise, fit: BoxFit.cover);
+                    },
+                  ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+            child: InkWell(
+              onTap: () => callback(context),
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: context.bg1,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(CupertinoIcons.chevron_left,
+                        size: context.titleSmall.fontSize,
+                        color: context.textColor1),
+                  )),
+            ),
+          ),
+        ],
       ),
     );
   }

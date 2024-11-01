@@ -9,10 +9,11 @@ import 'package:barcode_widget/barcode_widget.dart';
 
 class QRAlert extends StatelessWidget {
   final String title;
+  final Function()? onClose;
 
   const QRAlert({
     Key? key,
-    required this.title,
+    required this.title, required this.onClose,
   }) : super(key: key);
 
   @override
@@ -30,10 +31,21 @@ class QRAlert extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: context.bg1,
                       borderRadius: BorderRadius.circular(20)),
-                  child: BarcodeWidget(
-                    height: context.screenHeight * 0.3,
-                    barcode: Barcode.qrCode(),
-                    data: visitorId.toString(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: onClose,
+                        child: Icon(
+                          Icons.close_rounded,
+                        ),
+                      ),
+                      BarcodeWidget(
+                        height: context.screenHeight * 0.3,
+                        barcode: Barcode.qrCode(),
+                        data: visitorId.toString(),
+                      ),
+                    ],
                   )),
               Container(
                 padding: EdgeInsets.all(24),
@@ -43,14 +55,10 @@ class QRAlert extends StatelessWidget {
                     border: Border(top: BorderSide(color: context.bg2)),
                     color: context.bg1,
                     borderRadius: BorderRadius.circular(20)),
-                child: Column(
-                  children: [
-                    Text(title,
-                        style: TextStyle(
-                            fontSize: context.titleSmall.fontSize,
-                            fontWeight: context.titleSmall.fontWeight)),
-                  ],
-                ),
+                child: Text(title,
+                    style: TextStyle(
+                        fontSize: context.titleSmall.fontSize,
+                        fontWeight: context.titleSmall.fontWeight)),
               )
             ],
           )),

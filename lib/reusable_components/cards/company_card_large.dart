@@ -6,7 +6,10 @@ import '../../extensions/img_ext.dart';
 import '../../model/user/company.dart';
 
 class CompanyCardLarge extends StatelessWidget {
-  const CompanyCardLarge({super.key, required this.company});
+  const CompanyCardLarge({
+    super.key,
+    required this.company,
+  });
 
   final Company company;
 
@@ -23,9 +26,18 @@ class CompanyCardLarge extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: [
               Positioned.fill(
-                  child: company.logoUrl == null
-                      ? Image(image: Img.logoTurquoise, fit: BoxFit.cover)
-                      : Image.network(company.logoUrl!, fit: BoxFit.cover)),
+                child: company.logoUrl == null
+                    ? Image(image: Img.logoTurquoise, fit: BoxFit.cover)
+                    : FadeInImage(
+                        placeholder: Img.logoTurquoise,
+                        image: NetworkImage(company.logoUrl ?? ''),
+                        fit: BoxFit.cover,
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return Image(
+                              image: Img.logoTurquoise, fit: BoxFit.cover);
+                        },
+                      ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Container(

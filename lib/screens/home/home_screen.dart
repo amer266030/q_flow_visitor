@@ -69,7 +69,9 @@ class HomeScreen extends StatelessWidget {
                       },
                       children: cubit.companies
                           .map(
-                            (company) => CompanyCardLarge(company: company),
+                            (company) => CompanyCardLarge(
+                              company: company,
+                            ),
                           )
                           .toList(),
                     ),
@@ -119,8 +121,14 @@ class _HeaderView extends StatelessWidget {
             child: ClipOval(
               child: cubit.visitor?.avatarUrl == null
                   ? Image(image: Img.avatar, fit: BoxFit.contain)
-                  : Image.network(cubit.visitor!.avatarUrl!,
-                      fit: BoxFit.contain),
+                  : FadeInImage(
+                      placeholder: Img.avatar, 
+                      image: NetworkImage(cubit.visitor!.avatarUrl!),
+                      fit: BoxFit.contain,
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Image(image: Img.avatar, fit: BoxFit.contain);
+                      },
+                    ),
             ),
           ),
         ),

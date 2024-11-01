@@ -34,8 +34,14 @@ class ProfileHeaderView extends StatelessWidget {
                     child: ClipOval(
                       child: visitor?.avatarUrl == null
                           ? Image(image: Img.avatar, fit: BoxFit.cover)
-                          : Image.network(visitor!.avatarUrl!,
-                              fit: BoxFit.cover),
+                          : FadeInImage(
+                      placeholder: Img.avatar, 
+                      image: NetworkImage(visitor!.avatarUrl!),
+                      fit: BoxFit.contain,
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Image(image: Img.avatar, fit: BoxFit.contain);
+                      },
+                    ),
                     ),
                   ),
                 ),
