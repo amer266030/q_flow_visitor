@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:get_it/get_it.dart';
 import 'package:q_flow/managers/data_mgr.dart';
+import 'package:q_flow/model/bookmarks/bookmarked_company.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../model/social_links/social_link.dart';
@@ -17,24 +18,34 @@ class SupabaseVisitor {
   static final dataMgr = GetIt.I.get<DataMgr>();
 
   static Future<Visitor?> fetchProfile() async {
-    var visitorId = supabase.auth.currentUser?.id ?? '';
+    var visitorId = supabase.auth.currentUser?.id;
+    if (visitorId == null) throw Exception("Visitor ID not found");
+
     try {
       // Fetch the visitor profile and associated social links based on user_id
       final response = await supabase
           .from(tableKey)
-          .select('*, social_link(*)')
+          .select('*, social_link(*), bookmarked_company(*)')
           .eq('id', visitorId)
           .single();
 
+      // Create the Visitor instance from the response
       final visitor = Visitor.fromJson(response);
 
+      // Save visitor data locally
       dataMgr.saveVisitorData(visitor: visitor);
 
-      if (response['social_link'] != null) {
-        visitor.socialLinks = (response['social_link'] as List)
-            .map((link) => SocialLink.fromJson(link))
-            .toList();
-      }
+      // Parse social links if they exist
+      visitor.socialLinks = (response['social_link'] as List?)?.map((link) {
+            return SocialLink.fromJson(link);
+          }).toList() ??
+          [];
+
+      // Parse bookmarked companies if they exist
+      visitor.bookmarkedCompanies = (response['bookmarked_company'] as List?)
+              ?.map((bm) => BookmarkedCompany.fromJson(bm))
+              .toList() ??
+          [];
 
       return visitor;
     } on AuthException catch (_) {
