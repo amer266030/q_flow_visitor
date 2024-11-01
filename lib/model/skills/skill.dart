@@ -21,7 +21,6 @@ class Skill {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'visitor_id': visitorId,
       'company_id': companyId,
       'tech_skill': techSkill?.value

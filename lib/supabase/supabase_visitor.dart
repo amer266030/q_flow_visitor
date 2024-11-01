@@ -58,9 +58,12 @@ class SupabaseVisitor {
       visitor.avatarUrl = await uploadAvatar(avatarFile);
     }
     try {
-      var response =
-          await supabase.from(tableKey).insert(visitor.toJson()).select();
-      return response;
+      var response = await supabase
+          .from(tableKey)
+          .insert(visitor.toJson())
+          .select()
+          .single();
+      return Visitor.fromJson(response);
     } on AuthException catch (_) {
       rethrow;
     } on PostgrestException catch (_) {
@@ -84,11 +87,14 @@ class SupabaseVisitor {
         visitor.avatarUrl = await uploadAvatar(avatarFile);
       }
 
-      await supabase
+      var response = await supabase
           .from(tableKey)
           .update(visitor.toJson())
           .eq('id', visitorId)
-          .select();
+          .select()
+          .single();
+
+      return Visitor.fromJson(response);
     } on AuthException catch (_) {
       rethrow;
     } on PostgrestException catch (_) {

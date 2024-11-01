@@ -18,31 +18,31 @@ class SupabaseSocialLink {
         return link.toJson();
       }).toList();
 
-      print(socialLinksData);
-
       var createdLinks =
           await supabase.from('social_link').insert(socialLinksData).select();
-      return createdLinks;
+      return createdLinks.map((json) => SocialLink.fromJson(json)).toList();
     } catch (e) {
       rethrow;
     }
   }
 
-  static Future<void> updateLinks(List<SocialLink> links) async {
+  static updateLinks(List<SocialLink> links) async {
     var visitorId = supabase.auth.currentUser?.id;
     if (visitorId == null) throw Exception("Visitor ID not found");
 
     try {
-      // Use Future.wait to run updates concurrently
-      await Future.wait(links.map((link) async {
+      var updatedLinks = await Future.wait(links.map((link) async {
         link.visitorId = visitorId;
 
-        await supabase
+        var createdLinks = await supabase
             .from(tableKey)
             .update(link.toJson())
             .eq('visitor_id', '${link.visitorId}')
-            .eq('link_type', '${link.linkType?.value}');
+            .eq('link_type', '${link.linkType?.value}')
+            .select();
+        return createdLinks.map((json) => SocialLink.fromJson(json)).toList();
       }));
+      return updatedLinks.expand((list) => list).toList();
     } catch (e) {
       rethrow;
     }
