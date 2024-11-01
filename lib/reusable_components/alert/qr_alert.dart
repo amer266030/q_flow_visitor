@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:q_flow/extensions/screen_size.dart';
@@ -13,7 +14,8 @@ class QRAlert extends StatelessWidget {
 
   const QRAlert({
     Key? key,
-    required this.title, required this.onClose,
+    required this.title,
+    required this.onClose,
   }) : super(key: key);
 
   @override
@@ -27,23 +29,29 @@ class QRAlert extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  padding: EdgeInsets.all(32),
+                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                      color: context.bg1,
-                      borderRadius: BorderRadius.circular(20)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      InkWell(
-                        onTap: onClose,
-                        child: Icon(
-                          Icons.close_rounded,
+                      IconButton(
+                        onPressed: onClose,
+                        icon: Icon(
+                          CupertinoIcons.xmark_circle_fill,
+                          color: Colors.black,
+                          size: 32,
+                          weight: 40,
                         ),
                       ),
-                      BarcodeWidget(
-                        height: context.screenHeight * 0.3,
-                        barcode: Barcode.qrCode(),
-                        data: visitorId.toString(),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: BarcodeWidget(
+                          height: context.screenHeight * 0.3,
+                          barcode: Barcode.qrCode(),
+                          data: visitorId.toString(),
+                        ),
                       ),
                     ],
                   )),
@@ -53,12 +61,14 @@ class QRAlert extends StatelessWidget {
                 height: context.screenWidth * 0.2,
                 decoration: BoxDecoration(
                     border: Border(top: BorderSide(color: context.bg2)),
-                    color: context.bg1,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),
                 child: Text(title,
                     style: TextStyle(
-                        fontSize: context.titleSmall.fontSize,
-                        fontWeight: context.titleSmall.fontWeight)),
+                      fontSize: context.titleSmall.fontSize,
+                      fontWeight: context.titleSmall.fontWeight,
+                      color: Colors.black,
+                    )),
               )
             ],
           )),

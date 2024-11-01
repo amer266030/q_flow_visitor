@@ -260,17 +260,14 @@ class _ImgView extends StatelessWidget {
             aspectRatio: 1,
             child: company.logoUrl == null
                 ? Image(image: Img.logoTurquoise, fit: BoxFit.cover)
-                :FadeInImage(
-                                    placeholder: Img.logoTurquoise,
-                                    image: NetworkImage(company.logoUrl ?? ''),
-                                    fit: BoxFit.cover,
-                                    imageErrorBuilder:
-                                        (context, error, stackTrace) {
-                                      return Image(
-                                          image: Img.logoTurquoise,
-                                          fit: BoxFit.cover);
-                                    },
-                                  ),
+                : FadeInImage(
+                    placeholder: Img.logoTurquoise,
+                    image: NetworkImage(company.logoUrl ?? ''),
+                    fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Image(image: Img.logoTurquoise, fit: BoxFit.cover);
+                    },
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
@@ -284,7 +281,7 @@ class _ImgView extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(CupertinoIcons.chevron_left,
-                        size: context.titleSmall.fontSize,
+                        size: context.titleMedium.fontSize,
                         color: context.textColor1),
                   )),
             ),
