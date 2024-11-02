@@ -21,8 +21,6 @@ extension NetworkFunctions on CompanyDetailsCubit {
 
       var newInterview = await SupabaseInterview.createInterview(interview);
 
-      print('interview created');
-
       var queueEntry = QueueEntry(
         interviewId: newInterview.id,
         companyId: companyId,
@@ -30,8 +28,6 @@ extension NetworkFunctions on CompanyDetailsCubit {
       );
 
       await SupabaseQueue.insertIntoQueue(queueEntry);
-
-      print('inserted into queue');
 
       Future.delayed(Duration(milliseconds: 50));
       if (context.mounted) {

@@ -22,7 +22,7 @@ extension NetworkFunctions on AuthCubit {
       await SupabaseAuth.verifyOTP(emailController.text, stringOtp);
 
       await SupabaseVisitor.fetchProfile();
-
+      previousState = null;
       if (context.mounted) {
         if (dataMgr.visitor != null) {
           navigateToHome(context);
@@ -31,7 +31,7 @@ extension NetworkFunctions on AuthCubit {
         }
       }
     } catch (e) {
-      emitError('Could not verify OTP');
+      emitError('Could not verify OTP\n${e.toString()}');
     }
   }
 }

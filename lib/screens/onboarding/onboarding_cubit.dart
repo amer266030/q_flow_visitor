@@ -17,15 +17,21 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     initialLoad(context);
   }
 
+  bool isLoadingVisible = false;
+
   initialLoad(BuildContext context) async {
+    print('ONE');
     emitLoading();
+    print(SupabaseMgr.shared.supabase.auth.currentUser?.id);
     var dataMgr = GetIt.I.get<DataMgr>();
     try {
       await dataMgr.fetchData();
+      await Future.delayed(const Duration(seconds: 1));
       if (dataMgr.visitor != null) {
-        navigateToHome(context);
+        print('TWO');
+        if (context.mounted) navigateToHome(context);
       } else if (SupabaseMgr.shared.supabase.auth.currentUser != null) {
-        await Future.delayed(const Duration(seconds: 1));
+        print('THREE');
         if (context.mounted) navigateToEditProfile(context);
       }
     } catch (e) {
@@ -36,19 +42,28 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   var idx = 0;
 
   changeIdx() {
+    print('current idx: $idx');
     idx += 1;
-    emit(UpdateUIState());
+    emitUpdate();
   }
 
-  navigateToHome(BuildContext context) => Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const BottomNavScreen()));
+  navigateToHome(BuildContext context) =>
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const BottomNavScreen()),
+        (route) => false,
+      );
 
   navigateToEditProfile(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const EditProfileScreen()));
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+        (route) => false,
+      );
 
-  navigateToAuth(BuildContext context) => Navigator.of(context)
-      .pushReplacement(MaterialPageRoute(builder: (context) => AuthScreen()));
+  navigateToAuth(BuildContext context) =>
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const AuthScreen()),
+        (route) => false,
+      );
 
   final List<AssetImage> images = [Img.ob1, Img.ob2, Img.ob3];
   final List<(String, String)> content = [

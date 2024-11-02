@@ -24,6 +24,8 @@ class SupabaseQueue {
           return event.length;
         });
 
+    print('event triggered');
+
     return stream;
   }
 
@@ -44,7 +46,7 @@ class SupabaseQueue {
     }
   }
 
-  static insertIntoQueue(QueueEntry queueEntry) async {
+  static Future<QueueEntry> insertIntoQueue(QueueEntry queueEntry) async {
     try {
       final response =
           await supabase.from('queue').insert(queueEntry).select().single();
@@ -54,7 +56,7 @@ class SupabaseQueue {
     }
   }
 
-  static deleteFromQueue(QueueEntry queueEntry) async {
+  static Future deleteFromQueue(QueueEntry queueEntry) async {
     if (queueEntry.interviewId == null)
       throw Exception("Interview ID not found");
     try {

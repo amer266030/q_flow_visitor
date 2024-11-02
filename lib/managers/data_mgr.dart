@@ -36,8 +36,7 @@ class DataMgr {
 
   Future<void> fetchCompanies() async {
     try {
-      final res = await SupabaseCompany.fetchCompanies();
-      print(res?.length ?? 'No result');
+      await SupabaseCompany.fetchCompanies();
     } catch (e) {
       rethrow;
     }

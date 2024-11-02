@@ -22,13 +22,17 @@ class ProfileScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final cubit = context.read<ProfileCubit>();
         return BlocListener<ProfileCubit, ProfileState>(
-          listener: (context, state) async {
-            if (context.mounted && ModalRoute.of(context) != null) {
-              await Navigator.of(context).maybePop();
+          listener: (context, state) {
+            if (cubit.previousState is LoadingState) {
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
             }
-            if (state is LoadingState && cubit.previousState is! LoadingState) {
+
+            if (state is LoadingState) {
               showLoadingDialog(context);
             }
+
             if (state is ErrorState) {
               showErrorDialog(context, state.msg);
             }

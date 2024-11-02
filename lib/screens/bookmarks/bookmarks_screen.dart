@@ -20,12 +20,14 @@ class BookmarksScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final cubit = context.read<BookmarksCubit>();
         return BlocListener<BookmarksCubit, BookmarksState>(
-          listener: (context, state) async {
+          listener: (context, state) {
             if (cubit.previousState is LoadingState) {
-              await Navigator.of(context).maybePop();
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
             }
 
-            if (state is LoadingState && cubit.previousState is! LoadingState) {
+            if (state is LoadingState) {
               showLoadingDialog(context);
             }
 

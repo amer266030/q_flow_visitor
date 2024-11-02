@@ -40,7 +40,6 @@ class ExploreCubit extends Cubit<ExploreState> {
   filterBySize(String str) {
     selectedSize =
         CompanySize.values.where((e) => e.value == str).toList().firstOrNull;
-    print('Selected Size: $selectedSize'); // Debugging line
     filterCompanies();
     emitUpdate();
   }

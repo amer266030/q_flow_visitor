@@ -7,7 +7,7 @@ extension NetworkFunctions on ProfileCubit {
     try {
       emitLoading();
       await SupabaseAuth.signOut();
-
+      previousState = null;
       if (context.mounted) navigateToOnBoarding(context);
     } catch (e) {
       emitError(e.toString());

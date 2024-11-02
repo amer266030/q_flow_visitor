@@ -1,23 +1,48 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
+import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/screens/interview_booked/interview_booked_screen.dart';
+import 'package:q_flow/supabase/supabase_queue.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'company_details_state.dart';
 
 class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
   CompanyDetailsState? previousState;
-  CompanyDetailsCubit() : super(CompanyDetailsInitial()) {
-    initialLoad();
+  CompanyDetailsCubit(Company company) : super(CompanyDetailsInitial()) {
+    initialLoad(company);
   }
 
+  StreamSubscription<int>? queueSubscription;
   var dataMgr = GetIt.I.get<DataMgr>();
+  var company = Company();
+  var queueLength = 0;
 
-  initialLoad() {
+  initialLoad(Company company) async {
+    this.company = company;
+    queueLength = await SupabaseQueue.getQueueLength(company.id!) ?? 0;
     emitUpdate();
+  }
+
+  // Subscribe to the queue length stream
+  void subscribeToQueueLength(String companyId) {
+    queueSubscription = SupabaseQueue.getQueueLengthStream(companyId).listen(
+      (newQueueLength) {
+        queueLength = newQueueLength;
+        emitUpdate();
+      },
+    );
+  }
+
+  @override
+  Future<void> close() {
+    queueSubscription?.cancel();
+    return super.close();
   }
 
   Future<void> launchLink(String? url, LinkType linkType) async {
