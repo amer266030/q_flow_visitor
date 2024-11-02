@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/extensions/screen_size.dart';
 import 'package:q_flow/managers/alert_manger.dart';
@@ -62,10 +63,14 @@ class HomeScreen extends StatelessWidget {
                                   scrollDirection: Axis.horizontal,
                                   children: cubit.visitor.interviews!
                                       .map((interview) => TicketView(
-                                            timeOfBooking:
-                                                interview.timeOfBooking ?? '',
-                                            positionInQueue:
-                                                interview.positionInQueue ?? 0,
+                                            timeOfBooking: interview
+                                                        .createdAt ==
+                                                    null
+                                                ? '?'
+                                                : DateTime.parse(
+                                                        interview.createdAt!)
+                                                    .toFormattedStringTimeOnly(),
+                                            positionInQueue: 0,
                                             company: cubit.companies.first,
                                           ))
                                       .toList(),

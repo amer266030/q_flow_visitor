@@ -8,11 +8,14 @@ import 'package:q_flow/model/enums/tech_skill.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
+import 'package:q_flow/screens/company_details/network_functions.dart';
 
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../model/user/company.dart';
+import '../../reusable_components/dialogs/error_dialog.dart';
+import '../../reusable_components/dialogs/loading_dialog.dart';
 import 'company_details_cubit.dart';
 
 class CompanyDetailsScreen extends StatelessWidget {
@@ -26,213 +29,232 @@ class CompanyDetailsScreen extends StatelessWidget {
       create: (context) => CompanyDetailsCubit(),
       child: Builder(builder: (context) {
         final cubit = context.read<CompanyDetailsCubit>();
-        return Scaffold(
-          body: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              _ImgView(
-                  company: company,
-                  callback: (context) => cubit.navigateBack(context)),
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      company.name ?? '',
-                      style: TextStyle(
-                        fontSize: context.bodyLarge.fontSize,
-                        fontWeight: FontWeight.bold,
-                        color: context.textColor1,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('About Us:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(height: 4),
-                          Text(company.description ?? '',
-                              style: context.bodySmall),
-                        ],
-                      ),
-                    ),
-                    _RowItemView(
-                        title: 'Number of employees:',
-                        details: company.companySize?.value ?? ''),
-                    _RowItemView(
-                        title: 'Established since:',
-                        details: '${company.establishedYear ?? ''}'),
-                    _RowItemView(
-                      title: 'Social Links',
-                      details: '',
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              final socialLink =
-                                  company.socialLinks?.firstWhere(
-                                (link) => link.linkType == LinkType.linkedIn,
-                              );
+        return BlocListener<CompanyDetailsCubit, CompanyDetailsState>(
+          listener: (context, state) async {
+            if (cubit.previousState is LoadingState) {
+              if (context.mounted && ModalRoute.of(context) != null) {
+                await Navigator.of(context).maybePop();
+              }
+            }
 
-                              if (socialLink != null) {
-                                cubit.launchLink(
-                                    socialLink.url, LinkType.linkedIn);
-                              } else {
-                                print(
-                                    "Company social links: ${company.socialLinks}");
+            if (state is LoadingState && cubit.previousState is! LoadingState) {
+              showLoadingDialog(context);
+            }
 
-                                print("No LinkedIn link found");
-                              }
-                            },
-                            icon: Icon(
-                              BootstrapIcons.linkedin,
-                              color: context.primary,
-                              size: context.titleSmall.fontSize,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              final socialLink =
-                                  company.socialLinks?.firstWhere(
-                                (link) => link.linkType == LinkType.website,
-                              );
-                              if (socialLink != null) {
-                                cubit.launchLink(
-                                    socialLink.url, LinkType.website);
-                              } else {
-                                print("No Website link found");
-                              }
-                            },
-                            icon: Icon(
-                              BootstrapIcons.link_45deg,
-                              color: context.primary,
-                              size: context.titleSmall.fontSize,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              final socialLink =
-                                  company.socialLinks?.firstWhere(
-                                (link) => link.linkType == LinkType.twitter,
-                              );
-
-                              // Debugging: Check what URL is found
-                              if (socialLink != null &&
-                                  socialLink.url!.isNotEmpty) {
-                                print(
-                                    "Launching Twitter link: ${socialLink.url}"); // Log the URL
-                                cubit.launchLink(
-                                    socialLink.url, LinkType.twitter);
-                              } else {
-                                print("No Twitter link found or URL is empty");
-                              }
-                            },
-                            icon: Icon(
-                              BootstrapIcons.twitter_x,
-                              color: context.primary,
-                              size: context.titleSmall.fontSize,
-                            ),
-                          ),
-                        ],
+            if (state is ErrorState) {
+              showErrorDialog(context, state.msg);
+            }
+          },
+          child: Scaffold(
+            body: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _ImgView(
+                    company: company,
+                    callback: (context) => cubit.navigateBack(context)),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        company.name ?? '',
+                        style: TextStyle(
+                          fontSize: context.bodyLarge.fontSize,
+                          fontWeight: FontWeight.bold,
+                          color: context.textColor1,
+                        ),
                       ),
-                    ),
-                    Text('Position Openings',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    if (company.skills != null)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Wrap(
-                          spacing: 8.0,
-                          runSpacing: 4.0,
-                          children: company.skills!
-                              .map((skill) => Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.rectangle,
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        border:
-                                            Border.all(color: context.primary)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4, horizontal: 8.0),
-                                      child: Text(skill.techSkill?.value ?? '',
-                                          style: TextStyle(
-                                              fontSize:
-                                                  context.bodySmall.fontSize,
-                                              color: context.textColor1)),
-                                    ),
-                                  ))
-                              .toList(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('About Us:',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            SizedBox(height: 4),
+                            Text(company.description ?? '',
+                                style: context.bodySmall),
+                          ],
                         ),
                       ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Divider(color: context.textColor3),
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          CupertinoIcons.person_3,
-                          color: context.textColor2,
-                          size: context.titleMedium.fontSize,
+                      _RowItemView(
+                          title: 'Number of employees:',
+                          details: company.companySize?.value ?? ''),
+                      _RowItemView(
+                          title: 'Established since:',
+                          details: '${company.establishedYear ?? ''}'),
+                      _RowItemView(
+                        title: 'Social Links',
+                        details: '',
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                final socialLink =
+                                    company.socialLinks?.firstWhere(
+                                  (link) => link.linkType == LinkType.linkedIn,
+                                );
+
+                                if (socialLink != null) {
+                                  cubit.launchLink(
+                                      socialLink.url, LinkType.linkedIn);
+                                } else {
+                                  print(
+                                      "Company social links: ${company.socialLinks}");
+
+                                  print("No LinkedIn link found");
+                                }
+                              },
+                              icon: Icon(
+                                BootstrapIcons.linkedin,
+                                color: context.primary,
+                                size: context.titleSmall.fontSize,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                final socialLink =
+                                    company.socialLinks?.firstWhere(
+                                  (link) => link.linkType == LinkType.website,
+                                );
+                                if (socialLink != null) {
+                                  cubit.launchLink(
+                                      socialLink.url, LinkType.website);
+                                } else {
+                                  print("No Website link found");
+                                }
+                              },
+                              icon: Icon(
+                                BootstrapIcons.link_45deg,
+                                color: context.primary,
+                                size: context.titleSmall.fontSize,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                final socialLink =
+                                    company.socialLinks?.firstWhere(
+                                  (link) => link.linkType == LinkType.twitter,
+                                );
+
+                                // Debugging: Check what URL is found
+                                if (socialLink != null &&
+                                    socialLink.url!.isNotEmpty) {
+                                  print(
+                                      "Launching Twitter link: ${socialLink.url}"); // Log the URL
+                                  cubit.launchLink(
+                                      socialLink.url, LinkType.twitter);
+                                } else {
+                                  print(
+                                      "No Twitter link found or URL is empty");
+                                }
+                              },
+                              icon: Icon(
+                                BootstrapIcons.twitter_x,
+                                color: context.primary,
+                                size: context.titleSmall.fontSize,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 4),
-                        Text('Current queue:',
-                            style: context.bodyMedium,
-                            maxLines: 1,
-                            softWrap: true),
-                        SizedBox(width: 4),
-                        Text(
-                          '12',
-                          style: TextStyle(
-                              color: context.primary,
-                              fontSize: context.bodyMedium.fontSize,
-                              fontWeight: FontWeight.bold),
+                      ),
+                      Text('Position Openings',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      SizedBox(height: 8),
+                      if (company.skills != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Wrap(
+                            spacing: 8.0,
+                            runSpacing: 4.0,
+                            children: company.skills!
+                                .map((skill) => Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          border: Border.all(
+                                              color: context.primary)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4, horizontal: 8.0),
+                                        child: Text(
+                                            skill.techSkill?.value ?? '',
+                                            style: TextStyle(
+                                                fontSize:
+                                                    context.bodySmall.fontSize,
+                                                color: context.textColor1)),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          CupertinoIcons.time,
-                          color: context.textColor2,
-                          size: context.titleMedium.fontSize,
-                        ),
-                        SizedBox(width: 4),
-                        Text('Estimated Waiting:',
-                            style: context.bodyMedium,
-                            maxLines: 1,
-                            softWrap: true),
-                        SizedBox(width: 4),
-                        Text(
-                          '25:00 min',
-                          style: TextStyle(
-                              color: context.primary,
-                              fontSize: context.bodyMedium.fontSize,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 24),
-                      child: Row(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Divider(color: context.textColor3),
+                      ),
+                      Row(
                         children: [
-                          Expanded(
-                              child: PrimaryBtn(
-                                  callback: () =>
-                                      cubit.navigateToInterviewBooked(context),
-                                  title: 'Book Interview'))
+                          Icon(
+                            CupertinoIcons.person_3,
+                            color: context.textColor2,
+                            size: context.titleMedium.fontSize,
+                          ),
+                          SizedBox(width: 4),
+                          Text('Current queue:',
+                              style: context.bodyMedium,
+                              maxLines: 1,
+                              softWrap: true),
+                          SizedBox(width: 4),
+                          Text(
+                            '12',
+                            style: TextStyle(
+                                color: context.primary,
+                                fontSize: context.bodyMedium.fontSize,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
-                    )
-                  ],
+                      Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.time,
+                            color: context.textColor2,
+                            size: context.titleMedium.fontSize,
+                          ),
+                          SizedBox(width: 4),
+                          Text('Estimated Waiting:',
+                              style: context.bodyMedium,
+                              maxLines: 1,
+                              softWrap: true),
+                          SizedBox(width: 4),
+                          Text(
+                            '25:00 min',
+                            style: TextStyle(
+                                color: context.primary,
+                                fontSize: context.bodyMedium.fontSize,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: PrimaryBtn(
+                                    callback: () => cubit.createInterview(
+                                        context, company.id ?? ''),
+                                    title: 'Book Interview'))
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }),

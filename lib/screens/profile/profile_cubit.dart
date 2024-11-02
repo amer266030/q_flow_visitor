@@ -15,6 +15,7 @@ import '../../theme_data/app_theme_cubit.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
+  ProfileState? previousState;
   ProfileCubit(BuildContext context) : super(ProfileInitial()) {
     initialLoad(context);
   }
@@ -81,8 +82,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     emitUpdate();
   }
 
-  logout(BuildContext context) => Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => OnboardingScreen()));
+  navigateToOnBoarding(BuildContext context) =>
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => OnboardingScreen()));
+
+  @override
+  void emit(ProfileState state) {
+    previousState = this.state;
+    super.emit(state);
+  }
 
   emitUpdate() => emit(UpdateUIState());
+  emitLoading() => emit(LoadingState());
+  emitError(msg) => emit(ErrorState(msg));
 }

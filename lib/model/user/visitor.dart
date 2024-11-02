@@ -65,8 +65,8 @@ class Visitor {
               .map((link) => Skill.fromJson(link))
               .toList()
           : null,
-      bookmarkedCompanies: json['skills'] != null
-          ? (json['skills'] as List)
+      bookmarkedCompanies: json['bookmarked_companies'] != null
+          ? (json['bookmarked_companies'] as List)
               .map((link) => BookmarkedCompany.fromJson(link))
               .toList()
           : null,

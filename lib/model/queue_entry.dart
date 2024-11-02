@@ -3,7 +3,7 @@ class QueueEntry {
   String? interviewId;
   String? companyId;
   int? position;
-  DateTime? createdAt;
+  String? createdAt;
 
   QueueEntry({
     this.id,
@@ -19,7 +19,7 @@ class QueueEntry {
       interviewId: json['interview_id'] as String?,
       companyId: json['company_id'] as String?,
       position: json['position'] as int?,
-      createdAt: json['created_at'] as DateTime?,
+      createdAt: json['created_at'] as String?,
     );
   }
 

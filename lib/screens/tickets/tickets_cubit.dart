@@ -26,20 +26,17 @@ class TicketsCubit extends Cubit<TicketsState> {
 
     interviews = [
       Interview(
-          timeOfBooking: DateTime.now().toFormattedStringTimeOnly(),
-          positionInQueue: 12,
+          createdAt: DateTime.now().toFormattedStringTimeOnly(),
           status: InterviewStatus.upcoming),
       Interview(
-          timeOfBooking: DateTime.now()
+          createdAt: DateTime.now()
               .add(Duration(hours: 1, minutes: 12))
               .toFormattedStringTimeOnly(),
-          positionInQueue: 0,
           status: InterviewStatus.completed),
       Interview(
-          timeOfBooking: DateTime.now()
+          createdAt: DateTime.now()
               .add(Duration(hours: 2, minutes: 27))
               .toFormattedStringTimeOnly(),
-          positionInQueue: 0,
           status: InterviewStatus.completed),
     ];
     filterInterviews();

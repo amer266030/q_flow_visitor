@@ -32,8 +32,7 @@ class InterviewBookedCubit extends Cubit<InterviewBookedState> {
       logoUrl: null,
     );
     interview = Interview(
-      timeOfBooking: DateTime.now().toFormattedStringTimeOnly(),
-      positionInQueue: 12,
+      createdAt: DateTime.now().toFormattedStringTimeOnly(),
       status: InterviewStatus.upcoming,
     );
     emitUpdate();
