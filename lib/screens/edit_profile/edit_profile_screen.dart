@@ -43,7 +43,6 @@ class EditProfileScreen extends StatelessWidget {
             }
 
             if (state is LoadingState) {
-             
               showLoadingDialog(context);
             }
 
