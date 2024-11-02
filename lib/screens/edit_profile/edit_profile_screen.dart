@@ -35,7 +35,7 @@ class EditProfileScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final cubit = context.read<EditProfileCubit>();
         return BlocListener<EditProfileCubit, EditProfileState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (cubit.previousState is LoadingState) {
               if (Navigator.of(context).canPop()) {
                 Navigator.of(context).pop();
@@ -43,6 +43,7 @@ class EditProfileScreen extends StatelessWidget {
             }
 
             if (state is LoadingState) {
+             
               showLoadingDialog(context);
             }
 

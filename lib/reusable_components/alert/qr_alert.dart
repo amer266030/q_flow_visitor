@@ -63,12 +63,16 @@ class QRAlert extends StatelessWidget {
                     border: Border(top: BorderSide(color: context.bg2)),
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),
-                child: Text(title,
-                    style: TextStyle(
-                      fontSize: context.titleSmall.fontSize,
-                      fontWeight: context.titleSmall.fontWeight,
-                      color: Colors.black,
-                    )),
+                child: Column(
+                  children: [
+                    Text(title,
+                        style: TextStyle(
+                          fontSize: context.titleSmall.fontSize,
+                          fontWeight: context.titleSmall.fontWeight,
+                          color: Colors.black,
+                        )),
+                  ],
+                ),
               )
             ],
           )),
