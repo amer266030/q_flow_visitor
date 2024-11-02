@@ -2,6 +2,7 @@ import 'package:q_flow/model/skills/skill.dart';
 import 'package:q_flow/model/social_links/social_link.dart';
 
 import '../enums/company_size.dart';
+import '../interview.dart';
 import '../skills/skill.dart';
 import '../social_links/social_link.dart';
 
@@ -16,6 +17,8 @@ class Company {
   bool? isQueueOpen;
   List<SocialLink>? socialLinks;
   List<Skill>? skills;
+  int? queueLength;
+  List<Interview>? interviews;
 
   Company({
     this.id,
@@ -28,6 +31,8 @@ class Company {
     this.isQueueOpen = false,
     this.socialLinks,
     this.skills,
+    this.queueLength,
+    this.interviews,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {
@@ -53,6 +58,12 @@ class Company {
               .map((link) => Skill.fromJson(link))
               .toList()
           : null,
+      queueLength: json['queue_length'] as int?,
+      interviews: json['interviews'] != null
+          ? (json['interviews'] as List)
+              .map((link) => Interview.fromJson(link))
+              .toList()
+          : null,
     );
   }
 
@@ -67,6 +78,7 @@ class Company {
       'is_queue_open': isQueueOpen,
       // 'social_links': socialLinks?.map((link) => link.toJson()).toList(),
       // 'skills': skills?.map((skill) => skill.toJson()).toList(),
+      'queue_length': queueLength,
     };
   }
 }

@@ -10,7 +10,6 @@ import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/screens/bootcamp_screen/bootcamp_screen.dart';
 
 import '../../model/enums/experience.dart';
-import '../../model/social_links/social_link.dart';
 import '../../model/user/visitor.dart';
 
 part 'edit_profile_state.dart';

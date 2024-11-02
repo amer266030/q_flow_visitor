@@ -7,6 +7,9 @@ import 'package:q_flow/screens/bookmarks/bookmarks_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
+import '../../reusable_components/dialogs/error_dialog.dart';
+import '../../reusable_components/dialogs/loading_dialog.dart';
+
 class BookmarksScreen extends StatelessWidget {
   const BookmarksScreen({super.key});
 
@@ -16,35 +19,56 @@ class BookmarksScreen extends StatelessWidget {
       create: (context) => BookmarksCubit(),
       child: Builder(builder: (context) {
         final cubit = context.read<BookmarksCubit>();
-        return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      'Bookmarks',
-                      style: TextStyle(
-                        fontSize: context.bodyLarge.fontSize,
-                        fontWeight: FontWeight.bold,
-                        color: context.textColor1,
+        return BlocListener<BookmarksCubit, BookmarksState>(
+          listener: (context, state) async {
+            if (cubit.previousState is LoadingState) {
+              await Navigator.of(context).maybePop();
+            }
+
+            if (state is LoadingState && cubit.previousState is! LoadingState) {
+              showLoadingDialog(context);
+            }
+
+            if (state is ErrorState) {
+              showErrorDialog(context, state.msg);
+            }
+          },
+          child: Scaffold(
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        'Bookmarks',
+                        style: TextStyle(
+                          fontSize: context.bodyLarge.fontSize,
+                          fontWeight: FontWeight.bold,
+                          color: context.textColor1,
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: ListView(
-                      children: cubit.companies
-                          .map((company) => CompanyCardListItem(
-                              company: company,
-                              toggleBookmark: () => (),
-                              isBookmarked: Random().nextBool()))
-                          .toList(),
+                    Expanded(
+                      child: BlocBuilder<BookmarksCubit, BookmarksState>(
+                        builder: (context, state) {
+                          return ListView(
+                            children: cubit.bookmarkedCompanies
+                                .map((company) => CompanyCardListItem(
+                                    company: company,
+                                    toggleBookmark: () => cubit.toggleBookmark(
+                                        context, company.id ?? ''),
+                                    isBookmarked:
+                                        cubit.checkBookmark(company.id ?? '')))
+                                .toList(),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:q_flow/model/interview.dart';
 import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/model/user/visitor.dart';
 import 'package:q_flow/supabase/supabase_company.dart';
@@ -22,7 +23,9 @@ class DataMgr {
   Future<void> fetchVisitorData() async {
     try {
       await SupabaseVisitor.fetchProfile();
-    } catch (e) {}
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> saveVisitorData({required Visitor visitor}) async {
@@ -36,7 +39,7 @@ class DataMgr {
       final res = await SupabaseCompany.fetchCompanies();
       print(res?.length ?? 'No result');
     } catch (e) {
-      print(e.toString());
+      rethrow;
     }
   }
 

@@ -7,6 +7,15 @@ class SupabaseBookmark {
   static final SupabaseClient supabase = SupabaseMgr.shared.supabase;
   static final String tableKey = 'bookmarked_company';
 
+  static Future<List<BookmarkedCompany>> fetchBookmarks() async {
+    var visitorId = supabase.auth.currentUser?.id;
+    if (visitorId == null) throw Exception("Visitor ID not found");
+
+    var response =
+        await supabase.from(tableKey).select().eq('visitor_id', visitorId);
+    return response.map((json) => BookmarkedCompany.fromJson(json)).toList();
+  }
+
   static Future<BookmarkedCompany> createBookmark(String companyId) async {
     var visitorId = supabase.auth.currentUser?.id;
     if (visitorId == null) throw Exception("Visitor ID not found");

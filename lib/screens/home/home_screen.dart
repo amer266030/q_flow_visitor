@@ -7,12 +7,15 @@ import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/extensions/screen_size.dart';
 import 'package:q_flow/managers/alert_manger.dart';
 import 'package:q_flow/screens/home/home_cubit.dart';
+import 'package:q_flow/screens/home/network_functions.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../reusable_components/cards/company_card_large.dart';
 import '../../reusable_components/cards/company_card_list_item.dart';
 import '../../reusable_components/cards/ticket_view.dart';
+import '../../reusable_components/dialogs/error_dialog.dart';
+import '../../reusable_components/dialogs/loading_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,79 +26,101 @@ class HomeScreen extends StatelessWidget {
       create: (context) => HomeCubit(),
       child: Builder(builder: (context) {
         final cubit = context.read<HomeCubit>();
-        return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: ListView(
-                children: [
-                  _HeaderView(positionInQueue: null, cubit: cubit),
-                  Divider(color: context.textColor3),
-                  _SectionHeaderView(title: 'Upcoming Interviews'),
-                  BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, state) {
-                      return cubit.interviews.isNotEmpty
-                          ? SizedBox(
-                              height: context.screenWidth * 0.45,
-                              child: CarouselView(
-                                backgroundColor: Colors.transparent,
-                                itemExtent: context.screenWidth * 0.7,
-                                shrinkExtent: context.screenWidth * 0.7,
-                                scrollDirection: Axis.horizontal,
-                                children: cubit.interviews
-                                    .map((interview) => TicketView(
-                                          timeOfBooking:
-                                              interview.timeOfBooking ?? '',
-                                          positionInQueue:
-                                              interview.positionInQueue ?? 0,
-                                          company: cubit.companies.first,
-                                        ))
-                                    .toList(),
+        return BlocListener<HomeCubit, HomeState>(
+          listener: (context, state) async {
+            if (cubit.previousState is LoadingState) {
+              await Navigator.of(context).maybePop();
+            }
+
+            if (state is LoadingState && cubit.previousState is! LoadingState) {
+              showLoadingDialog(context);
+            }
+
+            if (state is ErrorState) {
+              showErrorDialog(context, state.msg);
+            }
+          },
+          child: Scaffold(
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: ListView(
+                  children: [
+                    _HeaderView(positionInQueue: null, cubit: cubit),
+                    Divider(color: context.textColor3),
+                    _SectionHeaderView(title: 'Upcoming Interviews'),
+                    BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return cubit.visitor.interviews != null &&
+                                cubit.visitor.interviews!.isNotEmpty
+                            ? SizedBox(
+                                height: context.screenWidth * 0.45,
+                                child: CarouselView(
+                                  backgroundColor: Colors.transparent,
+                                  itemExtent: context.screenWidth * 0.7,
+                                  shrinkExtent: context.screenWidth * 0.7,
+                                  scrollDirection: Axis.horizontal,
+                                  children: cubit.visitor.interviews!
+                                      .map((interview) => TicketView(
+                                            timeOfBooking:
+                                                interview.timeOfBooking ?? '',
+                                            positionInQueue:
+                                                interview.positionInQueue ?? 0,
+                                            company: cubit.companies.first,
+                                          ))
+                                      .toList(),
+                                ),
+                              )
+                            : Text('No Upcoming Interviews...');
+                      },
+                    ),
+                    _SectionHeaderView(title: 'Suggested For You'),
+                    SizedBox(
+                      height: context.screenWidth * 0.6,
+                      child: CarouselView(
+                        backgroundColor: Colors.transparent,
+                        itemExtent: context.screenWidth * 0.6,
+                        shrinkExtent: context.screenWidth * 0.6,
+                        onTap: (index) {
+                          final company = cubit.companies[index];
+                          cubit.navigateToCompanyDetails(context, company);
+                        },
+                        children: cubit.companies
+                            .map(
+                              (company) => CompanyCardLarge(
+                                company: company,
                               ),
                             )
-                          : Text('No Upcoming Interviews...');
-                    },
-                  ),
-                  _SectionHeaderView(title: 'Suggested For You'),
-                  SizedBox(
-                    height: context.screenWidth * 0.6,
-                    child: CarouselView(
-                      backgroundColor: Colors.transparent,
-                      itemExtent: context.screenWidth * 0.6,
-                      shrinkExtent: context.screenWidth * 0.6,
-                      onTap: (index) {
-                        final company = cubit.companies[index];
-                        cubit.navigateToCompanyDetails(context, company);
-                      },
-                      children: cubit.companies
-                          .map(
-                            (company) => CompanyCardLarge(
-                              company: company,
-                            ),
-                          )
-                          .toList(),
+                            .toList(),
+                      ),
                     ),
-                  ),
-                  _SectionHeaderView(
-                      title: 'Explore Companies',
-                      ctaStr: 'View all',
-                      callback: () => cubit.navigateToExplore(context)),
-                  Column(
-                    children: cubit.companies
-                        .map(
-                          (company) => InkWell(
-                            onTap: () => cubit.navigateToCompanyDetails(
-                                context, company),
-                            child: CompanyCardListItem(
-                              company: company,
-                              isBookmarked: Random().nextBool(),
-                              toggleBookmark: () => (),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ],
+                    _SectionHeaderView(
+                        title: 'Explore Companies',
+                        ctaStr: 'View all',
+                        callback: () => cubit.navigateToExplore(context)),
+                    BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return Column(
+                          children: cubit.companies
+                              .map(
+                                (company) => InkWell(
+                                  onTap: () => cubit.navigateToCompanyDetails(
+                                      context, company),
+                                  child: CompanyCardListItem(
+                                    company: company,
+                                    isBookmarked:
+                                        cubit.checkBookmark(company.id ?? ''),
+                                    toggleBookmark: () => cubit.toggleBookmark(
+                                        context, company.id ?? ''),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -119,11 +144,11 @@ class _HeaderView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ClipOval(
-              child: cubit.visitor?.avatarUrl == null
+              child: cubit.visitor.avatarUrl == null
                   ? Image(image: Img.avatar, fit: BoxFit.contain)
                   : FadeInImage(
-                      placeholder: Img.avatar, 
-                      image: NetworkImage(cubit.visitor!.avatarUrl!),
+                      placeholder: Img.avatar,
+                      image: NetworkImage(cubit.visitor.avatarUrl!),
                       fit: BoxFit.contain,
                       imageErrorBuilder: (context, error, stackTrace) {
                         return Image(image: Img.avatar, fit: BoxFit.contain);
@@ -138,7 +163,7 @@ class _HeaderView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Hi, ${cubit.visitor?.fName ?? ''}',
+              Text('Hi, ${cubit.visitor.fName ?? ''}',
                   style: context.bodyLarge, maxLines: 1, softWrap: true),
               Text('No upcoming Interviews',
                   style: context.bodyMedium, maxLines: 1, softWrap: true),
@@ -171,7 +196,7 @@ class _HeaderView extends StatelessWidget {
                     AlertManager().showQRAlert(
                       context: context,
                       title:
-                          "${cubit.visitor?.fName ?? ''} ${cubit.visitor?.lName ?? ''}",
+                          "${cubit.visitor.fName ?? ''} ${cubit.visitor.lName ?? ''}",
                     )
                   },
               icon: Icon(CupertinoIcons.qrcode, size: 40)),

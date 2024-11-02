@@ -12,21 +12,24 @@ import '../bottom_nav/bottom_nav_screen.dart';
 part 'onboarding_state.dart';
 
 class OnboardingCubit extends Cubit<OnboardingState> {
+  OnboardingState? previousState;
   OnboardingCubit(BuildContext context) : super(OnboardingInitial()) {
     initialLoad(context);
   }
 
   initialLoad(BuildContext context) async {
+    emitLoading();
     var dataMgr = GetIt.I.get<DataMgr>();
-    await dataMgr.fetchData();
-
-    print(dataMgr.visitor);
-    print(SupabaseMgr.shared.supabase.auth.currentUser?.id);
-    if (dataMgr.visitor != null) {
-      navigateToHome(context);
-    } else if (SupabaseMgr.shared.supabase.auth.currentUser != null) {
-      await Future.delayed(const Duration(seconds: 1));
-      if (context.mounted) navigateToEditProfile(context);
+    try {
+      await dataMgr.fetchData();
+      if (dataMgr.visitor != null) {
+        navigateToHome(context);
+      } else if (SupabaseMgr.shared.supabase.auth.currentUser != null) {
+        await Future.delayed(const Duration(seconds: 1));
+        if (context.mounted) navigateToEditProfile(context);
+      }
+    } catch (e) {
+      emitError(e.toString());
     }
   }
 
@@ -62,4 +65,14 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       'Stay informed with real-time notifications and manage your interviews on the go'
     )
   ];
+
+  @override
+  void emit(OnboardingState state) {
+    previousState = this.state;
+    super.emit(state);
+  }
+
+  emitUpdate() => emit(UpdateUIState());
+  emitLoading() => emit(LoadingState());
+  emitError(msg) => emit(ErrorState(msg));
 }
