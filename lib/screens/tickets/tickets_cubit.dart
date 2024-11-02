@@ -8,6 +8,7 @@ import '../../managers/data_mgr.dart';
 import '../../model/user/company.dart';
 import '../../model/enums/interview_status.dart';
 import '../../model/interview.dart';
+import '../../model/user/visitor.dart';
 
 part 'tickets_state.dart';
 
@@ -23,28 +24,14 @@ class TicketsCubit extends Cubit<TicketsState> {
 
   initialLoad() {
     companies = dataMgr.companies;
-
-    interviews = [
-      Interview(
-          createdAt: DateTime.now().toFormattedStringTimeOnly(),
-          status: InterviewStatus.upcoming),
-      Interview(
-          createdAt: DateTime.now()
-              .add(Duration(hours: 1, minutes: 12))
-              .toFormattedStringTimeOnly(),
-          status: InterviewStatus.completed),
-      Interview(
-          createdAt: DateTime.now()
-              .add(Duration(hours: 2, minutes: 27))
-              .toFormattedStringTimeOnly(),
-          status: InterviewStatus.completed),
-    ];
+    interviews = dataMgr.visitor?.interviews ?? [];
     filterInterviews();
     emitUpdate();
   }
 
-  Company getSelectedCompany(String companyId) {
-    return companies.first;
+  Company getCompany(String companyId) {
+    return companies.where((c) => c.id == companyId).toList().firstOrNull ??
+        Company();
   }
 
   setSelectedStatus(int idx) {
@@ -61,7 +48,7 @@ class TicketsCubit extends Cubit<TicketsState> {
   }
 
   navigateToRating(BuildContext context, Interview interview) {
-    var selectedCompany = getSelectedCompany(interview.companyId ?? '');
+    var selectedCompany = getCompany(interview.companyId ?? '');
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => RatingScreen(company: selectedCompany)));
   }

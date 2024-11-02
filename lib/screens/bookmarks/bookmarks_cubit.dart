@@ -6,6 +6,7 @@ import 'package:q_flow/screens/bookmarks/network_functions.dart';
 
 import '../../model/user/company.dart';
 import '../../model/user/visitor.dart';
+import '../company_details/company_details_screen.dart';
 
 part 'bookmarks_state.dart';
 
@@ -59,6 +60,11 @@ class BookmarksCubit extends Cubit<BookmarksState> {
           .where((company) => bookmarkedCompanyIds.contains(company.id))
           .toList();
     }
+  }
+
+  navigateToCompanyDetails(BuildContext context, Company company) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CompanyDetailsScreen(company: company)));
   }
 
   @override

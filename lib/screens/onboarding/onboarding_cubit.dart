@@ -20,7 +20,6 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   bool isLoadingVisible = false;
 
   initialLoad(BuildContext context) async {
-    print('ONE');
     emitLoading();
     print(SupabaseMgr.shared.supabase.auth.currentUser?.id);
     var dataMgr = GetIt.I.get<DataMgr>();
@@ -28,10 +27,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       await dataMgr.fetchData();
       await Future.delayed(const Duration(seconds: 1));
       if (dataMgr.visitor != null) {
-        print('TWO');
         if (context.mounted) navigateToHome(context);
       } else if (SupabaseMgr.shared.supabase.auth.currentUser != null) {
-        print('THREE');
         if (context.mounted) navigateToEditProfile(context);
       }
     } catch (e) {

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/reusable_components/cards/company_card_list_item.dart';
@@ -58,12 +56,18 @@ class BookmarksScreen extends StatelessWidget {
                         builder: (context, state) {
                           return ListView(
                             children: cubit.bookmarkedCompanies
-                                .map((company) => CompanyCardListItem(
-                                    company: company,
-                                    toggleBookmark: () => cubit.toggleBookmark(
-                                        context, company.id ?? ''),
-                                    isBookmarked:
-                                        cubit.checkBookmark(company.id ?? '')))
+                                .map((company) => InkWell(
+                                      onTap: () =>
+                                          cubit.navigateToCompanyDetails(
+                                              context, company),
+                                      child: CompanyCardListItem(
+                                          company: company,
+                                          toggleBookmark: () =>
+                                              cubit.toggleBookmark(
+                                                  context, company.id ?? ''),
+                                          isBookmarked: cubit
+                                              .checkBookmark(company.id ?? '')),
+                                    ))
                                 .toList(),
                           );
                         },

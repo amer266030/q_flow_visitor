@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/model/enums/interview_status.dart';
 import 'package:q_flow/reusable_components/cards/ticket_view.dart';
 import 'package:q_flow/screens/tickets/tickets_cubit.dart';
@@ -59,11 +60,18 @@ class TicketsScreen extends StatelessWidget {
                                             onTap: () => cubit.navigateToRating(
                                                 context, interview),
                                             child: TicketView(
-                                                company: cubit
-                                                    .getSelectedCompany('1'),
-                                                timeOfBooking:
-                                                    interview.createdAt ?? '',
-                                                positionInQueue: 0),
+                                                timeOfBooking: interview
+                                                            .createdAt ==
+                                                        null
+                                                    ? '?'
+                                                    : DateTime.parse(interview
+                                                            .createdAt!)
+                                                        .toFormattedStringTimeOnly(),
+                                                positionInQueue:
+                                                    interview.positionInQueue ??
+                                                        1,
+                                                company: cubit.getCompany(
+                                                    interview.companyId ?? '')),
                                           ),
                                         ))
                                     .toList()),

@@ -14,21 +14,6 @@ class SupabaseQueue {
 
   static StreamSubscription<List<Map<String, dynamic>>>? interviewSubscription;
 
-  static Stream<int> getQueueLengthStream(String companyId) {
-    final stream = supabase
-        .from(tableKey)
-        .stream(primaryKey: ['id'])
-        .eq('companyId', companyId)
-        .map((event) {
-          // Calculate queue length whenever an event is triggered
-          return event.length;
-        });
-
-    print('event triggered');
-
-    return stream;
-  }
-
   static Future<int?> getQueueLength(String companyId) async {
     try {
       final maxPosition = await supabase
@@ -45,6 +30,8 @@ class SupabaseQueue {
       rethrow;
     }
   }
+
+  // Insert And Delete
 
   static Future<QueueEntry> insertIntoQueue(QueueEntry queueEntry) async {
     try {
@@ -69,16 +56,38 @@ class SupabaseQueue {
     }
   }
 
-  static void subscribeToQueueUpdates({
+  // Single Stream
+
+  static Stream<int> getQueueLengthStream(String companyId) {
+    final stream = supabase
+        .from(tableKey)
+        .stream(primaryKey: ['id'])
+        .eq('companyId', companyId)
+        .map((event) {
+          // Calculate queue length whenever an event is triggered
+          return event.length;
+        });
+
+    print('event triggered');
+
+    return stream;
+  }
+
+  // Multi-Stream
+
+  static Stream<List<QueueEntry>> subscribeToMultipleUpdates({
+    required List<String> interviewIds,
     required String companyId,
-    required Function(SupabaseStreamEvent, String) handleQueueUpdate,
   }) {
-    interviewSubscription = supabase
+    return supabase
         .from(tableKey)
         .stream(primaryKey: ['id'])
         .eq('company_id', companyId)
-        .listen((event) {
-          handleQueueUpdate(event, companyId);
+        .map((queueEntries) {
+          return queueEntries
+              .where((entry) => interviewIds.contains(entry['interview_id']))
+              .map((entry) => QueueEntry.fromJson(entry))
+              .toList();
         });
   }
 

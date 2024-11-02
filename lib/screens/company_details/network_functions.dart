@@ -24,7 +24,7 @@ extension NetworkFunctions on CompanyDetailsCubit {
       var queueEntry = QueueEntry(
         interviewId: newInterview.id,
         companyId: companyId,
-        position: 1,
+        position: queueLength,
       );
 
       await SupabaseQueue.insertIntoQueue(queueEntry);
