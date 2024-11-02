@@ -31,10 +31,8 @@ class InterviewBookedScreen extends StatelessWidget {
                               cubit.company != null) {
                             return TicketView(
                                 company: cubit.company!,
-                                timeOfBooking:
-                                    cubit.interview!.timeOfBooking ?? '',
-                                positionInQueue:
-                                    cubit.interview!.positionInQueue ?? 0);
+                                timeOfBooking: cubit.interview!.createdAt ?? '',
+                                positionInQueue: 0);
                           } else {
                             return Text('?');
                           }

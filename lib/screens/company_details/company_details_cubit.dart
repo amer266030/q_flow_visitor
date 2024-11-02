@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 part 'company_details_state.dart';
 
 class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
+  CompanyDetailsState? previousState;
   CompanyDetailsCubit() : super(CompanyDetailsInitial()) {
     initialLoad();
   }
@@ -16,7 +17,7 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
   var dataMgr = GetIt.I.get<DataMgr>();
 
   initialLoad() {
-    emitUpdateUI();
+    emitUpdate();
   }
 
   Future<void> launchLink(String? url, LinkType linkType) async {
@@ -51,5 +52,13 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
 
   navigateBack(BuildContext context) => Navigator.of(context).pop();
 
-  emitUpdateUI() => emit(UpdateUIState());
+  @override
+  void emit(CompanyDetailsState state) {
+    previousState = this.state;
+    super.emit(state);
+  }
+
+  void emitLoading() => emit(LoadingState());
+  void emitUpdate() => emit(UpdateUIState());
+  void emitError(String msg) => emit(ErrorState(msg));
 }

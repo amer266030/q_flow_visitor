@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/model/enums/interview_status.dart';
-import 'package:q_flow/reusable_components/buttons/oval_toggle_btns.dart';
 import 'package:q_flow/reusable_components/cards/ticket_view.dart';
 import 'package:q_flow/screens/tickets/tickets_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
@@ -63,11 +62,8 @@ class TicketsScreen extends StatelessWidget {
                                                 company: cubit
                                                     .getSelectedCompany('1'),
                                                 timeOfBooking:
-                                                    interview.timeOfBooking ??
-                                                        '',
-                                                positionInQueue:
-                                                    interview.positionInQueue ??
-                                                        0),
+                                                    interview.createdAt ?? '',
+                                                positionInQueue: 0),
                                           ),
                                         ))
                                     .toList()),
