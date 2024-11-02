@@ -19,7 +19,7 @@ extension NetworkFunctions on AuthCubit {
     try {
       emitLoading();
       await SupabaseAuth.verifyOTP(emailController.text, stringOtp);
-      emitUpdate();
+      // emitUpdate();
       if (context.mounted) {
         navigateToEditProfile(context);
       }

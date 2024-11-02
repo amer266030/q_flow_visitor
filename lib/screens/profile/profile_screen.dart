@@ -8,6 +8,9 @@ import 'package:q_flow/screens/profile/subviews/profile_stats_view.dart';
 import 'package:q_flow/screens/profile/subviews/profile_toggle_list_item.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
+import '../../services/one_signal/services/notification_serv.dart';
+import '../../supabase/client/supabase_mgr.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -67,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
                     },
                   ),
                   ProfileListItemView(
-                      title: 'Logout', callback: () => cubit.logout(context)),
+                      title: 'Logout', callback: () => SupabaseMgr.shared.supabase.auth.signOut()),
                 ],
               ),
             ),
