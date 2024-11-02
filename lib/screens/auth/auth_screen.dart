@@ -20,7 +20,7 @@ class AuthScreen extends StatelessWidget {
         final cubit = context.read<AuthCubit>();
         return BlocListener<AuthCubit, AuthState>(
           listener: (context, state) async {
-            if (cubit.previousState is LoadingState) {
+            if (context.mounted && ModalRoute.of(context) != null) {
               await Navigator.of(context).maybePop();
             }
 

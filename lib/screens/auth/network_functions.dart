@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:q_flow/supabase/supabase_visitor.dart';
 
 import '../../supabase/supabase_auth.dart';
 import 'auth_cubit.dart';
@@ -19,9 +20,15 @@ extension NetworkFunctions on AuthCubit {
     try {
       emitLoading();
       await SupabaseAuth.verifyOTP(emailController.text, stringOtp);
-      emitUpdate();
+
+      await SupabaseVisitor.fetchProfile();
+
       if (context.mounted) {
-        navigateToEditProfile(context);
+        if (dataMgr.visitor != null) {
+          navigateToHome(context);
+        } else {
+          navigateToEditProfile(context);
+        }
       }
     } catch (e) {
       emitError('Could not verify OTP');

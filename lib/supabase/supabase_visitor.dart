@@ -20,47 +20,49 @@ class SupabaseVisitor {
 
   static Future<Visitor?> fetchProfile() async {
     var visitorId = supabase.auth.currentUser?.id;
-    if (visitorId == null) throw Exception("Visitor ID not found");
+    if (visitorId != null) {
+      try {
+        // Fetch the visitor profile and associated social links based on user_id
+        final response = await supabase
+            .from(tableKey)
+            .select('*, social_link(*), bookmarked_company(*), interview(*)')
+            .eq('id', visitorId)
+            .single();
 
-    try {
-      // Fetch the visitor profile and associated social links based on user_id
-      final response = await supabase
-          .from(tableKey)
-          .select('*, social_link(*), bookmarked_company(*), interview(*)')
-          .eq('id', visitorId)
-          .single();
+        // Create the Visitor instance from the response
+        final visitor = Visitor.fromJson(response);
 
-      // Create the Visitor instance from the response
-      final visitor = Visitor.fromJson(response);
+        // Save visitor data locally
+        dataMgr.saveVisitorData(visitor: visitor);
 
-      // Save visitor data locally
-      dataMgr.saveVisitorData(visitor: visitor);
+        // Parse social links if they exist
+        visitor.socialLinks = (response['social_link'] as List?)?.map((link) {
+              return SocialLink.fromJson(link);
+            }).toList() ??
+            [];
 
-      // Parse social links if they exist
-      visitor.socialLinks = (response['social_link'] as List?)?.map((link) {
-            return SocialLink.fromJson(link);
-          }).toList() ??
-          [];
+        // Parse bookmarked companies if they exist
+        visitor.bookmarkedCompanies = (response['bookmarked_company'] as List?)
+                ?.map((bm) => BookmarkedCompany.fromJson(bm))
+                .toList() ??
+            [];
 
-      // Parse bookmarked companies if they exist
-      visitor.bookmarkedCompanies = (response['bookmarked_company'] as List?)
-              ?.map((bm) => BookmarkedCompany.fromJson(bm))
-              .toList() ??
-          [];
+        // Parse bookmarked companies if they exist
+        visitor.interviews = (response['interview'] as List?)
+                ?.map((interview) => Interview.fromJson(interview))
+                .toList() ??
+            [];
 
-      // Parse bookmarked companies if they exist
-      visitor.interviews = (response['interview'] as List?)
-              ?.map((interview) => Interview.fromJson(interview))
-              .toList() ??
-          [];
-
-      return visitor;
-    } on AuthException catch (_) {
-      rethrow;
-    } on PostgrestException catch (_) {
-      rethrow;
-    } catch (e) {
-      rethrow;
+        return visitor;
+      } on AuthException catch (_) {
+        rethrow;
+      } on PostgrestException catch (_) {
+        rethrow;
+      } catch (e) {
+        rethrow;
+      }
+    } else {
+      return null;
     }
   }
 
