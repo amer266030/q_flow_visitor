@@ -1,8 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:q_flow/managers/data_mgr.dart';
+import 'package:q_flow/supabase/client/supabase_mgr.dart';
 import 'package:q_flow/supabase/supabase_visitor.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:q_flow/test/one_data.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../supabase/supabase_auth.dart';
 import 'auth_cubit.dart';
@@ -19,16 +23,17 @@ extension NetworkFunctions on AuthCubit {
   }
 
   verifyOTP(BuildContext context, int otp) async {
-    late String? userID;
     var stringOtp = '$otp'.padLeft(6, '0');
     try {
+      print("here------");
       emitLoading();
       await SupabaseAuth.verifyOTP(emailController.text, stringOtp);
       await SupabaseVisitor.fetchProfile();
-      await OneSignal.login(Random().nextInt(99999).toString());
-      userID = await OneSignal.User.getExternalId();
-      print('userID: $userID');
-      print('visitor: ${dataMgr.visitor?.id}');
+      final oneSignalId = Random().nextInt(99999).toString();
+      await OneSignal.login(oneSignalId);
+      print('User ID: $oneSignalId');
+      oneData = oneSignalId;
+      print('oneData: $oneData');
       previousState = null;
       if (context.mounted) {
         if (dataMgr.visitor != null) {

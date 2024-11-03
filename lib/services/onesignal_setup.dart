@@ -3,7 +3,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 class OnesignalSetup {
   static init() async {
     //Remove this method to stop OneSignal Debugging
-    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+    // OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
     OneSignal.initialize("<YOUR APP ID HERE>");
 

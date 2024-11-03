@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/reusable_components/cards/company_card_list_item.dart';
 import 'package:q_flow/screens/bookmarks/bookmarks_cubit.dart';
+import 'package:q_flow/test/one_data.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
+import '../../managers/notifications_mgr.dart';
 import '../../reusable_components/dialogs/error_dialog.dart';
 import '../../reusable_components/dialogs/loading_dialog.dart';
 
@@ -13,6 +15,9 @@ class BookmarksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(oneData);
+    NotificationsMgr.sendNotificationToUser(
+        externalId: oneData, message: 'hello');
     return BlocProvider(
       create: (context) => BookmarksCubit(),
       child: Builder(builder: (context) {
