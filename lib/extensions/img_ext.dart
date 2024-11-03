@@ -11,4 +11,9 @@ extension Img on ImageProvider {
   static const ob3 = AssetImage('assets/onboarding/onboarding_3.png');
   // Avatar
   static const avatar = AssetImage('assets/avatar/avatar.jpg');
+  //loading
+  static const loading = AssetImage('assets/loading/loading.gif');
+  //splash
+  static const splashLight = AssetImage('assets/splash/loading_light.gif');
+  static const splashDark = AssetImage('assets/splash/splash_dark.gif');
 }
