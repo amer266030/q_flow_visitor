@@ -37,10 +37,12 @@ class EditProfileScreen extends StatelessWidget {
         return BlocListener<EditProfileCubit, EditProfileState>(
           listener: (context, state) async {
             if (cubit.previousState is LoadingState) {
-              await Navigator.of(context).maybePop();
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
             }
 
-            if (state is LoadingState && cubit.previousState is! LoadingState) {
+            if (state is LoadingState) {
               showLoadingDialog(context);
             }
 

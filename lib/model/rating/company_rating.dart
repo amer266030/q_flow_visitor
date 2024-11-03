@@ -1,8 +1,8 @@
 class CompanyRating {
   String? id;
   String? companyId;
-  String? userId;
+  String? visitorId;
   DateTime? ratingDate;
 
-  CompanyRating({this.id, this.companyId, this.userId, this.ratingDate});
+  CompanyRating({this.id, this.companyId, this.visitorId, this.ratingDate});
 }

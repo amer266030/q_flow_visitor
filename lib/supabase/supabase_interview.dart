@@ -12,6 +12,20 @@ class SupabaseInterview {
   static final String tableKey = 'interview';
   static final dataMgr = GetIt.I.get<DataMgr>();
 
+  static Future<List<Interview>> fetchInterviews() async {
+    var visitorId = supabase.auth.currentUser?.id;
+    if (visitorId == null) throw Exception("Visitor ID not found");
+
+    try {
+      final response =
+          await supabase.from(tableKey).select().eq('visitor_id', visitorId);
+
+      return response.map((json) => Interview.fromJson(json)).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   static Future<Interview> createInterview(Interview interview) async {
     var visitorId = supabase.auth.currentUser?.id;
     if (visitorId == null) throw Exception("Visitor ID not found");
@@ -29,5 +43,18 @@ class SupabaseInterview {
     } catch (e) {
       rethrow;
     }
+  }
+
+  static Future<List<String>> fetchScheduledInterviewIds(
+      String companyId) async {
+    final response = await SupabaseMgr.shared.supabase
+        .from(tableKey)
+        .select('id')
+        .eq('company_id', companyId)
+        .eq('status', 'Upcoming');
+
+    return (response as List)
+        .map((interview) => interview['id'] as String)
+        .toList();
   }
 }

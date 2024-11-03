@@ -13,7 +13,6 @@ class SupabaseEvent {
       List<Event> events = (res as List)
           .map((event) => Event.fromJson(event as Map<String, dynamic>))
           .toList();
-      print(events.length);
       return events;
     } on AuthException catch (_) {
       rethrow;

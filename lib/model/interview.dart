@@ -7,6 +7,7 @@ class Interview {
   String? visitorId;
   String? companyId;
   String? createdAt;
+  int? positionInQueue;
   InterviewStatus? status;
   List<QueueEntry>? queue;
 
@@ -15,6 +16,7 @@ class Interview {
     this.visitorId,
     this.companyId,
     this.createdAt,
+    this.positionInQueue,
     this.status,
     this.queue,
   });
@@ -25,6 +27,7 @@ class Interview {
       visitorId: json['visitor_id'] as String?,
       companyId: json['company_id'] as String?,
       createdAt: json['created_at'] as String?,
+      // positionInQueue: json['position_in_queue'] as int?,
       status: json['status'] != null
           ? InterviewStatusExtension.fromString(json['status'] as String)
           : null,

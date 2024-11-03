@@ -83,8 +83,10 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   navigateToOnBoarding(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => OnboardingScreen()));
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+        (route) => false,
+      );
 
   @override
   void emit(ProfileState state) {

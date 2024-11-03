@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
-
 import 'package:q_flow/screens/onboarding/onboarding_screen.dart';
+import 'package:q_flow/screens/splash_screen.dart';
 import 'package:q_flow/services/di_container.dart';
 import 'package:q_flow/supabase/client/supabase_mgr.dart';
 import 'package:q_flow/theme_data/app_theme_cubit.dart';
@@ -44,7 +44,7 @@ class MainApp extends StatelessWidget {
             supportedLocales: context.supportedLocales, // From EasyLocalization
             localizationsDelegates:
                 context.localizationDelegates, // From EasyLocalization
-            home: OnboardingScreen(),
+            home: SplashScreen(),
           );
         },
       ),

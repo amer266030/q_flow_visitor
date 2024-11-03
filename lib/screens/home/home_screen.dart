@@ -12,6 +12,7 @@ import 'package:q_flow/screens/home/network_functions.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
+import '../../model/user/company.dart';
 import '../../reusable_components/cards/company_card_large.dart';
 import '../../reusable_components/cards/company_card_list_item.dart';
 import '../../reusable_components/cards/ticket_view.dart';
@@ -28,12 +29,14 @@ class HomeScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final cubit = context.read<HomeCubit>();
         return BlocListener<HomeCubit, HomeState>(
-          listener: (context, state) async {
+          listener: (context, state) {
             if (cubit.previousState is LoadingState) {
-              await Navigator.of(context).maybePop();
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
             }
 
-            if (state is LoadingState && cubit.previousState is! LoadingState) {
+            if (state is LoadingState) {
               showLoadingDialog(context);
             }
 
@@ -70,8 +73,12 @@ class HomeScreen extends StatelessWidget {
                                                 : DateTime.parse(
                                                         interview.createdAt!)
                                                     .toFormattedStringTimeOnly(),
-                                            positionInQueue: 0,
-                                            company: cubit.companies.first,
+                                            positionInQueue:
+                                                interview.positionInQueue ?? 1,
+                                            company: cubit.getCompany(
+                                                    interview.companyId ??
+                                                        '') ??
+                                                Company(),
                                           ))
                                       .toList(),
                                 ),

@@ -26,18 +26,18 @@ class CompanyDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CompanyDetailsCubit(),
+      create: (context) => CompanyDetailsCubit(company),
       child: Builder(builder: (context) {
         final cubit = context.read<CompanyDetailsCubit>();
         return BlocListener<CompanyDetailsCubit, CompanyDetailsState>(
-          listener: (context, state) async {
+          listener: (context, state) {
             if (cubit.previousState is LoadingState) {
-              if (context.mounted && ModalRoute.of(context) != null) {
-                await Navigator.of(context).maybePop();
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
               }
             }
 
-            if (state is LoadingState && cubit.previousState is! LoadingState) {
+            if (state is LoadingState) {
               showLoadingDialog(context);
             }
 
@@ -100,10 +100,7 @@ class CompanyDetailsScreen extends StatelessWidget {
                                   cubit.launchLink(
                                       socialLink.url, LinkType.linkedIn);
                                 } else {
-                                  print(
-                                      "Company social links: ${company.socialLinks}");
-
-                                  print("No LinkedIn link found");
+                                  cubit.emitError('Link not available');
                                 }
                               },
                               icon: Icon(
@@ -207,12 +204,16 @@ class CompanyDetailsScreen extends StatelessWidget {
                               maxLines: 1,
                               softWrap: true),
                           SizedBox(width: 4),
-                          Text(
-                            '12',
-                            style: TextStyle(
-                                color: context.primary,
-                                fontSize: context.bodyMedium.fontSize,
-                                fontWeight: FontWeight.bold),
+                          BlocBuilder<CompanyDetailsCubit, CompanyDetailsState>(
+                            builder: (context, state) {
+                              return Text(
+                                '${cubit.queueLength}',
+                                style: TextStyle(
+                                    color: context.primary,
+                                    fontSize: context.bodyMedium.fontSize,
+                                    fontWeight: FontWeight.bold),
+                              );
+                            },
                           ),
                         ],
                       ),

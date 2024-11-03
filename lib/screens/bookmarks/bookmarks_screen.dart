@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/reusable_components/cards/company_card_list_item.dart';
@@ -20,12 +18,14 @@ class BookmarksScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final cubit = context.read<BookmarksCubit>();
         return BlocListener<BookmarksCubit, BookmarksState>(
-          listener: (context, state) async {
+          listener: (context, state) {
             if (cubit.previousState is LoadingState) {
-              await Navigator.of(context).maybePop();
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
             }
 
-            if (state is LoadingState && cubit.previousState is! LoadingState) {
+            if (state is LoadingState) {
               showLoadingDialog(context);
             }
 
@@ -56,12 +56,18 @@ class BookmarksScreen extends StatelessWidget {
                         builder: (context, state) {
                           return ListView(
                             children: cubit.bookmarkedCompanies
-                                .map((company) => CompanyCardListItem(
-                                    company: company,
-                                    toggleBookmark: () => cubit.toggleBookmark(
-                                        context, company.id ?? ''),
-                                    isBookmarked:
-                                        cubit.checkBookmark(company.id ?? '')))
+                                .map((company) => InkWell(
+                                      onTap: () =>
+                                          cubit.navigateToCompanyDetails(
+                                              context, company),
+                                      child: CompanyCardListItem(
+                                          company: company,
+                                          toggleBookmark: () =>
+                                              cubit.toggleBookmark(
+                                                  context, company.id ?? ''),
+                                          isBookmarked: cubit
+                                              .checkBookmark(company.id ?? '')),
+                                    ))
                                 .toList(),
                           );
                         },

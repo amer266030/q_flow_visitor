@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/screens/bottom_nav/bottom_nav_screen.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
-import 'package:q_flow/screens/home/home_screen.dart';
 
 part 'auth_state.dart';
 

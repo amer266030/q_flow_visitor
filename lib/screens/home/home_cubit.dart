@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:q_flow/model/enums/interview_status.dart';
 import 'package:q_flow/model/user/company.dart';
-import 'package:q_flow/model/interview.dart';
 import 'package:q_flow/screens/home/network_functions.dart';
 
 import '../../managers/data_mgr.dart';
+import '../../model/queue_entry.dart';
 import '../../model/user/visitor.dart';
 import '../company_details/company_details_screen.dart';
 import '../explore/explore_screen.dart';
@@ -22,17 +25,36 @@ class HomeCubit extends Cubit<HomeState> {
 
   var visitor = Visitor();
   List<Company> companies = [];
+  StreamSubscription<List<Map<String, dynamic>>>? queueSubscription;
+  List<QueueEntry> scheduledQueue = [];
 
-  initialLoad() {
+  void initialLoad() async {
     try {
       if (dataMgr.visitor == null) throw Exception('Could not load user');
       visitor = dataMgr.visitor!;
       companies = dataMgr.companies;
+
+      // Step 1: Loop through each interview and start tracking its queue
+      for (var interview in visitor.interviews ?? []) {
+        if (interview.companyId != null &&
+            interview.status == InterviewStatus.upcoming) {
+          await subscribeToScheduledQueue(interview.companyId!);
+        }
+      }
     } catch (e) {
       emitError(e.toString());
     }
-
     emitUpdate();
+  }
+
+  @override
+  Future<void> close() {
+    queueSubscription?.cancel();
+    return super.close();
+  }
+
+  Company? getCompany(String companyId) {
+    return companies.where((c) => c.id == companyId).toList().firstOrNull;
   }
 
   toggleBookmark(BuildContext context, String companyId) async {

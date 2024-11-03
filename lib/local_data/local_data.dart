@@ -1,28 +1,13 @@
 import 'package:q_flow/model/rating/company_rating_question.dart';
 
-import '../model/enums/company_size.dart';
-import '../model/user/company.dart';
+class LocalData {
+  LocalData._internal();
 
-class MockData {
-  MockData._internal();
+  static final LocalData _instance = LocalData._internal();
 
-  static final MockData _instance = MockData._internal();
-
-  factory MockData() {
+  factory LocalData() {
     return _instance;
   }
-
-  // Your mock data
-  var company = Company(
-    id: '1',
-    name: 'XYZ Company',
-    description:
-        'XYZ is a startup company that is specialized in providing tech solutions based on client needs.',
-    companySize: CompanySize.oneHundredTo200,
-    establishedYear: '2015',
-    logoUrl: null,
-    avgRating: 4,
-  );
 
   var questions = [
     CompanyRatingQuestion(
