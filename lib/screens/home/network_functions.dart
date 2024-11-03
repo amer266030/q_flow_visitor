@@ -10,19 +10,22 @@ import 'home_cubit.dart';
 extension NetworkFunctions on HomeCubit {
   // Interviews
 
-  Future<void> subscribeToScheduledQueue(String companyId) async {
-    // Step 1: Fetch the IDs of scheduled interviews
-    final scheduledInterviewIds =
-        await SupabaseInterview.fetchScheduledInterviewIds(companyId);
+  Future<void> subscribeToInterviewUpdates() async {
+    SupabaseInterview.subscribeToInterviewChanges().listen((newInterviews) {
+      updateInterviewList(newInterviews);
+    });
+  }
 
-    // Step 2: Subscribe to the QueueEntry stream and filter by scheduled interviews
-    SupabaseQueue.subscribeToMultipleUpdates(
+  Future<void> subscribeToScheduledQueue({List<String>? interviewIds}) async {
+    final scheduledInterviewIds =
+        interviewIds ?? await SupabaseInterview.fetchScheduledInterviewIds();
+
+    final subscription = SupabaseQueue.subscribeToMultipleUpdates(
       interviewIds: scheduledInterviewIds,
-      companyId: companyId,
     ).listen((queueEntries) {
-      // Call updateQueuePositions to update interview positions and emit the update
       updateQueuePositions(queueEntries);
     });
+    queueSubscriptions.add(subscription);
   }
 
   void updateQueuePositions(List<QueueEntry> queueEntries) {

@@ -8,8 +8,10 @@ import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/screens/home/network_functions.dart';
 
 import '../../managers/data_mgr.dart';
+import '../../model/interview.dart';
 import '../../model/queue_entry.dart';
 import '../../model/user/visitor.dart';
+import '../../supabase/supabase_interview.dart';
 import '../company_details/company_details_screen.dart';
 import '../explore/explore_screen.dart';
 
@@ -25,7 +27,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   var visitor = Visitor();
   List<Company> companies = [];
-  StreamSubscription<List<Map<String, dynamic>>>? queueSubscription;
+  List<StreamSubscription<List<QueueEntry>>> queueSubscriptions = [];
   List<QueueEntry> scheduledQueue = [];
 
   void initialLoad() async {
@@ -34,11 +36,12 @@ class HomeCubit extends Cubit<HomeState> {
       visitor = dataMgr.visitor!;
       companies = dataMgr.companies;
 
-      // Step 1: Loop through each interview and start tracking its queue
+      // Subscribing to interview updates
       for (var interview in visitor.interviews ?? []) {
         if (interview.companyId != null &&
             interview.status == InterviewStatus.upcoming) {
-          await subscribeToScheduledQueue(interview.companyId!);
+          await subscribeToScheduledQueue();
+          await subscribeToInterviewUpdates();
         }
       }
     } catch (e) {
@@ -47,9 +50,32 @@ class HomeCubit extends Cubit<HomeState> {
     emitUpdate();
   }
 
+  void updateInterviewList(List<Interview> newInterviews) async {
+    await cancelSubscriptions();
+
+    visitor.interviews = newInterviews;
+    final interviewCopy = List<Interview>.from(visitor.interviews ?? []);
+
+    for (var interview in interviewCopy) {
+      if (interview.companyId != null &&
+          interview.status == InterviewStatus.upcoming) {
+        await subscribeToScheduledQueue();
+      }
+    }
+
+    emitUpdate();
+  }
+
+  Future<void> cancelSubscriptions() async {
+    for (var subscription in queueSubscriptions) {
+      await subscription.cancel();
+    }
+    queueSubscriptions.clear();
+  }
+
   @override
-  Future<void> close() {
-    queueSubscription?.cancel();
+  Future<void> close() async {
+    await cancelSubscriptions();
     return super.close();
   }
 
@@ -84,8 +110,10 @@ class HomeCubit extends Cubit<HomeState> {
 
   @override
   void emit(HomeState state) {
-    previousState = this.state;
-    super.emit(state);
+    if (!isClosed) {
+      previousState = this.state;
+      super.emit(state);
+    }
   }
 
   emitUpdate() => emit(UpdateUIState());

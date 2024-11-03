@@ -22,9 +22,9 @@ class SupabaseQueue {
           .eq('company_id', companyId)
           .order('position', ascending: false)
           .limit(1)
-          .single();
+          .maybeSingle();
 
-      final nextPosition = (maxPosition['position'] ?? 0) + 1;
+      final nextPosition = (maxPosition?['position'] ?? 0) + 1;
       return nextPosition;
     } catch (e) {
       rethrow;
@@ -64,11 +64,8 @@ class SupabaseQueue {
         .stream(primaryKey: ['id'])
         .eq('companyId', companyId)
         .map((event) {
-          // Calculate queue length whenever an event is triggered
           return event.length;
         });
-
-    print('event triggered');
 
     return stream;
   }
@@ -77,18 +74,15 @@ class SupabaseQueue {
 
   static Stream<List<QueueEntry>> subscribeToMultipleUpdates({
     required List<String> interviewIds,
-    required String companyId,
   }) {
     return supabase
         .from(tableKey)
-        .stream(primaryKey: ['id'])
-        .eq('company_id', companyId)
-        .map((queueEntries) {
-          return queueEntries
-              .where((entry) => interviewIds.contains(entry['interview_id']))
-              .map((entry) => QueueEntry.fromJson(entry))
-              .toList();
-        });
+        .stream(primaryKey: ['id']).map((queueEntries) {
+      return queueEntries
+          .where((entry) => interviewIds.contains(entry['interview_id']))
+          .map((entry) => QueueEntry.fromJson(entry))
+          .toList();
+    });
   }
 
   static void unsubscribeFromQueueUpdates() {

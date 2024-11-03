@@ -24,7 +24,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     var dataMgr = GetIt.I.get<DataMgr>();
     try {
       await dataMgr.fetchData();
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 200));
       if (dataMgr.visitor != null) {
         if (context.mounted) navigateToHome(context);
       } else if (SupabaseMgr.shared.supabase.auth.currentUser != null) {

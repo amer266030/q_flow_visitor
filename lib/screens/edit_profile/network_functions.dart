@@ -37,7 +37,8 @@ extension NetworkFunctions on EditProfileCubit {
 
       // Create Social Links
 
-      Future.delayed(Duration(seconds: 1));
+      Future.delayed(Duration(milliseconds: 50));
+
       var visitorId = newVisitor.id;
       if (visitorId == null)
         throw Exception(
@@ -46,9 +47,11 @@ extension NetworkFunctions on EditProfileCubit {
       var socialLinks = await SupabaseSocialLink.insertLinks(links);
       newVisitor.socialLinks = socialLinks;
 
+      dataMgr.visitor = newVisitor;
+
       emitUpdate();
 
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(milliseconds: 50));
 
       if (context.mounted) {
         navigateToSkills(context);
@@ -59,7 +62,7 @@ extension NetworkFunctions on EditProfileCubit {
   }
 
   updateProfile(BuildContext context) async {
-    var visitor = GetIt.I.get<DataMgr>().visitor;
+    var visitor = dataMgr.visitor;
     try {
       emitLoading();
       if (visitor == null) throw Exception('Could not read profile data');

@@ -26,13 +26,3 @@ extension NetworkFunctions on BootcampCubit {
     }
   }
 }
-
-// emitLoading();
-// var techSkills = createSkills();
-// await SupabaseSkill.updateSkills(techSkills);
-// dataMgr.company?.skills = techSkills;
-//
-// if (context.mounted) navigateToHome(context);
-// } catch (e) {
-// emitError("Error loading company details: $e");
-// }

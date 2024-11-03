@@ -199,7 +199,7 @@ class CompanyDetailsScreen extends StatelessWidget {
                             size: context.titleMedium.fontSize,
                           ),
                           SizedBox(width: 4),
-                          Text('Current queue:',
+                          Text('Queue position:',
                               style: context.bodyMedium,
                               maxLines: 1,
                               softWrap: true),
@@ -230,12 +230,16 @@ class CompanyDetailsScreen extends StatelessWidget {
                               maxLines: 1,
                               softWrap: true),
                           SizedBox(width: 4),
-                          Text(
-                            '25:00 min',
-                            style: TextStyle(
-                                color: context.primary,
-                                fontSize: context.bodyMedium.fontSize,
-                                fontWeight: FontWeight.bold),
+                          BlocBuilder<CompanyDetailsCubit, CompanyDetailsState>(
+                            builder: (context, state) {
+                              return Text(
+                                '${cubit.queueLength * 2}:00 min',
+                                style: TextStyle(
+                                    color: context.primary,
+                                    fontSize: context.bodyMedium.fontSize,
+                                    fontWeight: FontWeight.bold),
+                              );
+                            },
                           ),
                         ],
                       ),

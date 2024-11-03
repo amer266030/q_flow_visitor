@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:q_flow/extensions/date_ext.dart';
+import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/model/enums/gender.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
 
@@ -19,6 +21,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   EditProfileCubit(Visitor? visitor) : super(EditProfileInitial()) {
     loadInitialValues(visitor);
   }
+
+  var dataMgr = GetIt.I.get<DataMgr>();
 
   final fNameController = TextEditingController();
   final lNameController = TextEditingController();

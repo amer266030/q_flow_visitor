@@ -45,16 +45,42 @@ class SupabaseInterview {
     }
   }
 
-  static Future<List<String>> fetchScheduledInterviewIds(
-      String companyId) async {
-    final response = await SupabaseMgr.shared.supabase
-        .from(tableKey)
-        .select('id')
-        .eq('company_id', companyId)
-        .eq('status', 'Upcoming');
+  static Stream<List<Interview>> subscribeToInterviewChanges() {
+    try {
+      if (dataMgr.visitor?.id == null) {
+        throw Exception('could not load user ID');
+      }
+      return supabase
+          .from(tableKey)
+          .stream(primaryKey: ['id'])
+          .eq('status', 'Upcoming')
+          .map((interviews) {
+            return interviews
+                .where((data) => data['visitor_id'] == dataMgr.visitor!.id)
+                .map((data) => Interview.fromJson(data))
+                .toList();
+          });
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-    return (response as List)
-        .map((interview) => interview['id'] as String)
-        .toList();
+  static Future<List<String>> fetchScheduledInterviewIds() async {
+    try {
+      var visitorId = supabase.auth.currentUser?.id;
+      if (visitorId == null) throw Exception("Visitor ID not found");
+
+      final response = await SupabaseMgr.shared.supabase
+          .from(tableKey)
+          .select('id')
+          .eq('visitor_id', visitorId)
+          .eq('status', 'Upcoming');
+
+      return (response as List)
+          .map((interview) => interview['id'] as String)
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
   }
 }

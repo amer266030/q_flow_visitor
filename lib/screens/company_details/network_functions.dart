@@ -49,7 +49,6 @@ extension NetworkFunctions on CompanyDetailsCubit {
 
     company.interviews = waitingInterviews;
 
-    // Trigger UI update if needed
-    // notifyListeners();
+    emitUpdate();
   }
 }
