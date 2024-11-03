@@ -7,12 +7,15 @@ import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../reusable_components/dialogs/error_dialog.dart';
 import '../../reusable_components/dialogs/loading_dialog.dart';
+import '../../services/one_signal/services/notification_serv.dart';
 
 class BookmarksScreen extends StatelessWidget {
   const BookmarksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    sendNotification('');
+
     return BlocProvider(
       create: (context) => BookmarksCubit(),
       child: Builder(builder: (context) {
