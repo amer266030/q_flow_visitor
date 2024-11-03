@@ -6,6 +6,7 @@ import 'package:q_flow/model/bookmarks/bookmarked_company.dart';
 import 'package:q_flow/model/interview.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../model/skills/skill.dart';
 import '../model/social_links/social_link.dart';
 import '../model/user/visitor.dart';
 import '../utils/img_converter.dart';
@@ -25,7 +26,8 @@ class SupabaseVisitor {
         // Fetch the visitor profile and associated social links based on user_id
         final response = await supabase
             .from(tableKey)
-            .select('*, social_link(*), bookmarked_company(*), interview(*)')
+            .select(
+                '*, social_link(*), bookmarked_company(*), interview(*), skill(*)')
             .eq('id', visitorId)
             .maybeSingle();
 
@@ -51,6 +53,12 @@ class SupabaseVisitor {
         // Parse bookmarked companies if they exist
         visitor.interviews = (response['interview'] as List?)
                 ?.map((interview) => Interview.fromJson(interview))
+                .toList() ??
+            [];
+
+        // Parse skills if they exist
+        visitor.skills = (response['skill'] as List?)
+                ?.map((interview) => Skill.fromJson(interview))
                 .toList() ??
             [];
 

@@ -7,10 +7,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/model/enums/gender.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
-import 'package:q_flow/screens/bootcamp_screen/bootcamp_screen.dart';
 
 import '../../model/enums/experience.dart';
 import '../../model/user/visitor.dart';
+import '../skills/skills_screen.dart';
 
 part 'edit_profile_state.dart';
 
@@ -63,9 +63,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   navigateBack(BuildContext context) => Navigator.of(context).pop();
 
-  navigateToBootcamp(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => BootcampScreen()));
+  navigateToSkills(BuildContext context) => Navigator.of(context)
+      .pushReplacement(MaterialPageRoute(builder: (context) => SkillsScreen()));
 
   void getImage() async {
     final img = await ImagePicker().pickImage(source: ImageSource.gallery);

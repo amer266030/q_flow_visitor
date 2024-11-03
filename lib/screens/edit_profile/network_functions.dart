@@ -51,7 +51,7 @@ extension NetworkFunctions on EditProfileCubit {
       await Future.delayed(Duration(seconds: 2));
 
       if (context.mounted) {
-        navigateToBootcamp(context);
+        navigateToSkills(context);
       }
     } catch (e) {
       emitError(e.toString());

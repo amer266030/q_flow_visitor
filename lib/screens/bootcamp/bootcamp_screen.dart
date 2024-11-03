@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
-import 'package:q_flow/screens/bootcamp_screen/bootcamp_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 import '../../model/enums/bootcamp.dart';
+import 'bootcamp_cubit.dart';
 
 class BootcampScreen extends StatelessWidget {
   const BootcampScreen({super.key});
@@ -44,8 +44,7 @@ class BootcampScreen extends StatelessWidget {
                                         onTap: () => cubit.bootcampTapped(b),
                                         child: _GridItemView(
                                             title: b.value,
-                                            isSelected:
-                                                cubit.bootcamps.contains(b)),
+                                            isSelected: cubit.bootcamp == b),
                                       ))
                                   .toList(),
                             ),
