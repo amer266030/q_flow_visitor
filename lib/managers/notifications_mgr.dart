@@ -13,7 +13,7 @@ class NotificationsMgr {
         'Authorization': 'Basic ${dotenv.env['OneSignal_RESTAPI_KEY']}',
       },
       body: jsonEncode({
-        'app_id': '9ef08024-c628-4bca-a101-1a15e7ee892c',
+        'app_id': '${dotenv.env['OneSignal_App_ID']}',
         'included_segments': [segment.name],
         'contents': {'en': msg},
       }),
@@ -29,7 +29,7 @@ class NotificationsMgr {
         'Authorization': 'Basic ${dotenv.env['OneSignal_RESTAPI_KEY']}',
       },
       body: jsonEncode({
-        'app_id': '9ef08024-c628-4bca-a101-1a15e7ee892c',
+        'app_id': '${dotenv.env['OneSignal_App_ID']}',
         'include_external_user_ids': [externalId],
         'contents': {'en': message},
       }),
