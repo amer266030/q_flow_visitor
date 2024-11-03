@@ -27,8 +27,9 @@ class SupabaseVisitor {
             .from(tableKey)
             .select('*, social_link(*), bookmarked_company(*), interview(*)')
             .eq('id', visitorId)
-            .single();
+            .maybeSingle();
 
+        if (response == null) return null;
         // Create the Visitor instance from the response
         final visitor = Visitor.fromJson(response);
 

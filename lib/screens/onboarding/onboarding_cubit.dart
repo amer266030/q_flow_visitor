@@ -21,7 +21,6 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   initialLoad(BuildContext context) async {
     emitLoading();
-    print(SupabaseMgr.shared.supabase.auth.currentUser?.id);
     var dataMgr = GetIt.I.get<DataMgr>();
     try {
       await dataMgr.fetchData();

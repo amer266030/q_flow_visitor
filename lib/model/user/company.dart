@@ -1,10 +1,9 @@
+import 'package:q_flow/model/bookmarks/bookmarked_visitor.dart';
 import 'package:q_flow/model/skills/skill.dart';
 import 'package:q_flow/model/social_links/social_link.dart';
 
 import '../enums/company_size.dart';
 import '../interview.dart';
-import '../skills/skill.dart';
-import '../social_links/social_link.dart';
 
 class Company {
   String? id; // References profile_id
@@ -19,6 +18,7 @@ class Company {
   List<Skill>? skills;
   int? queueLength;
   List<Interview>? interviews;
+  List<BookmarkedVisitor>? bookmarkedVisitors;
 
   Company({
     this.id,
@@ -33,6 +33,7 @@ class Company {
     this.skills,
     this.queueLength,
     this.interviews,
+    this.bookmarkedVisitors,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {
@@ -62,6 +63,11 @@ class Company {
       interviews: json['interviews'] != null
           ? (json['interviews'] as List)
               .map((link) => Interview.fromJson(link))
+              .toList()
+          : null,
+      bookmarkedVisitors: json['bookmarked_visitors'] != null
+          ? (json['bookmarked_visitors'] as List)
+              .map((bm) => BookmarkedVisitor.fromJson(bm))
               .toList()
           : null,
     );
