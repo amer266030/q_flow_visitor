@@ -24,4 +24,9 @@
   ,"ERROR!": "ERROR!"
   ,"OK": "OK"
   ,"TheProvidedEmail": "The provided email haven't been invited to an event. Please contact the organizer for support"
+  ,"AccessDenied!": "Access Denied!\nProvided email is intended for our Company App"
+  ,"Email": "Email"
+  ,"Start": "Start"
+  ,"VerifyYourEmail": "Verify your email"
+  ,"Verification": "An OTP verification code was sent to"
 }
