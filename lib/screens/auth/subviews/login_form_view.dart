@@ -26,7 +26,8 @@ class LoginFormView extends StatelessWidget {
         const SizedBox(height: 32),
         Row(
           children: [
-            Expanded(child: PrimaryBtn(callback: callback, title: 'Start'))
+            Expanded(
+                child: PrimaryBtn(callback: callback, title: 'Login'))
           ],
         ),
       ],

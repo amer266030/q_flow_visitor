@@ -57,5 +57,18 @@ class Validations {
     return null; // Return null if validation passes
   }
 
+  static String? validateUrl(String value) {
+    final urlPattern =
+        r'^(http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?$';
+    final regex = RegExp(urlPattern);
+
+    if (value.isEmpty) {
+      return 'This field cannot be empty';
+    } else if (!regex.hasMatch(value)) {
+      return 'Please enter a valid URL';
+    }
+    return null; // Return null if validation passes
+  }
+
   static String? none(String value) => null;
 }

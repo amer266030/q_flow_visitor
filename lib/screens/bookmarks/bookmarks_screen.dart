@@ -54,6 +54,17 @@ class BookmarksScreen extends StatelessWidget {
                     Expanded(
                       child: BlocBuilder<BookmarksCubit, BookmarksState>(
                         builder: (context, state) {
+                          if (cubit.bookmarkedCompanies.isEmpty) {
+                            return Center(
+                              child: Text(
+                                'Bookmark is empty.',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: context.textColor1,
+                                ),
+                              ),
+                            );
+                          }
                           return ListView(
                             children: cubit.bookmarkedCompanies
                                 .map((company) => InkWell(

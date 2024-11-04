@@ -29,7 +29,6 @@ class ProfileToggleListItem extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                Icon(CupertinoIcons.circle, color: context.textColor1),
                 const SizedBox(width: 8),
                 Text(
                   title,

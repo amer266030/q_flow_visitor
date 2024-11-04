@@ -8,6 +8,7 @@ extension NetworkFunctions on AuthCubit {
   sendOTP(BuildContext context) async {
     try {
       emitLoading();
+
       await SupabaseAuth.sendOTP(emailController.text);
       toggleIsOtp();
     } catch (e) {

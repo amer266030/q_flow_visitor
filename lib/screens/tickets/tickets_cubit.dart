@@ -61,6 +61,19 @@ class TicketsCubit extends Cubit<TicketsState> {
     }
   }
 
+  String getEmptyStateMessage(InterviewStatus status) {
+    switch (status) {
+      case InterviewStatus.upcoming:
+        return 'No upcoming interviews found.';
+      case InterviewStatus.completed:
+        return 'No completed interviews found.';
+      case InterviewStatus.cancelled:
+        return 'No cancelled interviews found.';
+      default:
+        return 'No interviews found.';
+    }
+  }
+
   emitUpdate() => emit(UpdateUIState());
   emitLoading() => emit(LoadingState());
   emitError(msg) => emit(ErrorState(msg));
