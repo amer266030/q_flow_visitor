@@ -15,9 +15,6 @@ class BookmarksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(oneData);
-    NotificationsMgr.sendNotificationToUser(
-        externalId: oneData, message: 'hello');
     return BlocProvider(
       create: (context) => BookmarksCubit(),
       child: Builder(builder: (context) {
@@ -56,6 +53,14 @@ class BookmarksScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: 100),
+                    ElevatedButton(
+                        onPressed: () {
+                          print(oneData);
+                          NotificationsMgr.sendNotificationToUser(
+                              externalId: oneData, message: 'hello');
+                        },
+                        child: Text('test')),
                     Expanded(
                       child: BlocBuilder<BookmarksCubit, BookmarksState>(
                         builder: (context, state) {
