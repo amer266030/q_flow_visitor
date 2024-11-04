@@ -18,6 +18,8 @@ class BookmarksScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => BookmarksCubit(),
       child: Builder(builder: (context) {
+        final externalId = MySharedPreferences.readID();
+        final text = externalId.toString();
         final cubit = context.read<BookmarksCubit>();
         return BlocListener<BookmarksCubit, BookmarksState>(
           listener: (context, state) {
@@ -56,9 +58,10 @@ class BookmarksScreen extends StatelessWidget {
                     SizedBox(height: 100),
                     ElevatedButton(
                         onPressed: () {
-                          print(oneData);
+                          print(MySharedPreferences.readID());
                           NotificationsMgr.sendNotificationToUser(
-                              externalId: oneData, message: 'hello');
+                              externalId: text.length.toString(),
+                              message: 'hello');
                         },
                         child: Text('test')),
                     Expanded(

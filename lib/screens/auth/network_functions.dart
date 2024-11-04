@@ -29,8 +29,7 @@ extension NetworkFunctions on AuthCubit {
       final oneSignalId = Random().nextInt(99999).toString();
       await OneSignal.login(oneSignalId);
       print('User ID: $oneSignalId');
-      oneData = oneSignalId;
-      print('oneData: $oneData');
+      MySharedPreferences.saveID(oneSignalId);
       //________________________________________________
       await SupabaseVisitor.fetchProfile();
       previousState = null;
