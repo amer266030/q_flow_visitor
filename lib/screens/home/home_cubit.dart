@@ -30,30 +30,45 @@ class HomeCubit extends Cubit<HomeState> {
   List<StreamSubscription<List<QueueEntry>>> queueSubscriptions = [];
   List<QueueEntry> scheduledQueue = [];
 
+  // Interview Stream with initial value
+  static final _interviewController =
+      StreamController<List<Interview>>.broadcast();
+  static Stream<List<Interview>> get interviewStream =>
+      _interviewController.stream;
+  List<Interview> interviews = [];
+
   void initialLoad() async {
     try {
       if (dataMgr.visitor == null) throw Exception('Could not load user');
       visitor = dataMgr.visitor!;
       companies = dataMgr.companies;
 
-      // Subscribing to interview updates
-      for (var interview in visitor.interviews ?? []) {
-        if (interview.companyId != null &&
-            interview.status == InterviewStatus.upcoming) {
-          await subscribeToScheduledQueue();
-          await subscribeToInterviewUpdates();
-        }
-      }
+      final initialInterviews = await SupabaseInterview.fetchInterviews();
+      _interviewController.add(initialInterviews);
+      interviews = initialInterviews;
+
+      listenToStream();
     } catch (e) {
       emitError(e.toString());
     }
     emitUpdate();
   }
 
-  void updateInterviewList(List<Interview> newInterviews) async {
-    await cancelSubscriptions();
+  listenToStream() {
+    SupabaseInterview.interviewStream().listen((updatedInterviews) {
+      _interviewController.add(updatedInterviews);
+      interviews = updatedInterviews;
+      print(interviews.length);
+      filterInterviews();
+      emitUpdate();
+    });
+  }
 
-    visitor.interviews = newInterviews;
+  filterInterviews() async {
+    interviews = interviews
+        .where((interview) => interview.status == InterviewStatus.upcoming)
+        .toList();
+    visitor.interviews = interviews;
     final interviewCopy = List<Interview>.from(visitor.interviews ?? []);
 
     for (var interview in interviewCopy) {
@@ -62,7 +77,6 @@ class HomeCubit extends Cubit<HomeState> {
         await subscribeToScheduledQueue();
       }
     }
-
     emitUpdate();
   }
 

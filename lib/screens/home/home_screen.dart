@@ -55,8 +55,7 @@ class HomeScreen extends StatelessWidget {
                     _SectionHeaderView(title: 'Upcoming Interviews'),
                     BlocBuilder<HomeCubit, HomeState>(
                       builder: (context, state) {
-                        return cubit.visitor.interviews != null &&
-                                cubit.visitor.interviews!.isNotEmpty
+                        return cubit.interviews.isNotEmpty
                             ? SizedBox(
                                 height: context.screenWidth * 0.45,
                                 child: CarouselView(

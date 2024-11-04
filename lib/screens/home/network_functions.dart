@@ -10,12 +10,6 @@ import 'home_cubit.dart';
 extension NetworkFunctions on HomeCubit {
   // Interviews
 
-  Future<void> subscribeToInterviewUpdates() async {
-    SupabaseInterview.subscribeToInterviewChanges().listen((newInterviews) {
-      updateInterviewList(newInterviews);
-    });
-  }
-
   Future<void> subscribeToScheduledQueue({List<String>? interviewIds}) async {
     final scheduledInterviewIds =
         interviewIds ?? await SupabaseInterview.fetchScheduledInterviewIds();
@@ -24,12 +18,12 @@ extension NetworkFunctions on HomeCubit {
       interviewIds: scheduledInterviewIds,
     ).listen((queueEntries) {
       updateQueuePositions(queueEntries);
+      emitUpdate();
     });
     queueSubscriptions.add(subscription);
   }
 
   void updateQueuePositions(List<QueueEntry> queueEntries) {
-    // Update the positionInQueue for each interview in visitor.interviews
     for (var interview in visitor.interviews ?? []) {
       final queueEntry = queueEntries.firstWhere(
         (q) => q.interviewId == interview.id,
@@ -38,7 +32,7 @@ extension NetworkFunctions on HomeCubit {
       interview.positionInQueue = queueEntry.position;
     }
 
-    emitUpdate();
+    // emitUpdate();
   }
 
   // Bookmarks
