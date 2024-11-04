@@ -31,8 +31,6 @@ extension NetworkFunctions on HomeCubit {
       );
       interview.positionInQueue = queueEntry.position;
     }
-
-    // emitUpdate();
   }
 
   // Bookmarks

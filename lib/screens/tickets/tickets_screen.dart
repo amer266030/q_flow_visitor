@@ -67,9 +67,7 @@ class TicketsScreen extends StatelessWidget {
                                                     : DateTime.parse(interview
                                                             .createdAt!)
                                                         .toFormattedStringTimeOnly(),
-                                                positionInQueue:
-                                                    interview.positionInQueue ??
-                                                        1,
+                                                positionInQueue: -1,
                                                 company: cubit.getCompany(
                                                     interview.companyId ?? '')),
                                           ),

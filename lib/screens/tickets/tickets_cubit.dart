@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/screens/rating/rating_screen.dart';
+import 'package:q_flow/screens/tickets/network_functions.dart';
 
 import '../../managers/data_mgr.dart';
 import '../../model/user/company.dart';
 import '../../model/enums/interview_status.dart';
 import '../../model/interview.dart';
-import '../../model/user/visitor.dart';
 
 part 'tickets_state.dart';
 
 class TicketsCubit extends Cubit<TicketsState> {
+  TicketsState? previousState;
   TicketsCubit() : super(TicketsInitial()) {
     initialLoad();
   }
@@ -22,9 +22,9 @@ class TicketsCubit extends Cubit<TicketsState> {
   List<Company> companies = [];
   var selectedStatus = InterviewStatus.upcoming;
 
-  initialLoad() {
+  initialLoad() async {
     companies = dataMgr.companies;
-    interviews = dataMgr.visitor?.interviews ?? [];
+    interviews = await fetchInterviews();
     filterInterviews();
     emitUpdate();
   }
@@ -53,5 +53,15 @@ class TicketsCubit extends Cubit<TicketsState> {
         builder: (context) => RatingScreen(company: selectedCompany)));
   }
 
+  @override
+  void emit(TicketsState state) {
+    if (!isClosed) {
+      previousState = this.state;
+      super.emit(state);
+    }
+  }
+
   emitUpdate() => emit(UpdateUIState());
+  emitLoading() => emit(LoadingState());
+  emitError(msg) => emit(ErrorState(msg));
 }

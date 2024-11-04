@@ -58,6 +58,7 @@ class HomeCubit extends Cubit<HomeState> {
     SupabaseInterview.interviewStream().listen((updatedInterviews) {
       _interviewController.add(updatedInterviews);
       interviews = updatedInterviews;
+      dataMgr.visitor?.interviews = updatedInterviews;
       print(interviews.length);
       filterInterviews();
       emitUpdate();
@@ -118,8 +119,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   navigateToExplore(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ExploreScreen(companies: companies)));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ExploreScreen()));
   }
 
   @override
