@@ -19,4 +19,9 @@
   ,"Website": "Website"
   ,"Twitter": "Twitter"
   ,"Save": "Save"
+  ,"CouldNotVerifyOTP": "Could not verify OTP\n"
+  ,"PleaseWait": "Please wait..."
+  ,"ERROR!": "ERROR!"
+  ,"OK": "OK"
+  ,"TheProvidedEmail": "The provided email haven't been invited to an event. Please contact the organizer for support"
 }
