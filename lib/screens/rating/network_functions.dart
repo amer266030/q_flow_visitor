@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:q_flow/model/rating/company_question_rating.dart';
 import 'package:q_flow/screens/rating/rating_cubit.dart';
@@ -8,7 +9,7 @@ extension NetworkFunctions on RatingCubit {
     emitLoading();
     try {
       if (company.id == null) throw Exception('Could not load company');
-      if (dataMgr.visitor?.id == null) throw Exception('Could not load user');
+      if (dataMgr.visitor?.id == null) throw Exception('Could'.tr());
 
       List<CompanyQuestionRating> questionRatings = setRatings();
 

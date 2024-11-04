@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -32,7 +33,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void initialLoad() async {
     try {
-      if (dataMgr.visitor == null) throw Exception('Could not load user');
+      if (dataMgr.visitor == null) throw Exception('Could'.tr());
       visitor = dataMgr.visitor!;
       companies = dataMgr.companies;
 
