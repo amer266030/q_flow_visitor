@@ -17,7 +17,6 @@ class AuthCubit extends Cubit<AuthState> {
   var dataMgr = GetIt.I.get<DataMgr>();
   var isOtp = false;
   var emailController = TextEditingController();
-    var  pinController = TextEditingController();
 
 
   toggleIsOtp() {
