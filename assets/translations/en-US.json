@@ -30,4 +30,13 @@
   ,"VerifyYourEmail": "Verify your email"
   ,"Verification": "An OTP verification code was sent to"
   ,"OTP": "OTP Verification code: *"
+  ,"Cancel": "Cancel"
+  ,"Verify": "Verify"
+  ,"Could": "Could not load user"
+  ,"Bookmarks": "Bookmarks"
+  ,"Bootcamp": "Bootcamp"
+  ,"Continue": "Continue"
+  ,"CouldNot": "Could not retrieve user data"
+  ,"NoBootcamp": "No bootcamp selected!"
+  ,"URLCannot": "URL cannot be null or empty for"
 }
