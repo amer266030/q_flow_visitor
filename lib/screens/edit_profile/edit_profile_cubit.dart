@@ -11,7 +11,6 @@ import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/model/enums/gender.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/reusable_components/animated_snack_bar.dart';
-import 'package:q_flow/utils/validations.dart';
 
 import '../../model/enums/experience.dart';
 import '../../model/user/visitor.dart';
@@ -68,21 +67,19 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     emitUpdate();
   }
 
-   bool validateFields() {
-    final fNameError = Validations.name(fNameController.text);
-    final lNameError = Validations.name(lNameController.text);
-    final linkedInError = Validations.validateUrl(linkedInController.text);
-    final websiteError = Validations.validateUrl(websiteController.text);
-    final twitterError = Validations.validateUrl(xController.text);
-    
-    if (fNameError != null || lNameError != null || linkedInError != null || websiteError != null || twitterError != null) {
-      // Optionally store these messages to show in the UI later
-      // e.g., emitError(fNameError ?? lNameError ?? linkedInError ?? websiteError ?? twitterError);
+  bool validateFields() {
+    final currentYear = DateTime.now().year;
+    if (fNameController.text.isEmpty ||
+        lNameController.text.isEmpty ||
+        linkedInController.text.isEmpty ||
+        websiteController.text.isEmpty ||
+        xController.text.isEmpty ||
+        exp == Experience.none ||
+        dob.year > currentYear - 10) {
       return false;
     }
     return true;
   }
-
 
   navigateBack(BuildContext context) => Navigator.of(context).pop();
 
