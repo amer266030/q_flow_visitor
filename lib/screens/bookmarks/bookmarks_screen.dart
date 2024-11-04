@@ -5,6 +5,8 @@ import 'package:q_flow/screens/bookmarks/bookmarks_cubit.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
+import '../../local_data/one_data.dart';
+import '../../managers/notificaations_mgr.dart';
 import '../../reusable_components/dialogs/error_dialog.dart';
 import '../../reusable_components/dialogs/loading_dialog.dart';
 
@@ -51,6 +53,14 @@ class BookmarksScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: 100),
+                    ElevatedButton(
+                        onPressed: () {
+                          print(oneData);
+                          NotificationsMgr.sendNotificationToUser(
+                              externalId: oneData, message: 'hello');
+                        },
+                        child: Text('test')),
                     Expanded(
                       child: BlocBuilder<BookmarksCubit, BookmarksState>(
                         builder: (context, state) {
