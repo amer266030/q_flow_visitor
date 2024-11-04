@@ -7,10 +7,13 @@ import 'package:q_flow/supabase/client/supabase_mgr.dart';
 import 'package:q_flow/theme_data/app_theme_cubit.dart';
 import 'package:q_flow/theme_data/app_themes.dart';
 
+import 'services/onesignal_setup.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SupabaseMgr.shared.initialize();
   await DIContainer.setup();
+  OnesignalSetup.init();
   await EasyLocalization.ensureInitialized();
 
   runApp(
