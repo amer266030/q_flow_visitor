@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:q_flow/managers/data_mgr.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -55,6 +56,7 @@ class SupabaseAuth {
     try {
       var response = await supabase.auth.signOut();
       dataMgr.visitor = null;
+      OneSignal.logout();
       return response;
     } catch (e) {
       rethrow;

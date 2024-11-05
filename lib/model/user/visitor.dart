@@ -17,6 +17,7 @@ class Visitor {
   Bootcamp? bootcamp;
   String? resumeUrl;
   String? avatarUrl;
+  String? externalId;
   List<SocialLink>? socialLinks;
   List<Skill>? skills;
   List<BookmarkedCompany>? bookmarkedCompanies;
@@ -32,6 +33,7 @@ class Visitor {
     this.bootcamp,
     this.resumeUrl,
     this.avatarUrl,
+    this.externalId,
     this.socialLinks,
     this.skills,
     this.bookmarkedCompanies,
@@ -55,6 +57,7 @@ class Visitor {
           : null,
       resumeUrl: json['resume_url'] as String?,
       avatarUrl: json['avatar_url'] as String?,
+      externalId: json['external_id'] as String?,
       socialLinks: json['social_links'] != null
           ? (json['social_links'] as List)
               .map((link) => SocialLink.fromJson(link))
@@ -83,9 +86,7 @@ class Visitor {
       'bootcamp': bootcamp?.value,
       'resume_url': resumeUrl,
       'avatar_url': avatarUrl,
-      // 'social_links': socialLinks?.map((link) => link.toJson()).toList(),
-      // 'skills': skills?.map((skill) => skill.toJson()).toList(),
-      // 'bookmarkedCompanies': bookmarkedCompanies?.map((comp) => comp.toJson()).toList(),
+      'external_id': externalId,
     };
   }
 }
