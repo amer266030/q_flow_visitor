@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:q_flow/extensions/date_ext.dart';
-import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_cubit.dart';

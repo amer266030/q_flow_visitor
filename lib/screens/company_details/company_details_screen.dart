@@ -6,7 +6,6 @@ import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/model/enums/company_size.dart';
 import 'package:q_flow/model/enums/tech_skill.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
-import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/screens/company_details/network_functions.dart';
 

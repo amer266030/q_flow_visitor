@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:q_flow/screens/bootcamp/bootcamp_screen.dart';
-import 'package:q_flow/screens/bottom_nav/bottom_nav_screen.dart';
 
 import '../../managers/data_mgr.dart';
 import '../../model/enums/tech_skill.dart';

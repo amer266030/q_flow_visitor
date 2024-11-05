@@ -81,9 +81,7 @@ class EditProfileScreen extends StatelessWidget {
                           child: CustomTextField(
                               hintText: 'John',
                               controller: cubit.fNameController,
-                              validation: Validations.name
-                              )
-                              ,
+                              validation: Validations.name),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -221,7 +219,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         hintText: 'Linkedin',
                         controller: cubit.linkedInController,
-                        validation: Validations.none),
+                        validation: Validations.validateUrl),
                     CustomTextField(
                         suffixIcon: Padding(
                           padding: const EdgeInsets.only(right: 32),
@@ -229,7 +227,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         hintText: 'Website',
                         controller: cubit.websiteController,
-                        validation: Validations.none),
+                        validation: Validations.validateUrl),
                     CustomTextField(
                         suffixIcon: Padding(
                           padding: const EdgeInsets.only(right: 32),
@@ -237,7 +235,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         hintText: 'Twitter',
                         controller: cubit.xController,
-                        validation: Validations.none),
+                        validation: Validations.validateUrl),
                     SizedBox(height: 16),
                     PrimaryBtn(
                         callback: (isInitialSetup || visitor == null)

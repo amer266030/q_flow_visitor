@@ -49,8 +49,8 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
     if (url == null || url.isEmpty) {
       throw Exception('URL cannot be null or empty for ${linkType.value}');
     }
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = 'https://$url'; // Prepend https:// if missing
+    if (!url.startsWith('http://') || !url.startsWith('https://')) {
+      url = 'https://$url';
     }
 
     final Uri uri = Uri.parse(url);
@@ -64,11 +64,13 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
         break;
     }
 
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw Exception('Could not launch $url');
-    }
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {}
   }
 
   navigateToInterviewBooked(BuildContext context) =>

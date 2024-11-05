@@ -52,6 +52,7 @@ class HomeCubit extends Cubit<HomeState> {
       emitError(e.toString());
     }
     emitUpdate();
+    emitUpdate();
   }
 
   listenToStream() {

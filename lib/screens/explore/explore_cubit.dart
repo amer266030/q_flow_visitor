@@ -5,7 +5,6 @@ import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/model/enums/queue_length.dart';
 import 'package:q_flow/model/enums/tech_skill.dart';
-import 'package:q_flow/model/interview.dart';
 import 'package:q_flow/screens/explore/network_functions.dart';
 
 import '../../model/enums/company_size.dart';
