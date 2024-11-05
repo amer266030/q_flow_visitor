@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:q_flow/model/queue_entry.dart';
 import 'package:q_flow/screens/company_details/company_details_cubit.dart';
 
 import '../../model/enums/interview_status.dart';
 import '../../model/interview.dart';
 import '../../supabase/supabase_interview.dart';
-import '../../supabase/supabase_queue.dart';
 
 extension NetworkFunctions on CompanyDetailsCubit {
   createInterview(BuildContext context, String companyId) async {
@@ -19,13 +17,7 @@ extension NetworkFunctions on CompanyDetailsCubit {
         status: InterviewStatus.upcoming,
       );
 
-      var newInterview = await SupabaseInterview.createInterview(interview);
-
-      var queueEntry = QueueEntry(
-        interviewId: newInterview.id,
-        companyId: companyId,
-        position: queueLength,
-      );
+      await SupabaseInterview.createInterview(interview);
 
       Future.delayed(Duration(milliseconds: 50));
       if (context.mounted) {

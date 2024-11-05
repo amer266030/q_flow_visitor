@@ -9,7 +9,6 @@ import 'package:q_flow/screens/home/network_functions.dart';
 
 import '../../managers/data_mgr.dart';
 import '../../model/interview.dart';
-import '../../model/queue_entry.dart';
 import '../../model/user/visitor.dart';
 import '../../supabase/supabase_interview.dart';
 import '../company_details/company_details_screen.dart';

@@ -117,8 +117,6 @@ class CompanyDetailsScreen extends StatelessWidget {
                                 if (socialLink != null) {
                                   cubit.launchLink(
                                       socialLink.url, LinkType.website);
-                                } else {
-                                  print("No Website link found");
                                 }
                               },
                               icon: Icon(
@@ -137,13 +135,8 @@ class CompanyDetailsScreen extends StatelessWidget {
                                 // Debugging: Check what URL is found
                                 if (socialLink != null &&
                                     socialLink.url!.isNotEmpty) {
-                                  print(
-                                      "Launching Twitter link: ${socialLink.url}"); // Log the URL
                                   cubit.launchLink(
                                       socialLink.url, LinkType.twitter);
-                                } else {
-                                  print(
-                                      "No Twitter link found or URL is empty");
                                 }
                               },
                               icon: Icon(

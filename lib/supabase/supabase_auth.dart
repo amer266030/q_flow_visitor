@@ -38,8 +38,6 @@ class SupabaseAuth {
   }
 
   static Future verifyOTP(String email, String otp) async {
-    print(email);
-    print(otp);
     try {
       final response = await supabase.auth.verifyOTP(
         email: email,

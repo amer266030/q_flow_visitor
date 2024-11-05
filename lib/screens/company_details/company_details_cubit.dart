@@ -7,7 +7,6 @@ import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/screens/interview_booked/interview_booked_screen.dart';
-import 'package:q_flow/supabase/supabase_queue.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../supabase/supabase_interview.dart';

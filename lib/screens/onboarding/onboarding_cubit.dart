@@ -5,8 +5,6 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:q_flow/screens/auth/auth_screen.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
 import 'package:q_flow/screens/onboarding/network_functions.dart';
-import 'package:q_flow/supabase/supabase_visitor.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../extensions/img_ext.dart';
 import '../../managers/data_mgr.dart';
@@ -22,14 +20,13 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   }
 
   var dataMgr = GetIt.I.get<DataMgr>();
-  bool isLoadingVisible = false;
 
   initialLoad(BuildContext context) async {
     emitLoading();
 
     try {
       await dataMgr.fetchData();
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Future.delayed(const Duration(milliseconds: 50));
       if (dataMgr.visitor != null) {
         if (dataMgr.visitor!.externalId == null) {
           await setExternalId();
@@ -38,6 +35,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         if (context.mounted) navigateToHome(context);
       } else if (SupabaseMgr.shared.supabase.auth.currentUser != null) {
         if (context.mounted) navigateToEditProfile(context);
+      } else {
+        emitUpdate();
       }
     } catch (e) {
       emitError(e.toString());
@@ -47,7 +46,6 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   var idx = 0;
 
   changeIdx() {
-    print('current idx: $idx');
     idx += 1;
     emitUpdate();
   }

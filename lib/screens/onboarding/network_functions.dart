@@ -6,8 +6,6 @@ import '../../supabase/supabase_visitor.dart';
 extension NetworkFunctions on OnboardingCubit {
   Future setExternalId() async {
     try {
-      emitLoading();
-
       dataMgr.visitor!.externalId = Uuid().v4();
 
       var visitor = await SupabaseVisitor.updateProfile(
