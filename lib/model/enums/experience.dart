@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 enum Experience { none, lessThanOne, oneToFive, fiveToNine, moreThanNine }
 
 extension ExperienceExtension on Experience {
@@ -32,7 +34,7 @@ extension ExperienceExtension on Experience {
         return Experience.moreThanNine;
 
       default:
-        throw ArgumentError('Invalid experience value');
+        throw ArgumentError('InvalidBootcampValue'.tr());
     }
   }
 }

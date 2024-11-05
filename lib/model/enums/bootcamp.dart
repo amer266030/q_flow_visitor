@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 enum Bootcamp {
   grc,
   uiUx,
@@ -82,7 +84,7 @@ extension BootcampExtension on Bootcamp {
       case 'Spring Boot':
         return Bootcamp.springBoot;
       default:
-        throw ArgumentError('Invalid bootcamp value');
+        throw ArgumentError('InvalidBootcampValue'.tr());
     }
   }
 }

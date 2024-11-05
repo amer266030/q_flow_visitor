@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 
 enum InterviewStatus { upcoming, completed, cancelled }
 
@@ -26,7 +25,7 @@ extension InterviewStatusExtension on InterviewStatus {
       case 'Cancelled':
         return InterviewStatus.cancelled;
       default:
-        throw ArgumentError('Invalid status value');
+        throw ArgumentError('InvalidBootcampValue'.tr());
     }
   }
 }

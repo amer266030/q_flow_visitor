@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
 import 'package:q_flow/managers/data_mgr.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'client/supabase_mgr.dart';

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
-import 'package:q_flow/supabase/supabase_rating.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../managers/data_mgr.dart';
