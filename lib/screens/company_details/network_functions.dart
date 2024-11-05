@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:q_flow/model/queue_entry.dart';
 import 'package:q_flow/screens/company_details/company_details_cubit.dart';
@@ -12,7 +13,7 @@ extension NetworkFunctions on CompanyDetailsCubit {
     var visitor = dataMgr.visitor;
     try {
       emitLoading();
-      if (visitor == null) throw Exception('Could not read profile data');
+      if (visitor == null) throw Exception('CouldNotRead'.tr());
       var interview = Interview(
         visitorId: visitor.id,
         companyId: companyId,

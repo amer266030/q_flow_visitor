@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
@@ -21,7 +22,7 @@ AwesomeDialog showLoadingDialog(BuildContext context) {
           image: Img.loading,
         ),
         SizedBox(height: 16),
-        Text('Please wait...', style: context.bodyMedium),
+        Text('PleaseWait'.tr(), style: context.bodyMedium),
       ],
     ),
   )..show();

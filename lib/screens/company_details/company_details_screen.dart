@@ -1,4 +1,5 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/screens/company_details/network_functions.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
@@ -70,7 +72,7 @@ class CompanyDetailsScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('About Us:',
+                            Text('About'.tr(),
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             SizedBox(height: 4),
                             Text(company.description ?? '',
@@ -79,13 +81,13 @@ class CompanyDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       _RowItemView(
-                          title: 'Number of employees:',
+                          title: 'Number'.tr(),
                           details: company.companySize?.value ?? ''),
                       _RowItemView(
-                          title: 'Established since:',
+                          title: 'Established'.tr(),
                           details: '${company.establishedYear ?? ''}'),
                       _RowItemView(
-                        title: 'Social Links',
+                        title: 'Social'.tr(),
                         details: '',
                         child: Row(
                           children: [
@@ -100,7 +102,7 @@ class CompanyDetailsScreen extends StatelessWidget {
                                   cubit.launchLink(
                                       socialLink.url, LinkType.linkedIn);
                                 } else {
-                                  cubit.emitError('Link not available');
+                                  cubit.emitError('Link'.tr());
                                 }
                               },
                               icon: Icon(
@@ -156,7 +158,7 @@ class CompanyDetailsScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Text('Position Openings',
+                      Text('Position'.tr(),
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       SizedBox(height: 8),
                       if (company.skills != null)
@@ -199,7 +201,7 @@ class CompanyDetailsScreen extends StatelessWidget {
                             size: context.titleMedium.fontSize,
                           ),
                           SizedBox(width: 4),
-                          Text('Queue position:',
+                          Text('QueuePosition'.tr(),
                               style: context.bodyMedium,
                               maxLines: 1,
                               softWrap: true),
@@ -225,7 +227,7 @@ class CompanyDetailsScreen extends StatelessWidget {
                             size: context.titleMedium.fontSize,
                           ),
                           SizedBox(width: 4),
-                          Text('Estimated Waiting:',
+                          Text('EstimatedWaiting'.tr(),
                               style: context.bodyMedium,
                               maxLines: 1,
                               softWrap: true),
@@ -251,7 +253,7 @@ class CompanyDetailsScreen extends StatelessWidget {
                                 child: PrimaryBtn(
                                     callback: () => cubit.createInterview(
                                         context, company.id ?? ''),
-                                    title: 'Book Interview'))
+                                    title: 'BookInterview'.tr()))
                           ],
                         ),
                       )

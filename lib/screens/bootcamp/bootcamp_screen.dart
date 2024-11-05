@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
@@ -25,7 +26,7 @@ class BootcampScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PageHeaderView(title: 'Bootcamp'),
+                      PageHeaderView(title: 'Bootcamp'.tr()),
                       BlocBuilder<BootcampCubit, BootcampState>(
                         builder: (context, state) {
                           return Expanded(
@@ -58,7 +59,7 @@ class BootcampScreen extends StatelessWidget {
                             child: PrimaryBtn(
                                 callback: () =>
                                     cubit.navigateToBottomNav(context),
-                                title: 'Continue'),
+                                title: 'Continue'.tr()),
                           ),
                         ],
                       )

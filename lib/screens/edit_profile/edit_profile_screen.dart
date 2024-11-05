@@ -1,4 +1,5 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:q_flow/reusable_components/custom_text_field.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_cubit.dart';
 import 'package:q_flow/screens/edit_profile/network_functions.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
@@ -57,7 +59,7 @@ class EditProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 child: ListView(
                   children: [
-                    PageHeaderView(title: 'Update Profile'),
+                    PageHeaderView(title: 'UpdateProfile'.tr()),
                     Column(
                       children: [
                         BlocBuilder<EditProfileCubit, EditProfileState>(
@@ -67,7 +69,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         TextButton(
                             onPressed: cubit.getImage,
-                            child: Text('Add Photo',
+                            child: Text('AddPhoto'.tr(),
                                 style: TextStyle(
                                     fontSize: context.bodySmall.fontSize,
                                     color: context.primary,
@@ -78,14 +80,14 @@ class EditProfileScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: CustomTextField(
-                              hintText: 'John',
+                              hintText: 'John'.tr(),
                               controller: cubit.fNameController,
                               validation: Validations.name),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: CustomTextField(
-                              hintText: 'Doe',
+                              hintText: 'Doe'.tr(),
                               controller: cubit.lNameController,
                               validation: Validations.name),
                         ),
@@ -95,7 +97,7 @@ class EditProfileScreen extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       children: [
                         CustomTextField(
-                            hintText: 'Gender',
+                            hintText: 'Gender'.tr(),
                             readOnly: true,
                             controller: TextEditingController(),
                             validation: Validations.none),
@@ -122,7 +124,7 @@ class EditProfileScreen extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       children: [
                         CustomTextField(
-                            hintText: 'Experience Yrs.',
+                            hintText: 'ExperienceYrs'.tr(),
                             readOnly: true,
                             controller: TextEditingController(),
                             validation: Validations.none),
@@ -157,7 +159,7 @@ class EditProfileScreen extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       children: [
                         CustomTextField(
-                            hintText: 'DOB',
+                            hintText: 'DOB'.tr(),
                             readOnly: true,
                             controller: TextEditingController(),
                             validation: Validations.none),
@@ -183,7 +185,7 @@ class EditProfileScreen extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       children: [
                         CustomTextField(
-                            hintText: 'CV',
+                            hintText: 'CV'.tr(),
                             readOnly: true,
                             controller: TextEditingController(),
                             validation: Validations.none),
@@ -198,7 +200,7 @@ class EditProfileScreen extends StatelessWidget {
                                           cubit.resumeFile != null)
                                       ? Icon(CupertinoIcons.doc_checkmark,
                                           color: context.textColor1)
-                                      : Text('none', style: context.bodyMedium);
+                                      : Text('none'.tr(), style: context.bodyMedium);
                                 },
                               ),
                               IconButton(
@@ -216,7 +218,7 @@ class EditProfileScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 32),
                           child: Icon(BootstrapIcons.linkedin),
                         ),
-                        hintText: 'Linkedin',
+                        hintText: 'Linkedin'.tr(),
                         controller: cubit.linkedInController,
                         validation: Validations.name),
                     CustomTextField(
@@ -224,7 +226,7 @@ class EditProfileScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 32),
                           child: Icon(BootstrapIcons.link_45deg),
                         ),
-                        hintText: 'Website',
+                        hintText: 'Website'.tr(),
                         controller: cubit.websiteController,
                         validation: Validations.name),
                     CustomTextField(
@@ -232,7 +234,7 @@ class EditProfileScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 32),
                           child: Icon(BootstrapIcons.twitter_x),
                         ),
-                        hintText: 'Twitter',
+                        hintText: 'Twitter'.tr(),
                         controller: cubit.xController,
                         validation: Validations.name),
                     SizedBox(height: 16),
@@ -240,7 +242,7 @@ class EditProfileScreen extends StatelessWidget {
                         callback: (isInitialSetup || visitor == null)
                             ? () => cubit.createProfile(context)
                             : () => cubit.updateProfile(context),
-                        title: isInitialSetup ? 'Next' : 'Save')
+                        title: isInitialSetup ? 'Next'.tr() : 'Save'.tr())
                   ],
                 ),
               ),

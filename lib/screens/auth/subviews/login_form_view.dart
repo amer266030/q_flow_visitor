@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 
 import '../../../reusable_components/buttons/primary_btn.dart';
 import '../../../reusable_components/custom_text_field.dart';
@@ -17,16 +19,16 @@ class LoginFormView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PageHeaderView(title: 'Login'),
+        PageHeaderView(title: 'Login'.tr()),
         CustomTextField(
-            hintText: 'Email',
+            hintText: 'Email'.tr(),
             controller: controller,
             keyboardType: TextInputType.emailAddress,
             validation: Validations.email),
         const SizedBox(height: 32),
         Row(
           children: [
-            Expanded(child: PrimaryBtn(callback: callback, title: 'Start'))
+            Expanded(child: PrimaryBtn(callback: callback, title: 'Start'.tr()))
           ],
         ),
       ],

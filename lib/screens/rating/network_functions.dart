@@ -8,7 +8,7 @@ extension NetworkFunctions on RatingCubit {
   Future createRating(BuildContext context) async {
     emitLoading();
     try {
-      if (company.id == null) throw Exception('Could not load company');
+      if (company.id == null) throw Exception('CouldNotLoadCompany'.tr());
       if (dataMgr.visitor?.id == null) throw Exception('Could'.tr());
 
       List<CompanyQuestionRating> questionRatings = setRatings();
