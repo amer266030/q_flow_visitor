@@ -74,6 +74,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         linkedInController.text.isEmpty ||
         websiteController.text.isEmpty ||
         xController.text.isEmpty ||
+        resumeFile == null ||
         exp == Experience.none ||
         dob.year > currentYear - 10) {
       return false;
