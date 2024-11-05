@@ -12,7 +12,7 @@ class SupabaseInterview {
   static final String tableKey = 'interview';
   static final dataMgr = GetIt.I.get<DataMgr>();
 
-  // Stream
+  // Home Stream
 
   static Stream<List<Interview>> interviewStream() {
     try {
@@ -32,6 +32,41 @@ class SupabaseInterview {
     }
   }
 
+  // Home Queue Length Stream
+
+  static Stream<List<Interview>> subscribeToMultipleUpdates({
+    required List<String> companyIds,
+  }) {
+    return supabase
+        .from(tableKey)
+        .stream(primaryKey: ['id'])
+        .order('created_at', ascending: true)
+        .map((interviews) {
+          return interviews
+              .where((entry) => companyIds.contains(entry['company_id']))
+              .map((entry) => Interview.fromJson(entry))
+              .toList();
+        });
+  }
+
+  // Company Details Queue Length Stream
+
+  static Stream<int> getQueueLengthStream({
+    required String companyId,
+  }) {
+    return supabase
+        .from(tableKey)
+        .stream(primaryKey: ['id'])
+        .eq('company_id', companyId)
+        .map((interviews) {
+          final upcomingInterviews = interviews
+              .where((entry) => entry['status'] == 'Upcoming')
+              .toList();
+          print(upcomingInterviews.length);
+          return upcomingInterviews.length;
+        });
+  }
+
   // Fetch
 
   static Future<List<Interview>> fetchInterviews() async {
@@ -49,21 +84,6 @@ class SupabaseInterview {
     } catch (e) {
       rethrow;
     }
-  }
-
-  static Stream<List<Interview>> subscribeToMultipleUpdates({
-    required List<String> companyIds,
-  }) {
-    return supabase
-        .from(tableKey)
-        .stream(primaryKey: ['id'])
-        .order('created_at', ascending: true)
-        .map((interviews) {
-          return interviews
-              .where((entry) => companyIds.contains(entry['company_id']))
-              .map((entry) => Interview.fromJson(entry))
-              .toList();
-        });
   }
 
   // Create

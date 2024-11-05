@@ -27,8 +27,6 @@ extension NetworkFunctions on CompanyDetailsCubit {
         position: queueLength,
       );
 
-      await SupabaseQueue.insertIntoQueue(queueEntry);
-
       Future.delayed(Duration(milliseconds: 50));
       if (context.mounted) {
         navigateToInterviewBooked(context);

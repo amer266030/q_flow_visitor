@@ -10,6 +10,8 @@ import 'package:q_flow/screens/interview_booked/interview_booked_screen.dart';
 import 'package:q_flow/supabase/supabase_queue.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../supabase/supabase_interview.dart';
+
 part 'company_details_state.dart';
 
 class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
@@ -25,13 +27,14 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
 
   initialLoad(Company company) async {
     this.company = company;
-    queueLength = await SupabaseQueue.getQueueLength(company.id!) ?? 0;
+    listenToStreamer();
     emitUpdate();
   }
 
-  // Subscribe to the queue length stream
-  void subscribeToQueueLength(String companyId) {
-    queueSubscription = SupabaseQueue.getQueueLengthStream(companyId).listen(
+  listenToStreamer() {
+    queueSubscription =
+        SupabaseInterview.getQueueLengthStream(companyId: company.id ?? '')
+            .listen(
       (newQueueLength) {
         queueLength = newQueueLength;
         emitUpdate();
