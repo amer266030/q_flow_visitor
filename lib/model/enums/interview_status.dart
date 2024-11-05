@@ -1,14 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
+
 enum InterviewStatus { upcoming, completed, cancelled }
 
 extension InterviewStatusExtension on InterviewStatus {
   String get value {
     switch (this) {
       case InterviewStatus.upcoming:
-        return 'Upcoming';
+        return 'Upcoming'.tr();
       case InterviewStatus.completed:
-        return 'Completed';
+        return 'Completed'.tr();
       case InterviewStatus.cancelled:
-        return 'Cancelled';
+        return 'Cancelled'.tr();
       default:
         return '';
     }

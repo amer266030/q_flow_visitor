@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:q_flow/extensions/screen_size.dart';
 import 'package:q_flow/managers/alert_manger.dart';
 import 'package:q_flow/screens/home/home_cubit.dart';
 import 'package:q_flow/screens/home/network_functions.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
@@ -52,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     _HeaderView(positionInQueue: null, cubit: cubit),
                     Divider(color: context.textColor3),
-                    _SectionHeaderView(title: 'Upcoming Interviews'),
+                    _SectionHeaderView(title: 'UpcomingInterviews'.tr()),
                     BlocBuilder<HomeCubit, HomeState>(
                       builder: (context, state) {
                         return cubit.visitor.interviews != null &&
@@ -83,10 +85,10 @@ class HomeScreen extends StatelessWidget {
                                       .toList(),
                                 ),
                               )
-                            : Text('No Upcoming Interviews...');
+                            : Text('NoUpcomingInterviews').tr();
                       },
                     ),
-                    _SectionHeaderView(title: 'Suggested For You'),
+                    _SectionHeaderView(title: 'SuggestedForYou'.tr()),
                     SizedBox(
                       height: context.screenWidth * 0.6,
                       child: CarouselView(
@@ -107,8 +109,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     _SectionHeaderView(
-                        title: 'Explore Companies',
-                        ctaStr: 'View all',
+                        title: 'ExploreCompanies'.tr(),
+                        ctaStr: 'ViewAll'.tr(),
                         callback: () => cubit.navigateToExplore(context)),
                     BlocBuilder<HomeCubit, HomeState>(
                       builder: (context, state) {
