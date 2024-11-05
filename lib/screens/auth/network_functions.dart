@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:q_flow/supabase/supabase_visitor.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../supabase/supabase_auth.dart';
 import 'auth_cubit.dart';
@@ -25,7 +26,7 @@ extension NetworkFunctions on AuthCubit {
 
       var visitor = await SupabaseVisitor.fetchProfile();
 
-      var externalId = await OneSignal.User.getOnesignalId();
+      var externalId = visitor?.externalId ?? Uuid().v4();
 
       if (visitor?.id != null) {
         visitor?.externalId = externalId;
@@ -37,7 +38,7 @@ extension NetworkFunctions on AuthCubit {
         );
       }
 
-      OneSignal.login(externalId ?? '');
+      OneSignal.login(externalId);
 
       previousState = null;
       if (context.mounted) {
