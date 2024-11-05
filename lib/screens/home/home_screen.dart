@@ -178,9 +178,11 @@ class _HeaderView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Hi, ${cubit.visitor.fName ?? ''}',
-                  style: context.bodyLarge, maxLines: 1, softWrap: true),
-              Text('No upcoming Interviews',
-                  style: context.bodyMedium, maxLines: 1, softWrap: true),
+                      style: context.bodyLarge, maxLines: 1, softWrap: true)
+                  .tr(),
+              Text('NoUpcoming',
+                      style: context.bodyMedium, maxLines: 1, softWrap: true)
+                  .tr(),
               Row(
                 children: [
                   Icon(
@@ -189,8 +191,9 @@ class _HeaderView extends StatelessWidget {
                     size: context.titleSmall.fontSize,
                   ),
                   SizedBox(width: 4),
-                  Text('Position in queue',
-                      style: context.bodySmall, maxLines: 1, softWrap: true),
+                  Text('PositionInQueue',
+                          style: context.bodySmall, maxLines: 1, softWrap: true)
+                      .tr(),
                   SizedBox(width: 4),
                   Text(
                     positionInQueue == null ? '/NA' : '$positionInQueue',
