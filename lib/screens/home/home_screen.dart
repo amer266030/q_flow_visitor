@@ -172,14 +172,28 @@ class _HeaderView extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
+        // ${cubit.visitor.fName ?? ''}
+        // Text('Hi', style: context.bodyLarge, maxLines: 1, softWrap: true).tr(),
         Expanded(
           flex: 3,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Hi, ${cubit.visitor.fName ?? ''}',
-                      style: context.bodyLarge, maxLines: 1, softWrap: true)
-                  .tr(),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Hi'.tr(),
+                      style: context.bodyLarge,
+                    ),
+                    TextSpan(
+                      text: '${cubit.visitor.fName ?? ''} ',
+                      style: context.bodyMedium
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
               Text('NoUpcoming',
                       style: context.bodyMedium, maxLines: 1, softWrap: true)
                   .tr(),
