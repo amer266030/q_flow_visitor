@@ -72,8 +72,8 @@ class CompanyDetailsScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('About'.tr(),
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text('About',
+                                style: TextStyle(fontWeight: FontWeight.bold)).tr(),
                             SizedBox(height: 4),
                             Text(company.description ?? '',
                                 style: context.bodySmall),
@@ -158,8 +158,8 @@ class CompanyDetailsScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Text('Position'.tr(),
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('Position',
+                          style: TextStyle(fontWeight: FontWeight.bold)).tr(),
                       SizedBox(height: 8),
                       if (company.skills != null)
                         Padding(
@@ -201,10 +201,10 @@ class CompanyDetailsScreen extends StatelessWidget {
                             size: context.titleMedium.fontSize,
                           ),
                           SizedBox(width: 4),
-                          Text('QueuePosition'.tr(),
+                          Text('QueuePosition',
                               style: context.bodyMedium,
                               maxLines: 1,
-                              softWrap: true),
+                              softWrap: true).tr(),
                           SizedBox(width: 4),
                           BlocBuilder<CompanyDetailsCubit, CompanyDetailsState>(
                             builder: (context, state) {
@@ -227,10 +227,10 @@ class CompanyDetailsScreen extends StatelessWidget {
                             size: context.titleMedium.fontSize,
                           ),
                           SizedBox(width: 4),
-                          Text('EstimatedWaiting'.tr(),
+                          Text('EstimatedWaiting',
                               style: context.bodyMedium,
                               maxLines: 1,
-                              softWrap: true),
+                              softWrap: true).tr(),
                           SizedBox(width: 4),
                           BlocBuilder<CompanyDetailsCubit, CompanyDetailsState>(
                             builder: (context, state) {

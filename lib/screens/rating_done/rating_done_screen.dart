@@ -32,10 +32,10 @@ class RatingDoneScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                                "WeAppreciate".tr(),
+                                "WeAppreciate",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: context.bodyLarge.fontSize)),
+                                    fontSize: context.bodyLarge.fontSize)).tr(),
                           ],
                         ),
                       ),

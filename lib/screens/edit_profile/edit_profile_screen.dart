@@ -69,11 +69,11 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         TextButton(
                             onPressed: cubit.getImage,
-                            child: Text('AddPhoto'.tr(),
+                            child: Text('AddPhoto',
                                 style: TextStyle(
                                     fontSize: context.bodySmall.fontSize,
                                     color: context.primary,
-                                    fontWeight: context.titleSmall.fontWeight)))
+                                    fontWeight: context.titleSmall.fontWeight)).tr())
                       ],
                     ),
                     Row(
@@ -200,7 +200,7 @@ class EditProfileScreen extends StatelessWidget {
                                           cubit.resumeFile != null)
                                       ? Icon(CupertinoIcons.doc_checkmark,
                                           color: context.textColor1)
-                                      : Text('none'.tr(), style: context.bodyMedium);
+                                      : Text('none', style: context.bodyMedium).tr();
                                 },
                               ),
                               IconButton(

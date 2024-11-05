@@ -66,11 +66,11 @@ class RatingScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Divider(color: context.textColor2),
                     ),
-                    Text('Rating'.tr(),
+                    Text('Rating',
                         style: TextStyle(
                           fontSize: context.bodyMedium.fontSize,
                           fontWeight: FontWeight.bold,
-                        )),
+                        )).tr(),
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: BlocBuilder<RatingCubit, RatingState>(

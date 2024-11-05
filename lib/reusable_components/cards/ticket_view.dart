@@ -119,7 +119,7 @@ class TicketView extends StatelessWidget {
                       size: context.titleSmall.fontSize,
                     ),
                     const SizedBox(width: 4),
-                    Text('TimeOfBooking'.tr(), style: context.bodyMedium),
+                    Text('TimeOfBooking', style: context.bodyMedium).tr(),
                     const SizedBox(width: 8),
                     Text(
                       timeOfBooking,
@@ -140,7 +140,7 @@ class TicketView extends StatelessWidget {
                       size: context.titleSmall.fontSize,
                     ),
                     const SizedBox(width: 4),
-                    Text('PositionInQueue'.tr(), style: context.bodyMedium),
+                    Text('PositionInQueue', style: context.bodyMedium).tr(),
                     const SizedBox(width: 8),
                     Text(
                       '$positionInQueue',

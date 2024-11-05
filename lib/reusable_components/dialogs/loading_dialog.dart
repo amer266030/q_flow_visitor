@@ -22,7 +22,7 @@ AwesomeDialog showLoadingDialog(BuildContext context) {
           image: Img.loading,
         ),
         SizedBox(height: 16),
-        Text('PleaseWait'.tr(), style: context.bodyMedium),
+        Text('PleaseWait', style: context.bodyMedium).tr(),
       ],
     ),
   )..show();

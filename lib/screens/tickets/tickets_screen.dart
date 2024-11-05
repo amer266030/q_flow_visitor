@@ -30,13 +30,13 @@ class TicketsScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Text(
-                      'BookedInterviews'.tr(),
+                      'BookedInterviews',
                       style: TextStyle(
                         fontSize: context.bodyLarge.fontSize,
                         fontWeight: FontWeight.bold,
                         color: context.textColor1,
                       ),
-                    ),
+                    ).tr(),
                   ),
                   Expanded(
                     child: BlocBuilder<TicketsCubit, TicketsState>(

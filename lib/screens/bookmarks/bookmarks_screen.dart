@@ -44,13 +44,13 @@ class BookmarksScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(
-                        'Bookmarks'.tr(),
+                        'Bookmarks',
                         style: TextStyle(
                           fontSize: context.bodyLarge.fontSize,
                           fontWeight: FontWeight.bold,
                           color: context.textColor1,
                         ),
-                      ),
+                      ).tr(),
                     ),
                     Expanded(
                       child: BlocBuilder<BookmarksCubit, BookmarksState>(

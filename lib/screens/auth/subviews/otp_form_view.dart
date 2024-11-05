@@ -57,8 +57,8 @@ class OtpFormView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               children: [
-                Text('Verification'.tr(),
-                    style: context.bodyLarge),
+                Text('Verification',
+                    style: context.bodyLarge).tr(),
                 Text(email, style: context.bodyMedium)
               ],
             ),
@@ -67,7 +67,7 @@ class OtpFormView extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Row(
               children: [
-                Text('OTP'.tr(), style: context.bodyMedium)
+                Text('OTP', style: context.bodyMedium).tr()
               ],
             ),
           ),
@@ -95,9 +95,9 @@ class OtpFormView extends StatelessWidget {
               TextButton(
                 onPressed: goBack,
                 child: Text(
-                  'Cancel'.tr(),
+                  'Cancel',
                   style: TextStyle(color: context.primary),
-                ),
+                ).tr(),
               )
             ]),
           ),
