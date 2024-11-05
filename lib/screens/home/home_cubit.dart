@@ -27,14 +27,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   var visitor = Visitor();
   List<Company> companies = [];
-  List<StreamSubscription<List<QueueEntry>>> queueSubscriptions = [];
-  List<QueueEntry> scheduledQueue = [];
 
+  // Queue Subscription Stream
+  List<StreamSubscription<List<Interview>>> queueSubscriptions = [];
   // Interview Stream with initial value
-  static final _interviewController =
+  static final interviewController =
       StreamController<List<Interview>>.broadcast();
   static Stream<List<Interview>> get interviewStream =>
-      _interviewController.stream;
+      interviewController.stream;
   List<Interview> interviews = [];
 
   void initialLoad() async {
@@ -44,7 +44,7 @@ class HomeCubit extends Cubit<HomeState> {
       companies = dataMgr.companies;
 
       final initialInterviews = await SupabaseInterview.fetchInterviews();
-      _interviewController.add(initialInterviews);
+      interviewController.add(initialInterviews);
       interviews = initialInterviews;
 
       listenToStream();
@@ -57,10 +57,9 @@ class HomeCubit extends Cubit<HomeState> {
 
   listenToStream() {
     SupabaseInterview.interviewStream().listen((updatedInterviews) {
-      _interviewController.add(updatedInterviews);
+      interviewController.add(updatedInterviews);
       interviews = updatedInterviews;
       dataMgr.visitor?.interviews = updatedInterviews;
-      print(interviews.length);
       filterInterviews();
       emitUpdate();
     });

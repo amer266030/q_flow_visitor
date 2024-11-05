@@ -51,6 +51,21 @@ class SupabaseInterview {
     }
   }
 
+  static Stream<List<Interview>> subscribeToMultipleUpdates({
+    required List<String> companyIds,
+  }) {
+    return supabase
+        .from(tableKey)
+        .stream(primaryKey: ['id'])
+        .order('created_at', ascending: true)
+        .map((interviews) {
+          return interviews
+              .where((entry) => companyIds.contains(entry['company_id']))
+              .map((entry) => Interview.fromJson(entry))
+              .toList();
+        });
+  }
+
   // Create
 
   static Future<Interview> createInterview(Interview interview) async {
@@ -123,12 +138,12 @@ class SupabaseInterview {
 
       final response = await SupabaseMgr.shared.supabase
           .from(tableKey)
-          .select('id')
+          .select('company_id')
           .eq('visitor_id', visitorId)
           .eq('status', 'Upcoming');
 
       return (response as List)
-          .map((interview) => interview['id'] as String)
+          .map((interview) => interview['company_id'] as String)
           .toList();
     } catch (e) {
       rethrow;

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                                   itemExtent: context.screenWidth * 0.7,
                                   shrinkExtent: context.screenWidth * 0.7,
                                   scrollDirection: Axis.horizontal,
-                                  children: cubit.visitor.interviews!
+                                  children: cubit.interviews
                                       .map((interview) => TicketView(
                                             timeOfBooking: interview
                                                         .createdAt ==
