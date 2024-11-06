@@ -247,7 +247,7 @@ class EditProfileScreen extends StatelessWidget {
                                 } else {
                                   cubit.showSnackBar(
                                       context,
-                                      'Please fill in all required fields, including CV, experience, and ensure your DOB is valid.',
+                                      'PleaseFill'.tr(),
                                       AnimatedSnackBarType.error);
                                 }
                               }
@@ -257,7 +257,7 @@ class EditProfileScreen extends StatelessWidget {
                                 } else {
                                   cubit.showSnackBar(
                                       context,
-                                      'Please fill in all required fields, including CV, experience, and ensure your DOB is valid.',
+                                      'PleaseFill'.tr(),
                                       AnimatedSnackBarType.error);
                                 }
                               },

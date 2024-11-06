@@ -99,5 +99,6 @@
   "TimeOfBooking": "وقت الحجز:",
   "PositionInQueue": "موقعك في الصف:",
   "InvalidStatusValue": "قيمة الحالة غير صالحة",
-  "InvalidBootcampValue": "مدخل خاطىء"
+  "InvalidBootcampValue": "مدخل خاطىء",
+  "PleaseFill": "يرجى تعبئة جميع الحقول والتاكد من صحة تاريخ الولادة"
 }
