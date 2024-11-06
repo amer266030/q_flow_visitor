@@ -7,7 +7,6 @@ import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/model/enums/company_size.dart';
 import 'package:q_flow/model/enums/tech_skill.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
-import 'package:q_flow/model/social_links/social_link.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/screens/company_details/network_functions.dart';
 import 'package:q_flow/supabase/supabase_interview.dart';
@@ -120,8 +119,6 @@ class CompanyDetailsScreen extends StatelessWidget {
                                 if (socialLink != null) {
                                   cubit.launchLink(
                                       socialLink.url, LinkType.website);
-                                } else {
-                                  print("No Website link found");
                                 }
                               },
                               icon: Icon(
@@ -140,13 +137,8 @@ class CompanyDetailsScreen extends StatelessWidget {
                                 // Debugging: Check what URL is found
                                 if (socialLink != null &&
                                     socialLink.url!.isNotEmpty) {
-                                  print(
-                                      "Launching Twitter link: ${socialLink.url}"); // Log the URL
                                   cubit.launchLink(
                                       socialLink.url, LinkType.twitter);
-                                } else {
-                                  print(
-                                      "No Twitter link found or URL is empty");
                                 }
                               },
                               icon: Icon(

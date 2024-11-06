@@ -41,7 +41,7 @@ class TicketsScreen extends StatelessWidget {
                   Expanded(
                     child: BlocBuilder<TicketsCubit, TicketsState>(
                       builder: (context, state) {
-                        return ListView(children: [
+                        return Column(children: [
                           ExpandedToggleButtons(
                             currentIndex: InterviewStatus.values
                                 .indexOf(cubit.selectedStatus),
@@ -51,33 +51,52 @@ class TicketsScreen extends StatelessWidget {
                             callback: (int value) =>
                                 cubit.setSelectedStatus(value),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: Column(
-                                children: cubit.filteredInterviews
-                                    .map((interview) => Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8, horizontal: 16),
-                                          child: InkWell(
-                                            onTap: () => cubit.navigateToRating(
-                                                context, interview),
-                                            child: TicketView(
-                                                timeOfBooking: interview
-                                                            .createdAt ==
-                                                        null
-                                                    ? '?'
-                                                    : DateTime.parse(interview
-                                                            .createdAt!)
-                                                        .toFormattedStringTimeOnly(),
-                                                positionInQueue:
-                                                    interview.positionInQueue ??
-                                                        1,
-                                                company: cubit.getCompany(
-                                                    interview.companyId ?? '')),
-                                          ),
-                                        ))
-                                    .toList()),
-                          )
+                          cubit.filteredInterviews.isEmpty
+                              ? Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      cubit.getEmptyStateMessage(
+                                          cubit.selectedStatus),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: context.textColor1,
+                                      ),
+                                      textAlign: TextAlign
+                                          .center, // Center text alignment
+                                    ),
+                                  ),
+                                )
+                              : Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  child: Column(
+                                      children: cubit.filteredInterviews
+                                          .map((interview) => Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 16),
+                                                child: InkWell(
+                                                  onTap: () =>
+                                                      cubit.navigateToRating(
+                                                          context, interview),
+                                                  child: TicketView(
+                                                      timeOfBooking: interview
+                                                                  .createdAt ==
+                                                              null
+                                                          ? '?'
+                                                          : DateTime.parse(
+                                                                  interview
+                                                                      .createdAt!)
+                                                              .toFormattedStringTimeOnly(),
+                                                      positionInQueue: -1,
+                                                      company: cubit.getCompany(
+                                                          interview.companyId ??
+                                                              '')),
+                                                ),
+                                              ))
+                                          .toList()),
+                                )
                         ]);
                       },
                     ),

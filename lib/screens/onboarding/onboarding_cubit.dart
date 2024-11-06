@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:q_flow/screens/auth/auth_screen.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_screen.dart';
+import 'package:q_flow/screens/onboarding/network_functions.dart';
 
 import '../../extensions/img_ext.dart';
 import '../../managers/data_mgr.dart';
@@ -18,18 +20,24 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     initialLoad(context);
   }
 
-  bool isLoadingVisible = false;
+  var dataMgr = GetIt.I.get<DataMgr>();
 
   initialLoad(BuildContext context) async {
     emitLoading();
-    var dataMgr = GetIt.I.get<DataMgr>();
+
     try {
       await dataMgr.fetchData();
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Future.delayed(const Duration(milliseconds: 50));
       if (dataMgr.visitor != null) {
+        if (dataMgr.visitor!.externalId == null) {
+          await setExternalId();
+        }
+        OneSignal.login(dataMgr.visitor!.externalId!);
         if (context.mounted) navigateToHome(context);
       } else if (SupabaseMgr.shared.supabase.auth.currentUser != null) {
         if (context.mounted) navigateToEditProfile(context);
+      } else {
+        emitUpdate();
       }
     } catch (e) {
       emitError(e.toString());
@@ -39,7 +47,6 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   var idx = 0;
 
   changeIdx() {
-    print('current idx: $idx');
     idx += 1;
     emitUpdate();
   }

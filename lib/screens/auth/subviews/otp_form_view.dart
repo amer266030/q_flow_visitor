@@ -77,14 +77,24 @@ class OtpFormView extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 7,
                   child: Pinput(
-                    defaultPinTheme: defaultPinTheme,
-                    focusedPinTheme: focusedPinTheme,
-                    submittedPinTheme: submittedPinTheme,
-                    length: 6,
-                    showCursor: true,
-                    onCompleted: (pin) => verifyOTP(int.tryParse(pin) ?? -1),
-                    // onCompleted: (pin) => verifyOTP(int.tryParse(pin) ?? -1),
-                  ),
+                      defaultPinTheme: defaultPinTheme,
+                      focusedPinTheme: focusedPinTheme,
+                      submittedPinTheme: submittedPinTheme,
+                      length: 6,
+                      showCursor: true,
+                      onCompleted: (pin) {
+                        // Call verifyOTP only if pin is not empty
+                        if (pin.isNotEmpty) {
+                          verifyOTP(int.tryParse(pin) ?? -1);
+                        } else {
+                          // Show error message if OTP is empty
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Please enter the OTP.')),
+                          );
+                        }
+                      }
+                      // onCompleted: (pin) => verifyOTP(int.tryParse(pin) ?? -1),
+                      ),
                 ),
               ),
             ],

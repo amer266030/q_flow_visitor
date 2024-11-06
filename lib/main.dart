@@ -11,6 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SupabaseMgr.shared.initialize();
   await DIContainer.setup();
+  await DIContainer.configureOneSignal();
   await EasyLocalization.ensureInitialized();
 
   runApp(

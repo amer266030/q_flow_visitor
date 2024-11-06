@@ -7,8 +7,9 @@ import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/model/user/company.dart';
 import 'package:q_flow/screens/interview_booked/interview_booked_screen.dart';
-import 'package:q_flow/supabase/supabase_queue.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../supabase/supabase_interview.dart';
 
 part 'company_details_state.dart';
 
@@ -25,13 +26,14 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
 
   initialLoad(Company company) async {
     this.company = company;
-    queueLength = await SupabaseQueue.getQueueLength(company.id!) ?? 0;
+    listenToStreamer();
     emitUpdate();
   }
 
-  // Subscribe to the queue length stream
-  void subscribeToQueueLength(String companyId) {
-    queueSubscription = SupabaseQueue.getQueueLengthStream(companyId).listen(
+  listenToStreamer() {
+    queueSubscription =
+        SupabaseInterview.getQueueLengthStream(companyId: company.id ?? '')
+            .listen(
       (newQueueLength) {
         queueLength = newQueueLength;
         emitUpdate();
@@ -49,8 +51,8 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
     if (url == null || url.isEmpty) {
       throw Exception('URL cannot be null or empty for ${linkType.value}');
     }
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = 'https://$url'; // Prepend https:// if missing
+    if (!url.startsWith('http://') || !url.startsWith('https://')) {
+      url = 'https://$url';
     }
 
     final Uri uri = Uri.parse(url);
@@ -64,11 +66,13 @@ class CompanyDetailsCubit extends Cubit<CompanyDetailsState> {
         break;
     }
 
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw Exception('Could not launch $url');
-    }
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {}
   }
 
   navigateToInterviewBooked(BuildContext context) =>

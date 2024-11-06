@@ -1,3 +1,4 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -220,7 +221,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         hintText: 'Linkedin'.tr(),
                         controller: cubit.linkedInController,
-                        validation: Validations.name),
+                        validation: Validations.validateUrl),
                     CustomTextField(
                         suffixIcon: Padding(
                           padding: const EdgeInsets.only(right: 32),
@@ -228,7 +229,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         hintText: 'Website'.tr(),
                         controller: cubit.websiteController,
-                        validation: Validations.name),
+                        validation: Validations.validateUrl),
                     CustomTextField(
                         suffixIcon: Padding(
                           padding: const EdgeInsets.only(right: 32),
@@ -236,13 +237,31 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         hintText: 'Twitter'.tr(),
                         controller: cubit.xController,
-                        validation: Validations.name),
+                        validation: Validations.validateUrl),
                     SizedBox(height: 16),
                     PrimaryBtn(
                         callback: (isInitialSetup || visitor == null)
-                            ? () => cubit.createProfile(context)
-                            : () => cubit.updateProfile(context),
-                        title: isInitialSetup ? 'Next'.tr() : 'Save'.tr())
+                            ? () {
+                                if (cubit.validateFields()) {
+                                  cubit.createProfile(context);
+                                } else {
+                                  cubit.showSnackBar(
+                                      context,
+                                      'Please fill in all required fields, including CV, experience, and ensure your DOB is valid.',
+                                      AnimatedSnackBarType.error);
+                                }
+                              }
+                            : () {
+                                if (cubit.validateFields()) {
+                                  cubit.updateProfile(context);
+                                } else {
+                                  cubit.showSnackBar(
+                                      context,
+                                      'Please fill in all required fields, including CV, experience, and ensure your DOB is valid.',
+                                      AnimatedSnackBarType.error);
+                                }
+                              },
+                        title: isInitialSetup ? 'Next' : 'Save')
                   ],
                 ),
               ),

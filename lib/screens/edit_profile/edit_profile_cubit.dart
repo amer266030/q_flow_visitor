@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/managers/data_mgr.dart';
 import 'package:q_flow/model/enums/gender.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
+import 'package:q_flow/reusable_components/animated_snack_bar.dart';
 
 import '../../model/enums/experience.dart';
 import '../../model/user/visitor.dart';
@@ -65,6 +67,20 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     emitUpdate();
   }
 
+  bool validateFields() {
+    final currentYear = DateTime.now().year;
+    if (fNameController.text.isEmpty ||
+        lNameController.text.isEmpty ||
+        linkedInController.text.isEmpty ||
+        websiteController.text.isEmpty ||
+        xController.text.isEmpty ||
+        exp == Experience.none ||
+        dob.year > currentYear - 10) {
+      return false;
+    }
+    return true;
+  }
+
   navigateBack(BuildContext context) => Navigator.of(context).pop();
 
   navigateToSkills(BuildContext context) => Navigator.of(context)
@@ -98,6 +114,13 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   updateDOB(DateTime date) {
     dob = date;
     emitUpdate();
+  }
+
+  void showSnackBar(
+      BuildContext context, String msg, AnimatedSnackBarType type) {
+    if (context.mounted) {
+      animatedSnakbar(msg: msg, type: type).show(context);
+    }
   }
 
   @override

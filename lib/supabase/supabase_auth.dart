@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:q_flow/managers/data_mgr.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -38,8 +39,6 @@ class SupabaseAuth {
   }
 
   static Future verifyOTP(String email, String otp) async {
-    print(email);
-    print(otp);
     try {
       final response = await supabase.auth.verifyOTP(
         email: email,
@@ -56,6 +55,7 @@ class SupabaseAuth {
     try {
       var response = await supabase.auth.signOut();
       dataMgr.visitor = null;
+      OneSignal.logout();
       return response;
     } catch (e) {
       rethrow;

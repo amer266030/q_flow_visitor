@@ -8,3 +8,8 @@ final class TicketsInitial extends TicketsState {}
 final class LoadingState extends TicketsState {}
 
 final class UpdateUIState extends TicketsState {}
+
+final class ErrorState extends TicketsState {
+  final String msg;
+  ErrorState(this.msg);
+}

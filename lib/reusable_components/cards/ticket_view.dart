@@ -143,7 +143,7 @@ class TicketView extends StatelessWidget {
                     Text('PositionInQueue', style: context.bodyMedium).tr(),
                     const SizedBox(width: 8),
                     Text(
-                      '$positionInQueue',
+                      (positionInQueue == -1) ? '...' : '$positionInQueue',
                       style: TextStyle(
                         fontSize: context.bodyMedium.fontSize,
                         fontWeight: context.titleSmall.fontWeight,

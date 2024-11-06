@@ -10,7 +10,6 @@ import 'package:q_flow/screens/home/network_functions.dart';
 
 import '../../managers/data_mgr.dart';
 import '../../model/interview.dart';
-import '../../model/queue_entry.dart';
 import '../../model/user/visitor.dart';
 import '../../supabase/supabase_interview.dart';
 import '../company_details/company_details_screen.dart';
@@ -28,8 +27,15 @@ class HomeCubit extends Cubit<HomeState> {
 
   var visitor = Visitor();
   List<Company> companies = [];
-  List<StreamSubscription<List<QueueEntry>>> queueSubscriptions = [];
-  List<QueueEntry> scheduledQueue = [];
+
+  // Queue Subscription Stream
+  List<StreamSubscription<List<Interview>>> queueSubscriptions = [];
+  // Interview Stream with initial value
+  static final interviewController =
+      StreamController<List<Interview>>.broadcast();
+  static Stream<List<Interview>> get interviewStream =>
+      interviewController.stream;
+  List<Interview> interviews = [];
 
   void initialLoad() async {
     try {
@@ -37,24 +43,33 @@ class HomeCubit extends Cubit<HomeState> {
       visitor = dataMgr.visitor!;
       companies = dataMgr.companies;
 
-      // Subscribing to interview updates
-      for (var interview in visitor.interviews ?? []) {
-        if (interview.companyId != null &&
-            interview.status == InterviewStatus.upcoming) {
-          await subscribeToScheduledQueue();
-          await subscribeToInterviewUpdates();
-        }
-      }
+      final initialInterviews = await SupabaseInterview.fetchInterviews();
+      interviewController.add(initialInterviews);
+      interviews = initialInterviews;
+
+      listenToStream();
     } catch (e) {
       emitError(e.toString());
     }
     emitUpdate();
+    emitUpdate();
   }
 
-  void updateInterviewList(List<Interview> newInterviews) async {
-    await cancelSubscriptions();
+  listenToStream() {
+    SupabaseInterview.interviewStream().listen((updatedInterviews) {
+      interviewController.add(updatedInterviews);
+      interviews = updatedInterviews;
+      dataMgr.visitor?.interviews = updatedInterviews;
+      filterInterviews();
+      emitUpdate();
+    });
+  }
 
-    visitor.interviews = newInterviews;
+  filterInterviews() async {
+    interviews = interviews
+        .where((interview) => interview.status == InterviewStatus.upcoming)
+        .toList();
+    visitor.interviews = interviews;
     final interviewCopy = List<Interview>.from(visitor.interviews ?? []);
 
     for (var interview in interviewCopy) {
@@ -63,7 +78,6 @@ class HomeCubit extends Cubit<HomeState> {
         await subscribeToScheduledQueue();
       }
     }
-
     emitUpdate();
   }
 
@@ -105,8 +119,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   navigateToExplore(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ExploreScreen(companies: companies)));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ExploreScreen()));
   }
 
   @override
