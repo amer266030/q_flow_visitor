@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/screens/rating_done/rating_done_cubit.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 
 import '../../reusable_components/buttons/primary_btn.dart';
@@ -20,7 +22,7 @@ class RatingDoneScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                PageHeaderView(title: 'Thank you for \nyour feedback'),
+                PageHeaderView(title: 'ThankYou'.tr()),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: Column(
@@ -30,10 +32,10 @@ class RatingDoneScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                                "We appreciate you taking the time to rate the interview. Your feedback is valuable in helping us improve the event experience.",
+                                "WeAppreciate",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: context.bodyLarge.fontSize)),
+                                    fontSize: context.bodyLarge.fontSize)).tr(),
                           ],
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:q_flow/supabase/supabase_visitor.dart';
@@ -49,7 +50,7 @@ extension NetworkFunctions on AuthCubit {
         }
       }
     } catch (e) {
-      emitError('Could not verify OTP\n${e.toString()}');
+      emitError('CouldNotVerifyOTP${e.toString()}'.tr());
     }
   }
 }

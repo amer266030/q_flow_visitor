@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
@@ -116,7 +119,7 @@ class TicketView extends StatelessWidget {
                       size: context.titleSmall.fontSize,
                     ),
                     const SizedBox(width: 4),
-                    Text('Time of booking:', style: context.bodyMedium),
+                    Text('TimeOfBooking', style: context.bodyMedium).tr(),
                     const SizedBox(width: 8),
                     Text(
                       timeOfBooking,
@@ -137,7 +140,7 @@ class TicketView extends StatelessWidget {
                       size: context.titleSmall.fontSize,
                     ),
                     const SizedBox(width: 4),
-                    Text('Position in queue:', style: context.bodyMedium),
+                    Text('PositionInQueue', style: context.bodyMedium).tr(),
                     const SizedBox(width: 8),
                     Text(
                       (positionInQueue == -1) ? '...' : '$positionInQueue',

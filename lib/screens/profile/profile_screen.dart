@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:q_flow/screens/profile/subviews/profile_header_view.dart';
 import 'package:q_flow/screens/profile/subviews/profile_list_item_view.dart';
 import 'package:q_flow/screens/profile/subviews/profile_stats_view.dart';
 import 'package:q_flow/screens/profile/subviews/profile_toggle_list_item.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../reusable_components/dialogs/error_dialog.dart';
@@ -51,17 +53,17 @@ class ProfileScreen extends StatelessWidget {
                     ProfileStatsView(),
                     Divider(color: context.textColor2),
                     ProfileListItemView(
-                        title: 'Update profile',
+                        title: 'UpdateProfile'.tr(),
                         callback: () => cubit.navigateToEditProfile(context)),
                     ProfileListItemView(
-                        title: 'Privacy policy',
+                        title: 'PrivacyPolicy'.tr(),
                         callback: () => cubit.navigateToPrivacyPolicy(context)),
                     BlocBuilder<ProfileCubit, ProfileState>(
                       builder: (context, state) {
                         return Column(
                           children: [
                             ProfileToggleListItem(
-                                title: 'Notifications',
+                                title: 'Notifications'.tr(),
                                 value: cubit.isNotificationsEnabled,
                                 iconItems: [
                                   CupertinoIcons.bell_slash,
@@ -70,12 +72,12 @@ class ProfileScreen extends StatelessWidget {
                                 callback: () =>
                                     cubit.toggleNotifications(context)),
                             ProfileToggleListItem(
-                                title: 'Language',
+                                title: 'Language'.tr(),
                                 value: cubit.isEnglish,
                                 strItems: ['AR', 'EN'],
                                 callback: () => cubit.toggleLanguage(context)),
                             ProfileToggleListItem(
-                                title: 'Theme Mode',
+                                title: 'ThemeMode'.tr(),
                                 value: cubit.isDarkMode,
                                 iconItems: [
                                   CupertinoIcons.sun_max,
@@ -87,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
                       },
                     ),
                     ProfileListItemView(
-                        title: 'Logout', callback: () => cubit.logout(context)),
+                        title: 'Logout'.tr(), callback: () => cubit.logout(context)),
                   ],
                 ),
               ),

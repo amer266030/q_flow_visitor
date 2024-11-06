@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +9,8 @@ import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/extensions/screen_size.dart';
 import 'package:q_flow/managers/alert_manger.dart';
 import 'package:q_flow/screens/home/home_cubit.dart';
+import 'package:q_flow/screens/home/network_functions.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
@@ -49,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     _HeaderView(positionInQueue: null, cubit: cubit),
                     Divider(color: context.textColor3),
-                    _SectionHeaderView(title: 'Upcoming Interviews'),
+                    _SectionHeaderView(title: 'UpcomingInterviews'.tr()),
                     BlocBuilder<HomeCubit, HomeState>(
                       builder: (context, state) {
                         return cubit.interviews.isNotEmpty
@@ -79,10 +84,10 @@ class HomeScreen extends StatelessWidget {
                                       .toList(),
                                 ),
                               )
-                            : Text('No Upcoming Interviews...');
+                            : Text('NoUpcomingInterviews').tr();
                       },
                     ),
-                    _SectionHeaderView(title: 'Suggested For You'),
+                    _SectionHeaderView(title: 'SuggestedForYou'.tr()),
                     SizedBox(
                       height: context.screenWidth * 0.6,
                       child: CarouselView(
@@ -103,8 +108,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     _SectionHeaderView(
-                        title: 'Explore Companies',
-                        ctaStr: 'View all',
+                        title: 'ExploreCompanies'.tr(),
+                        ctaStr: 'ViewAll'.tr(),
                         callback: () => cubit.navigateToExplore(context)),
                     BlocBuilder<HomeCubit, HomeState>(
                       builder: (context, state) {
@@ -166,15 +171,31 @@ class _HeaderView extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
+        // ${cubit.visitor.fName ?? ''}
+        // Text('Hi', style: context.bodyLarge, maxLines: 1, softWrap: true).tr(),
         Expanded(
           flex: 3,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Hi, ${cubit.visitor.fName ?? ''}',
-                  style: context.bodyLarge, maxLines: 1, softWrap: true),
-              Text('No upcoming Interviews',
-                  style: context.bodyMedium, maxLines: 1, softWrap: true),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Hi'.tr(),
+                      style: context.bodyLarge,
+                    ),
+                    TextSpan(
+                      text: '${cubit.visitor.fName ?? ''} ',
+                      style: context.bodyMedium
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              Text('NoUpcoming',
+                      style: context.bodyMedium, maxLines: 1, softWrap: true)
+                  .tr(),
               Row(
                 children: [
                   Icon(
@@ -183,8 +204,9 @@ class _HeaderView extends StatelessWidget {
                     size: context.titleSmall.fontSize,
                   ),
                   SizedBox(width: 4),
-                  Text('Position in queue',
-                      style: context.bodySmall, maxLines: 1, softWrap: true),
+                  Text('PositionInQueue',
+                          style: context.bodySmall, maxLines: 1, softWrap: true)
+                      .tr(),
                   SizedBox(width: 4),
                   Text(
                     positionInQueue == null ? '/NA' : '$positionInQueue',

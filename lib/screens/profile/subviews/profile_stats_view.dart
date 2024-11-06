@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
@@ -12,9 +14,9 @@ class ProfileStatsView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _ItemView(number: 25, title: 'Booked'),
-          _ItemView(number: 20, title: 'Completed'),
-          _ItemView(number: 3, title: 'Cancelled')
+          _ItemView(number: 25, title: 'Booked'.tr()),
+          _ItemView(number: 20, title: 'Completed'.tr()),
+          _ItemView(number: 3, title: 'Cancelled'.tr())
         ],
       ),
     );

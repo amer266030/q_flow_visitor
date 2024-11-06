@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/reusable_components/cards/company_card_list_item.dart';
@@ -49,7 +50,7 @@ class BookmarksScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: context.textColor1,
                         ),
-                      ),
+                      ).tr(),
                     ),
                     Expanded(
                       child: BlocBuilder<BookmarksCubit, BookmarksState>(

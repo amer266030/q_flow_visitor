@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 enum CompanySize {
   zeroTo50,
   fiftyTo100,
@@ -38,7 +40,7 @@ extension CompanySizeExtension on CompanySize {
         return CompanySize.fiveHundredPlus;
 
       default:
-        throw ArgumentError('Invalid experience value');
+        throw ArgumentError('InvalidBootcampValue'.tr());
     }
   }
 }

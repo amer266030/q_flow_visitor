@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:q_flow/screens/bootcamp/bootcamp_cubit.dart';
 import 'package:q_flow/supabase/supabase_visitor.dart';
@@ -7,9 +8,9 @@ extension NetworkFunctions on BootcampCubit {
     try {
       emitLoading();
       if (dataMgr.visitor == null)
-        throw Exception('Could not retrieve user data');
+        throw Exception('CouldNot'.tr());
 
-      if (bootcamp == null) throw Exception('No bootcamp selected!');
+      if (bootcamp == null) throw Exception('NoBootcamp'.tr());
 
       dataMgr.visitor!.bootcamp = bootcamp;
 

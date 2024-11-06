@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
@@ -51,13 +52,13 @@ class OtpFormView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PageHeaderView(title: 'Verify your email'),
+          PageHeaderView(title: 'VerifyYourEmail'.tr()),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               children: [
-                Text('An OTP verification code was sent to',
-                    style: context.bodyLarge),
+                Text('Verification',
+                    style: context.bodyLarge).tr(),
                 Text(email, style: context.bodyMedium)
               ],
             ),
@@ -66,7 +67,7 @@ class OtpFormView extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Row(
               children: [
-                Text('OTP Verification code: *', style: context.bodyMedium)
+                Text('OTP', style: context.bodyMedium).tr()
               ],
             ),
           ),
@@ -106,7 +107,7 @@ class OtpFormView extends StatelessWidget {
                 child: Text(
                   'Cancel',
                   style: TextStyle(color: context.primary),
-                ),
+                ).tr(),
               )
             ]),
           ),
@@ -115,7 +116,7 @@ class OtpFormView extends StatelessWidget {
             children: [
               Expanded(
                   child: PrimaryBtn(
-                      title: 'Verify', callback: () => verifyOTP(-1))),
+                      title: 'Verify'.tr(), callback: () => verifyOTP(-1))),
             ],
           )
         ],

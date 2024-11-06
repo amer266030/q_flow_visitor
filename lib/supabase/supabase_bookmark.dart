@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../model/bookmarks/bookmarked_company.dart';
@@ -9,7 +10,7 @@ class SupabaseBookmark {
 
   static Future<List<BookmarkedCompany>> fetchBookmarks() async {
     var visitorId = supabase.auth.currentUser?.id;
-    if (visitorId == null) throw Exception("Visitor ID not found");
+    if (visitorId == null) throw Exception("VisitorIDNotFound".tr());
 
     var response =
         await supabase.from(tableKey).select().eq('visitor_id', visitorId);
@@ -18,7 +19,7 @@ class SupabaseBookmark {
 
   static Future<BookmarkedCompany> createBookmark(String companyId) async {
     var visitorId = supabase.auth.currentUser?.id;
-    if (visitorId == null) throw Exception("Visitor ID not found");
+    if (visitorId == null) throw Exception("VisitorIDNotFound".tr());
 
     try {
       // Create a new bookmarked company instance
@@ -38,7 +39,7 @@ class SupabaseBookmark {
 
   static Future<void> deleteBookmark(String companyId) async {
     var visitorId = supabase.auth.currentUser?.id;
-    if (visitorId == null) throw Exception("Visitor ID not found");
+    if (visitorId == null) throw Exception("VisitorIDNotFound".tr());
 
     try {
       await supabase

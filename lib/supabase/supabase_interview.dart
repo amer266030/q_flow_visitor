@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -70,7 +71,7 @@ class SupabaseInterview {
 
   static Future<List<Interview>> fetchInterviews() async {
     var visitorId = supabase.auth.currentUser?.id;
-    if (visitorId == null) throw Exception("Visitor ID not found");
+    if (visitorId == null) throw Exception("VisitorIDNotFound".tr());
 
     try {
       final response = await supabase
@@ -89,7 +90,7 @@ class SupabaseInterview {
 
   static Future<Interview> createInterview(Interview interview) async {
     var visitorId = supabase.auth.currentUser?.id;
-    if (visitorId == null) throw Exception("Visitor ID not found");
+    if (visitorId == null) throw Exception("VisitorIDNotFound".tr());
 
     interview.visitorId = visitorId;
 
@@ -144,7 +145,7 @@ class SupabaseInterview {
   static Stream<List<Interview>> subscribeToInterviewChanges() {
     try {
       if (dataMgr.visitor?.id == null) {
-        throw Exception('could not load user ID');
+        throw Exception('Could'.tr());
       }
       return supabase
           .from(tableKey)
@@ -164,7 +165,7 @@ class SupabaseInterview {
   static Future<List<String>> fetchScheduledInterviewIds() async {
     try {
       var visitorId = supabase.auth.currentUser?.id;
-      if (visitorId == null) throw Exception("Visitor ID not found");
+      if (visitorId == null) throw Exception("VisitorIDNotFound".tr());
 
       final response = await SupabaseMgr.shared.supabase
           .from(tableKey)

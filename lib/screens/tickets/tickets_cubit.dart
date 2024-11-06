@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:q_flow/screens/rating/rating_screen.dart';
 import 'package:q_flow/screens/tickets/network_functions.dart';
+import 'package:q_flow/utils/validations.dart';
 
 import '../../managers/data_mgr.dart';
 import '../../model/user/company.dart';
@@ -65,13 +67,13 @@ class TicketsCubit extends Cubit<TicketsState> {
   String getEmptyStateMessage(InterviewStatus status) {
     switch (status) {
       case InterviewStatus.upcoming:
-        return 'No upcoming interviews found.';
+        return 'NoUpcomingInterview'.tr();
       case InterviewStatus.completed:
-        return 'No completed interviews found.';
+        return 'NoCompleted'.tr();
       case InterviewStatus.cancelled:
-        return 'No cancelled interviews found.';
+        return 'NoCancelled'.tr();
       default:
-        return 'No interviews found.';
+        return 'NotFound'.tr();
     }
   }
 

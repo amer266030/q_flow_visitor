@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/reusable_components/star_rating_view.dart';
 import 'package:q_flow/screens/rating/network_functions.dart';
 import 'package:q_flow/screens/rating/rating_cubit.dart';
+import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
@@ -68,7 +70,7 @@ class RatingScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: context.bodyMedium.fontSize,
                           fontWeight: FontWeight.bold,
-                        )),
+                        )).tr(),
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: BlocBuilder<RatingCubit, RatingState>(
@@ -99,7 +101,7 @@ class RatingScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 24, right: 24, bottom: 32),
                 child: PrimaryBtn(
                     callback: () => cubit.createRating(context),
-                    title: 'SUBMIT'),
+                    title: 'SUBMIT'.tr()),
               )
             ]),
           ),

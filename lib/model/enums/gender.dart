@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 enum Gender { male, female }
 
 extension GenderExtension on Gender {
@@ -19,7 +21,7 @@ extension GenderExtension on Gender {
       case 'Female':
         return Gender.female;
       default:
-        throw ArgumentError('Invalid gender value');
+        throw ArgumentError('InvalidBootcampValue'.tr());
     }
   }
 }

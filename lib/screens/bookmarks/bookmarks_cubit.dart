@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -24,7 +25,7 @@ class BookmarksCubit extends Cubit<BookmarksState> {
 
   initialLoad() {
     try {
-      if (dataMgr.visitor == null) throw Exception('Could not load user');
+      if (dataMgr.visitor == null) throw Exception('Could'.tr());
       visitor = dataMgr.visitor!;
       allCompanies = dataMgr.companies;
       filterBookmarkedCompanies();
