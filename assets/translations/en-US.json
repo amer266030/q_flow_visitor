@@ -100,5 +100,6 @@
   "PositionInQueue": "Position in queue:",
   "InvalidStatusValue": "Invalid status value",
   "InvalidBootcampValue": "Invalid value",
-  "PleaseFill": "Please fill in all required fields, including CV, experience, and ensure your DOB is valid."
+  "PleaseFill": "Please fill in all required fields, including CV, experience, and ensure your DOB is valid.",
+  "empty": "Bookmark is empty."
 }
