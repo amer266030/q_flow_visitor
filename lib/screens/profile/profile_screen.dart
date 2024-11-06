@@ -53,11 +53,15 @@ class ProfileScreen extends StatelessWidget {
                     ProfileStatsView(),
                     Divider(color: context.textColor2),
                     ProfileListItemView(
-                        title: 'UpdateProfile'.tr(),
-                        callback: () => cubit.navigateToEditProfile(context)),
+                      title: 'UpdateProfile'.tr(),
+                      callback: () => cubit.navigateToEditProfile(context),
+                      isEnglish: cubit.isEnglish,
+                    ),
                     ProfileListItemView(
-                        title: 'PrivacyPolicy'.tr(),
-                        callback: () => cubit.navigateToPrivacyPolicy(context)),
+                      title: 'PrivacyPolicy'.tr(),
+                      callback: () => cubit.navigateToPrivacyPolicy(context),
+                      isEnglish: cubit.isEnglish,
+                    ),
                     BlocBuilder<ProfileCubit, ProfileState>(
                       builder: (context, state) {
                         return Column(
@@ -89,7 +93,10 @@ class ProfileScreen extends StatelessWidget {
                       },
                     ),
                     ProfileListItemView(
-                        title: 'Logout'.tr(), callback: () => cubit.logout(context)),
+                      title: 'Logout'.tr(),
+                      callback: () => cubit.logout(context),
+                      isEnglish: cubit.isEnglish,
+                    ),
                   ],
                 ),
               ),

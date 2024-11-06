@@ -4,9 +4,14 @@ import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 class ProfileListItemView extends StatelessWidget {
-  const ProfileListItemView(
-      {super.key, required this.title, required this.callback});
+  const ProfileListItemView({
+    super.key,
+    required this.title,
+    required this.callback,
+    required this.isEnglish,
+  });
   final String title;
+  final bool isEnglish;
   final VoidCallback callback;
 
   @override
@@ -29,7 +34,9 @@ class ProfileListItemView extends StatelessWidget {
               ),
             ),
             Icon(
-              CupertinoIcons.chevron_right,
+              isEnglish
+                  ? CupertinoIcons.chevron_right
+                  : CupertinoIcons.chevron_left,
               color: context.textColor1,
               size: context.bodyLarge.fontSize,
             )
