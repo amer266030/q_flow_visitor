@@ -1,5 +1,7 @@
 import 'package:q_flow/screens/tickets/tickets_cubit.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../supabase/client/supabase_mgr.dart';
 import '../../supabase/supabase_interview.dart';
 
 extension NetworkFunctions on TicketsCubit {
@@ -11,6 +13,23 @@ extension NetworkFunctions on TicketsCubit {
       return response;
     } catch (e) {
       emitError(e.toString());
+    }
+  }
+
+  Future<bool> checkIfCanRate(String companyId) async {
+    final SupabaseClient supabase = SupabaseMgr.shared.supabase;
+    final visitorId = dataMgr.visitor?.id ?? '';
+
+    try {
+      final result = await supabase.rpc('check_rating_exists', params: {
+        'p_visitor_id': visitorId,
+        'p_company_id': companyId,
+      });
+
+      return result as bool;
+    } catch (e) {
+      emitError(e.toString());
+      return false;
     }
   }
 }

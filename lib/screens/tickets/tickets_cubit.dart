@@ -47,17 +47,18 @@ class TicketsCubit extends Cubit<TicketsState> {
     emitUpdate();
   }
 
-  navigateToRating(BuildContext context, Interview interview) {
+  navigateToRating(BuildContext context, Interview interview) async {
     var selectedCompany = getCompany(interview.companyId ?? '');
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => RatingScreen(company: selectedCompany)));
-  }
-
-  @override
-  void emit(TicketsState state) {
-    if (!isClosed) {
-      previousState = this.state;
-      super.emit(state);
+    if (interview.status == InterviewStatus.completed) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => RatingScreen(company: selectedCompany)));
+      // bool canRate = await checkIfCanRate(selectedCompany.id ?? '');
+      // if (canRate) {
+      //   Navigator.of(context).push(MaterialPageRoute(
+      //       builder: (context) => RatingScreen(company: selectedCompany)));
+      // } else {
+      //   emitError('This company has already been rated!');
+      // }
     }
   }
 
@@ -71,6 +72,14 @@ class TicketsCubit extends Cubit<TicketsState> {
         return 'No cancelled interviews found.';
       default:
         return 'No interviews found.';
+    }
+  }
+
+  @override
+  void emit(TicketsState state) {
+    if (!isClosed) {
+      previousState = this.state;
+      super.emit(state);
     }
   }
 
