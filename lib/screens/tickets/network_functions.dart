@@ -1,6 +1,8 @@
+import 'package:q_flow/model/enums/interview_status.dart';
 import 'package:q_flow/screens/tickets/tickets_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../model/interview.dart';
 import '../../supabase/client/supabase_mgr.dart';
 import '../../supabase/supabase_interview.dart';
 
@@ -13,6 +15,14 @@ extension NetworkFunctions on TicketsCubit {
       return response;
     } catch (e) {
       emitError(e.toString());
+    }
+  }
+
+  Future updateInterview(Interview interview) async {
+    try {
+      await SupabaseInterview.updateInterview(interview);
+    } catch (e) {
+      emitError('Could not update interview');
     }
   }
 

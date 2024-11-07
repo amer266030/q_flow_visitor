@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:q_flow/screens/rating/rating_screen.dart';
 import 'package:q_flow/screens/tickets/network_functions.dart';
-import 'package:q_flow/utils/validations.dart';
 
 import '../../managers/data_mgr.dart';
 import '../../model/user/company.dart';
 import '../../model/enums/interview_status.dart';
 import '../../model/interview.dart';
+import 'network_functions.dart';
 
 part 'tickets_state.dart';
 
@@ -34,6 +34,14 @@ class TicketsCubit extends Cubit<TicketsState> {
   Company getCompany(String companyId) {
     return companies.where((c) => c.id == companyId).toList().firstOrNull ??
         Company();
+  }
+
+  cancelInterview(BuildContext context, Interview interview) async {
+    emitLoading();
+    interview.status = InterviewStatus.cancelled;
+    await updateInterview(interview);
+    filterInterviews();
+    emitUpdate();
   }
 
   setSelectedStatus(int idx) {

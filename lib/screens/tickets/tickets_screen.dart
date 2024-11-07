@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/extensions/date_ext.dart';
 import 'package:q_flow/model/enums/interview_status.dart';
 import 'package:q_flow/reusable_components/cards/ticket_view.dart';
 import 'package:q_flow/screens/tickets/tickets_cubit.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
@@ -96,20 +96,42 @@ class TicketsScreen extends StatelessWidget {
                                                     onTap: () =>
                                                         cubit.navigateToRating(
                                                             context, interview),
-                                                    child: TicketView(
-                                                        timeOfBooking: interview
-                                                                    .createdAt ==
-                                                                null
-                                                            ? '?'
-                                                            : DateTime.parse(
+                                                    child: Stack(
+                                                      children: [
+                                                        TicketView(
+                                                            timeOfBooking: interview
+                                                                        .createdAt ==
+                                                                    null
+                                                                ? '?'
+                                                                : DateTime.parse(
+                                                                        interview
+                                                                            .createdAt!)
+                                                                    .toFormattedStringTimeOnly(),
+                                                            positionInQueue: -1,
+                                                            company: cubit
+                                                                .getCompany(
                                                                     interview
-                                                                        .createdAt!)
-                                                                .toFormattedStringTimeOnly(),
-                                                        positionInQueue: -1,
-                                                        company: cubit
-                                                            .getCompany(interview
-                                                                    .companyId ??
-                                                                '')),
+                                                                            .companyId ??
+                                                                        '')),
+                                                        if (interview.status ==
+                                                            InterviewStatus
+                                                                .upcoming)
+                                                          Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topRight,
+                                                              child: IconButton(
+                                                                  onPressed: () =>
+                                                                      cubit.cancelInterview(
+                                                                          context,
+                                                                          interview),
+                                                                  icon: Icon(
+                                                                      CupertinoIcons
+                                                                          .trash,
+                                                                      size:
+                                                                          20)))
+                                                      ],
+                                                    ),
                                                   ),
                                                 ))
                                             .toList()),
