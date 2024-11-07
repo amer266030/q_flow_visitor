@@ -9,7 +9,6 @@ import '../../managers/data_mgr.dart';
 import '../../model/user/company.dart';
 import '../../model/enums/interview_status.dart';
 import '../../model/interview.dart';
-import 'network_functions.dart';
 
 part 'tickets_state.dart';
 

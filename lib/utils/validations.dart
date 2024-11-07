@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 
 class Validations {
   static String? name(String value) {

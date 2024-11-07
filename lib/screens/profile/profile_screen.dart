@@ -8,7 +8,6 @@ import 'package:q_flow/screens/profile/subviews/profile_header_view.dart';
 import 'package:q_flow/screens/profile/subviews/profile_list_item_view.dart';
 import 'package:q_flow/screens/profile/subviews/profile_stats_view.dart';
 import 'package:q_flow/screens/profile/subviews/profile_toggle_list_item.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 
 import '../../reusable_components/dialogs/error_dialog.dart';

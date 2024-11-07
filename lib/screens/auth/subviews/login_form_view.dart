@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 
 import '../../../reusable_components/buttons/primary_btn.dart';
 import '../../../reusable_components/custom_text_field.dart';

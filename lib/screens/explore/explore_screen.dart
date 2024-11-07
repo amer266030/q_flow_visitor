@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:q_flow/model/enums/company_size.dart';
-import 'package:q_flow/model/enums/queue_length.dart';
 import 'package:q_flow/model/enums/tech_skill.dart';
 import 'package:q_flow/reusable_components/cards/company_card_list_item.dart';
 import 'package:q_flow/reusable_components/custom_text_field.dart';

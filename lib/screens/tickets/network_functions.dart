@@ -1,4 +1,3 @@
-import 'package:q_flow/model/enums/interview_status.dart';
 import 'package:q_flow/screens/tickets/tickets_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

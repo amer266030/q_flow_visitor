@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +8,6 @@ import 'package:q_flow/extensions/img_ext.dart';
 import 'package:q_flow/extensions/screen_size.dart';
 import 'package:q_flow/managers/alert_manger.dart';
 import 'package:q_flow/screens/home/home_cubit.dart';
-import 'package:q_flow/screens/home/network_functions.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 

@@ -12,7 +12,6 @@ import 'package:q_flow/reusable_components/custom_text_field.dart';
 import 'package:q_flow/reusable_components/page_header_view.dart';
 import 'package:q_flow/screens/edit_profile/edit_profile_cubit.dart';
 import 'package:q_flow/screens/edit_profile/network_functions.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
 

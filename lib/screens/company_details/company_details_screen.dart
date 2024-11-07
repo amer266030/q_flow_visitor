@@ -9,7 +9,6 @@ import 'package:q_flow/model/enums/tech_skill.dart';
 import 'package:q_flow/model/enums/user_social_link.dart';
 import 'package:q_flow/reusable_components/buttons/primary_btn.dart';
 import 'package:q_flow/screens/company_details/network_functions.dart';
-import 'package:q_flow/supabase/supabase_interview.dart';
 
 import 'package:q_flow/theme_data/extensions/text_style_ext.dart';
 import 'package:q_flow/theme_data/extensions/theme_ext.dart';
