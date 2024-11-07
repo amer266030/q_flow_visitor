@@ -8,6 +8,7 @@ import '../interview.dart';
 class Company {
   String? id; // References profile_id
   String? name;
+  String? email;
   String? description;
   CompanySize? companySize;
   String? establishedYear;
@@ -23,6 +24,7 @@ class Company {
   Company({
     this.id,
     this.name,
+    this.email,
     this.description,
     this.companySize,
     this.establishedYear,
@@ -40,6 +42,7 @@ class Company {
     return Company(
       id: json['id'] as String?,
       name: json['name'] as String?,
+      email: json['email'] as String?,
       description: json['description'] as String?,
       // Convert the string representation of company size into enum
       companySize: json['company_size'] != null
@@ -76,6 +79,7 @@ class Company {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
+      'email': email,
       'description': description,
       'company_size': companySize?.value,
       'established_year': establishedYear,

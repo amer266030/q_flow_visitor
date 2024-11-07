@@ -183,7 +183,7 @@ class _HeaderView extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: 'Hi'.tr(),
-                      style: context.bodyLarge,
+                      style: context.bodyMedium,
                     ),
                     TextSpan(
                       text: '${cubit.visitor.fName ?? ''} ',

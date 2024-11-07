@@ -59,7 +59,7 @@ class TicketsScreen extends StatelessWidget {
                     Expanded(
                       child: BlocBuilder<TicketsCubit, TicketsState>(
                         builder: (context, state) {
-                          return Column(children: [
+                          return ListView(children: [
                             ExpandedToggleButtons(
                               currentIndex: InterviewStatus.values
                                   .indexOf(cubit.selectedStatus),
@@ -70,18 +70,18 @@ class TicketsScreen extends StatelessWidget {
                                   cubit.setSelectedStatus(value),
                             ),
                             cubit.filteredInterviews.isEmpty
-                                ? Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        cubit.getEmptyStateMessage(
-                                            cubit.selectedStatus),
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: context.textColor1,
-                                        ),
-                                        textAlign: TextAlign
-                                            .center, // Center text alignment
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16),
+                                    child: Text(
+                                      cubit.getEmptyStateMessage(
+                                          cubit.selectedStatus),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: context.textColor1,
                                       ),
+                                      textAlign: TextAlign
+                                          .center, // Center text alignment
                                     ),
                                   )
                                 : Padding(

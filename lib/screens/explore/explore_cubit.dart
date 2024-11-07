@@ -38,11 +38,8 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   filterBySearch() {
-    filteredCompanies = filteredCompanies
-        .where((company) => company.name!
-            .toLowerCase()
-            .contains(searchController.text.toLowerCase()))
-        .toList();
+    filterCompanies();
+    emitUpdate();
   }
 
   filterBySize(String str) {
@@ -68,8 +65,17 @@ class ExploreCubit extends Cubit<ExploreState> {
 
   filterCompanies() {
     filteredCompanies = companies;
+
+    if (searchController.text.isNotEmpty) {
+      filteredCompanies = filteredCompanies
+          .where((company) => company.name!
+              .toLowerCase()
+              .contains(searchController.text.toLowerCase()))
+          .toList();
+    }
+
     if (selectedSize != null) {
-      filteredCompanies = companies
+      filteredCompanies = filteredCompanies
           .where((company) => company.companySize == selectedSize)
           .toList();
     }

@@ -12,6 +12,7 @@ class Visitor {
   Gender? gender;
   String? fName;
   String? lName;
+  String? email;
   Experience? experience;
   String? dob;
   Bootcamp? bootcamp;
@@ -28,6 +29,7 @@ class Visitor {
     this.gender,
     this.fName,
     this.lName,
+    this.email,
     this.experience,
     this.dob,
     this.bootcamp,
@@ -48,6 +50,7 @@ class Visitor {
           : null,
       fName: json['f_name'] as String?,
       lName: json['l_name'] as String?,
+      email: json['email'] as String?,
       experience: json['experience'] != null
           ? ExperienceExtension.fromString(json['experience'] as String?)
           : null,
@@ -81,6 +84,7 @@ class Visitor {
       'gender': gender?.value,
       'f_name': fName,
       'l_name': lName,
+      'email': email,
       'experience': experience?.value,
       'dob': dob,
       'bootcamp': bootcamp?.value,

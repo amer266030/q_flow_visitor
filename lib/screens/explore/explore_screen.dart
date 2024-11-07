@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,6 +48,7 @@ class ExploreScreen extends StatelessWidget {
                     prefixIcon: Icon(CupertinoIcons.search),
                     hintText: 'Search',
                     controller: cubit.searchController,
+                    onChanged: (_) => cubit.filterBySearch(),
                     validation: Validations.none),
               ),
             ),
@@ -90,17 +90,6 @@ class ExploreScreen extends StatelessWidget {
                                 setValueFunc: (str) => cubit.filterBySkill(str),
                                 currentSelection: cubit.selectedSkill?.value,
                                 clearValuesFunc: () => cubit.filterBySkill(''),
-                              ),
-                              FilterItemView(
-                                title: 'Current Queue',
-                                itemValues: QueueLength.values
-                                    .map((e) => e.value)
-                                    .toList(),
-                                setValueFunc: (str) =>
-                                    cubit.filterByQueueLength(str),
-                                currentSelection: cubit.selectedQueue?.value,
-                                clearValuesFunc: () =>
-                                    cubit.filterByQueueLength(''),
                               ),
                             ],
                           ),
