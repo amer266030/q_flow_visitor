@@ -52,15 +52,18 @@ class TicketsCubit extends Cubit<TicketsState> {
   navigateToRating(BuildContext context, Interview interview) async {
     var selectedCompany = getCompany(interview.companyId ?? '');
     if (interview.status == InterviewStatus.completed) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => RatingScreen(company: selectedCompany)));
-      // bool canRate = await checkIfCanRate(selectedCompany.id ?? '');
-      // if (canRate) {
-      //   Navigator.of(context).push(MaterialPageRoute(
-      //       builder: (context) => RatingScreen(company: selectedCompany)));
-      // } else {
-      //   emitError('This company has already been rated!');
-      // }
+      bool alreadyRated = await checkIfCanRate(selectedCompany.id ?? '');
+
+      if (!alreadyRated) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(
+                builder: (context) => RatingScreen(company: selectedCompany)))
+            .then((_) {
+          Navigator.of(context).pop(); // Pop the current view when returning
+        });
+      } else {
+        emitError('This company has already been rated!');
+      }
     }
   }
 

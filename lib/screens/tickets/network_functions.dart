@@ -25,10 +25,12 @@ extension NetworkFunctions on TicketsCubit {
         'p_visitor_id': visitorId,
         'p_company_id': companyId,
       });
+      print('check_rating_exists result: $result'); // Debug output
 
-      return result as bool;
-    } catch (e) {
-      emitError(e.toString());
+      // Ensure result is a boolean and defaults to false if null
+      return (result is bool) ? result : false;
+    } catch (error) {
+      print('Error in checkIfCanRate: $error');
       return false;
     }
   }

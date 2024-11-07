@@ -96,14 +96,14 @@ class SupabaseInterview {
 
     try {
       // Call the check functions before creating the interview
-      await supabase
-          .rpc('check_upcoming_interviews', params: {'visitor_id': visitorId});
+      await supabase.rpc('check_upcoming_interviews',
+          params: {'p_visitor_id': visitorId});
       await supabase.rpc('check_existing_company_interview', params: {
-        'visitor_id': visitorId,
-        'company_id': interview.companyId,
+        'p_visitor_id': visitorId,
+        'p_company_id': interview.companyId,
       });
       await supabase.rpc('check_company_queue_status',
-          params: {'company_id': interview.companyId});
+          params: {'p_company_id': interview.companyId});
 
       // If all checks pass, insert the interview
       final response = await supabase
@@ -113,6 +113,8 @@ class SupabaseInterview {
           .single();
 
       return Interview.fromJson(response);
+    } on PostgrestException catch (e) {
+      throw Exception("Failed to create interview: ${e.message}");
     } catch (e) {
       throw Exception("Failed to create interview: ${e.toString()}");
     }

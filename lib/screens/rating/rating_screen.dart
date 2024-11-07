@@ -30,9 +30,7 @@ class RatingScreen extends StatelessWidget {
         return BlocListener<RatingCubit, RatingState>(
           listener: (context, state) {
             if (cubit.previousState is LoadingState) {
-              if (Navigator.of(context).canPop()) {
-                Navigator.of(context).pop();
-              }
+              Navigator.of(context).pop();
             }
 
             if (state is LoadingState) {
