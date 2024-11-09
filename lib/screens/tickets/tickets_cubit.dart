@@ -36,11 +36,9 @@ class TicketsCubit extends Cubit<TicketsState> {
   }
 
   cancelInterview(BuildContext context, Interview interview) async {
-    emitLoading();
     interview.status = InterviewStatus.cancelled;
     await updateInterview(interview);
     filterInterviews();
-    emitUpdate();
   }
 
   setSelectedStatus(int idx) {

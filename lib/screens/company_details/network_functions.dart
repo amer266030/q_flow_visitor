@@ -10,7 +10,7 @@ extension NetworkFunctions on CompanyDetailsCubit {
   createInterview(BuildContext context, String companyId) async {
     var visitor = dataMgr.visitor;
     try {
-      emitLoading();
+      // emitLoading();
       if (visitor == null) throw Exception('CouldNotRead'.tr());
       var interview = Interview(
         visitorId: visitor.id,

@@ -38,8 +38,11 @@ class InterviewBookedCubit extends Cubit<InterviewBookedState> {
     emitUpdate();
   }
 
-  navigateToHome(BuildContext context) => Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => BottomNavScreen()));
+  navigateToHome(BuildContext context) =>
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => BottomNavScreen()),
+        (route) => false,
+      );
 
   emitUpdate() => emit(UpdateUIState());
 }
