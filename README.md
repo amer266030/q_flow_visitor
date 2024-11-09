@@ -83,7 +83,11 @@ The app includes more than 11 data models that connect with database tables. The
 
 ### Functionality
 
-QFlow is fully functional and allows visitors to manage interviews, access company details, and streamline their event experience. Real-time notifications, queue management, and profile customization create a comprehensive solution for job fair attendees.
+QFlow is fully functional and allows visitors to manage interviews, access company details, and streamline their event experience. Key functionalities include:
+- **Interview Limit:** To manage large crowds effectively, each visitor can book a maximum of two interviews at any given time.
+- **Single Booking Rule:** Visitors cannot book an interview with the same company twice if an interview status is "upcoming" or "completed."
+- **Real-Time Updates:** Visitors receive live notifications on queue positions and upcoming interview schedules.
+- **Profile Customization:** Allows users to update their personal information, upload CVs, and manage settings.
 
 ## Getting Started
 
