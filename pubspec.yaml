@@ -2,7 +2,7 @@ name: q_flow
 description: "TUWAIQ FLOW"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.1.0+1
 
 environment:
   sdk: ^3.5.3
@@ -28,7 +28,7 @@ dependencies:
   flutter_native_splash: ^2.4.2
   animated_splash_screen: ^1.3.0
   animated_snack_bar: ^0.4.0
-  onesignal_flutter: ^5.2.5
+  onesignal_flutter: ^5.2.7
   uuid: ^4.4.2
 
 dev_dependencies:
