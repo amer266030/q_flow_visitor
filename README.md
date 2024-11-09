@@ -4,6 +4,9 @@ QFlow (Visitor) is a Flutter-based application developed to streamline the visit
 
 ![App Clip](q_flow_visitor.gif)
 
+- Video Explanation of app features:
+   - https://drive.google.com/drive/folders/10IxiwgVqs9G982_pECdJxInAHEq2mm0H
+
 ## Table of Contents
 
 - [App Overview](#app-overview)
